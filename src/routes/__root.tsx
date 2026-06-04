@@ -5,6 +5,8 @@ import Header from "../components/header/Header";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Account from "../pages/Account";
+import Standings from "../pages/Standings";
+import Scores from "../pages/Scores";
 
 export const rootRoute = createRootRoute({
   component: () => (
@@ -25,6 +27,8 @@ const routes = [
   { path: "/", component: Home },
   { path: "/login", component: Login },
   { path: "/account", component: Account },
+  { path: "/standings", component: Standings },
+  { path: "/scores", component: Scores },
 ];
 
 const routeTree = rootRoute.addChildren(
