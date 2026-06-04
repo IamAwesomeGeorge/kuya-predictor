@@ -5,6 +5,7 @@ import { Alert, Box, Card, FormControl, FormLabel, TextField } from "@mui/materi
 import { UserContext } from "../contexts/UserContext";
 import type { User } from "../models/User";
 import { useNavigate } from "@tanstack/react-router";
+import { RequestLogIn } from "../components/account/LogInUtils";
 
 export default function LogIn() {
   const [failed, setFailed] = useState(false);
@@ -27,14 +28,11 @@ export default function LogIn() {
         username: usernameInput?.value || "",
         password: passwordInput?.value || "",
       };
-      const user = {
-        id: 1,
-        name: "asdf",
-        created_at: "adsf",
-      };
-      localStorage.setItem("user", JSON.stringify(user));
+      const user = await RequestLogIn(authRequest);
+      if (!user) {
+        throw new Error("Login failed");
+      }
       return user;
-      // return await UserService.login(authRequest);
     },
     onError: () => setFailed(true),
     onSuccess: (data: User) => {

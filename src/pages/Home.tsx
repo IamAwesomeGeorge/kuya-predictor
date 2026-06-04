@@ -1,27 +1,7 @@
-import { useEffect, useState } from "react";
 import "../App.css";
-import { supabase } from "../utils/supabase";
 import pkg from "../../package.json";
-import type { User } from "../models/User";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  const [test, setTest] = useState<User[]>([]);
-
-  useEffect(() => {
-    async function getTest() {
-      const { data } = await supabase.from("users").select();
-      console.log("data", data);
-
-      if (data) {
-        setTest(data);
-      }
-    }
-
-    getTest();
-  }, []);
-
   return (
     <>
       <section id="center">
@@ -32,15 +12,7 @@ function App() {
             <br />
             Made by Iam_George
           </p>
-          {test.map((t) => (
-            <p key={t.id}>
-              {t.id} - {t.name}
-            </p>
-          ))}
         </div>
-        <button type="button" className="counter" onClick={() => setCount((count) => count + 1)}>
-          Count is {count}
-        </button>
       </section>
 
       <div className="ticks"></div>

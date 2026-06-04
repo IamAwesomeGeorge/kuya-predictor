@@ -27,6 +27,9 @@ export default function AccountCard(props: AccountCardProps) {
           <Typography data-testid="account-name" align="left" sx={{ fontWeight: "bold" }}>
             {user.name}
           </Typography>
+          <Typography data-testid="account-username" align="left">
+            {user.username}
+          </Typography>
         </div>
         <div>
           <Button data-testid="account-logout" onClick={handleLogOut}>
