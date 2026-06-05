@@ -1,5 +1,5 @@
 import PageHeader from "../components/header/PageHeader";
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Grid } from "@mui/material";
+import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 import type { ScoreInfo } from "../models/Results";
 import Avatar from "../components/account/Avatar";
 

@@ -4,7 +4,7 @@
  * Converts a 2-letter ISO country code into a flag emoji.
  * Example: "gb" -> 🇬🇧
  */
-export function countryCodeToEmoji(countryCode: string) {
+function countryCodeToEmoji(countryCode: string) {
   if (!countryCode || countryCode.length !== 2) return "";
 
   // Accept EN for England
@@ -22,13 +22,6 @@ export function countryCodeToEmoji(countryCode: string) {
     .map((char) => 127397 + char.charCodeAt(0))
     .map((code) => String.fromCodePoint(code))
     .join("");
-}
-
-/**
- * Optional helper: validates ISO alpha-2 format
- */
-export function isValidCountryCode(code: string) {
-  return /^[A-Z]{2}$/i.test(code);
 }
 
 /**
