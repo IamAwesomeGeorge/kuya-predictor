@@ -4,7 +4,7 @@ import GroupStandings from "../components/standings/GroupStandings";
 import { useState } from "react";
 import { TabPanel } from "../components/utils/TabPanel";
 
-export default function Standings() {
+export default function Matches() {
   const [mode, setMode] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -13,7 +13,7 @@ export default function Standings() {
 
   return (
     <>
-      <PageHeader title="Current Standings" />
+      <PageHeader title="Matches" />
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
