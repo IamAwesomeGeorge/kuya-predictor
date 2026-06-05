@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import Account from "../pages/Account";
 import Standings from "../pages/Standings";
 import Scores from "../pages/Scores";
+import Predict from "../pages/Predict/Predict";
 
 export const rootRoute = createRootRoute({
   component: () => (
@@ -25,10 +26,11 @@ export const rootRoute = createRootRoute({
 
 const routes = [
   { path: "/", component: Home },
-  { path: "/login", component: Login },
-  { path: "/account", component: Account },
+  { path: "/predict", component: Predict },
   { path: "/standings", component: Standings },
   { path: "/scores", component: Scores },
+  { path: "/login", component: Login },
+  { path: "/account", component: Account },
 ];
 
 const routeTree = rootRoute.addChildren(

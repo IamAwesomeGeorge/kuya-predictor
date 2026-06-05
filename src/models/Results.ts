@@ -8,11 +8,13 @@ export interface ScoreInfo {
   points: number;
 }
 
-export interface GroupInfo {
-  team: string;
+export interface GroupStageStandings {
+  code: string;
+  name: string;
+  group: string;
   played: number;
   won: number;
-  draw: number;
+  drawn: number;
   lost: number;
   points: number;
 }

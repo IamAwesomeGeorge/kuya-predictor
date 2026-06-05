@@ -1,7 +1,14 @@
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Grid } from "@mui/material";
-import type { GroupInfo } from "../../models/Results";
+import type { GroupStageStandings } from "../../models/Results";
+import { Flag } from "../FlagUtils";
 
-export function StandingsTable({ data }: { data: GroupInfo[] }) {
+interface StandingsTableProps {
+  tableName: string;
+  data: GroupStageStandings[];
+}
+
+export function StandingsTable(props: StandingsTableProps) {
+  const { tableName, data } = props;
   const sorted = [...data].sort((a, b) => b.points - a.points);
 
   return (
@@ -10,7 +17,7 @@ export function StandingsTable({ data }: { data: GroupInfo[] }) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Team</TableCell>
+              <TableCell>{tableName}</TableCell>
               <TableCell align="right">P</TableCell>
               <TableCell align="right">W</TableCell>
               <TableCell align="right">D</TableCell>
@@ -21,11 +28,13 @@ export function StandingsTable({ data }: { data: GroupInfo[] }) {
 
           <TableBody>
             {sorted.map((row) => (
-              <TableRow key={row.team}>
-                <TableCell>{row.team}</TableCell>
+              <TableRow key={row.name}>
+                <TableCell>
+                  <Flag code={row.code} /> {row.name}
+                </TableCell>
                 <TableCell align="right">{row.played}</TableCell>
                 <TableCell align="right">{row.won}</TableCell>
-                <TableCell align="right">{row.draw}</TableCell>
+                <TableCell align="right">{row.drawn}</TableCell>
                 <TableCell align="right">{row.lost}</TableCell>
                 <TableCell align="right">
                   <strong>{row.points}</strong>
