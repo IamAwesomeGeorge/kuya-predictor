@@ -55,6 +55,10 @@ export default function LogIn() {
         <Box
           component="form"
           noValidate
+          onSubmit={(event) => {
+            event.preventDefault();
+            sendLogIn();
+          }}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -89,7 +93,7 @@ export default function LogIn() {
               variant="outlined"
             />
           </FormControl>
-          <Button fullWidth variant="contained" color="primary" onClick={() => sendLogIn()}>
+          <Button fullWidth type="submit" variant="contained" color="primary">
             Log in
           </Button>
         </Box>
