@@ -1,8 +1,8 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import PageHeader from "../components/header/PageHeader";
-import GroupStandings from "../components/standings/GroupStandings";
 import { useState } from "react";
 import { TabPanel } from "../components/utils/TabPanel";
+import GroupMatches from "../components/matches/GroupMatches";
 
 export default function Matches() {
   const [mode, setMode] = useState(0);
@@ -23,7 +23,7 @@ export default function Matches() {
         </Tabs>
       </Box>
       <TabPanel value={mode} index={0}>
-        <GroupStandings />
+        <GroupMatches />
       </TabPanel>
       <TabPanel value={mode} index={1}>
         Not done yet

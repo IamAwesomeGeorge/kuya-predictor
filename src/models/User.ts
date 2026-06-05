@@ -8,6 +8,6 @@ export interface User {
   username: string;
   name: string;
   created_at: string;
-  avatar_url?: string;
+  pfp_url?: string;
   team?: string;
 }

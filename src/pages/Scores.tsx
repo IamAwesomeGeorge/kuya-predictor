@@ -9,7 +9,7 @@ import type { User } from "../models/User";
 
 export default function Scores() {
   const { data, isFetched } = useQuery({
-    queryKey: ["group_standings"],
+    queryKey: ["users"],
     queryFn: async () => {
       const { data } = await supabase.from("users").select("id, created_at, username, name, pfp_url");
       return data as User[];
