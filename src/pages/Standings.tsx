@@ -1,47 +1,56 @@
-import { Grid } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import PageHeader from "../components/header/PageHeader";
-import { StandingsTable } from "../components/standings/StandingsTable";
-import type { GroupStageStandings } from "../models/Results";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../utils/supabase";
+import GroupStandings from "../components/standings/GroupStandings";
+import { useState } from "react";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
 
 export default function Standings() {
-  const { data, isFetched } = useQuery({
-    queryKey: ["group_standings"],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from("group_stage_standings")
-        .select()
-        .order("group", { ascending: true })
-        .order("points", { ascending: false });
+  const [mode, setMode] = useState(0);
 
-      return data as GroupStageStandings[];
-    },
-  });
-
-  const findGroupData = (group: string) => {
-    return data?.filter((entry) => entry.group === group) || [];
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setMode(newValue);
   };
 
   return (
     <>
       <PageHeader title="Current Standings" />
-      {isFetched && (
-        <Grid container spacing={2}>
-          <StandingsTable tableName="Group A" data={findGroupData("A")} />
-          <StandingsTable tableName="Group B" data={findGroupData("B")} />
-          <StandingsTable tableName="Group C" data={findGroupData("C")} />
-          <StandingsTable tableName="Group D" data={findGroupData("D")} />
-          <StandingsTable tableName="Group E" data={findGroupData("E")} />
-          <StandingsTable tableName="Group F" data={findGroupData("F")} />
-          <StandingsTable tableName="Group G" data={findGroupData("G")} />
-          <StandingsTable tableName="Group H" data={findGroupData("H")} />
-          <StandingsTable tableName="Group I" data={findGroupData("I")} />
-          <StandingsTable tableName="Group J" data={findGroupData("J")} />
-          <StandingsTable tableName="Group K" data={findGroupData("K")} />
-          <StandingsTable tableName="Group L" data={findGroupData("L")} />
-        </Grid>
-      )}
+
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
+          <Tab label="Group" sx={{ color: "white" }} />
+          <Tab label="Item Two" sx={{ color: "white" }} />
+          <Tab label="Item Three" sx={{ color: "white" }} />
+        </Tabs>
+      </Box>
+      <CustomTabPanel value={mode} index={0}>
+        <GroupStandings />
+      </CustomTabPanel>
+      <CustomTabPanel value={mode} index={1}>
+        Not done yet
+      </CustomTabPanel>
+      <CustomTabPanel value={mode} index={2}>
+        Also not done yet
+      </CustomTabPanel>
     </>
   );
 }
