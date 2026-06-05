@@ -2,10 +2,11 @@ import { Avatar as MuiAvatar } from "@mui/material";
 
 interface AvatarProps {
   text: string;
+  url?: string;
 }
 
 export default function Avatar(props: AvatarProps) {
-  const { text } = props;
+  const { text, url } = props;
 
   function stringToColor(string: string) {
     let hash = 0;
@@ -34,5 +35,9 @@ export default function Avatar(props: AvatarProps) {
     };
   }
 
-  return <MuiAvatar {...stringAvatar(text)} />;
+  if (url) {
+    return <MuiAvatar alt={text} src={"/pfps/" + url} />;
+  }
+
+  return <MuiAvatar alt={text} {...stringAvatar(text)} />;
 }

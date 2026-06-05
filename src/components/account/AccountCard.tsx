@@ -20,7 +20,7 @@ export default function AccountCard(props: AccountCardProps) {
         }}
       >
         <div data-testid="account-avatar">
-          <MuiAvatar text={user.name} />
+          <MuiAvatar text={user.name} url={user.pfp_url} />
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Typography data-testid="account-name" align="left" sx={{ fontWeight: "bold" }}>

@@ -5,7 +5,7 @@ import { supabase } from "../../utils/supabase";
 export async function RequestLogIn(authRequest: AuthRequest) {
   const { data, error } = await supabase
     .from("users")
-    .select("id, created_at, username, name")
+    .select("id, created_at, username, name, pfp_url")
     .eq("username", authRequest.username)
     .eq("password", authRequest.password);
 

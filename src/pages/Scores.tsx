@@ -11,7 +11,7 @@ export default function Scores() {
   const { data, isFetched } = useQuery({
     queryKey: ["group_standings"],
     queryFn: async () => {
-      const { data } = await supabase.from("users").select("id, created_at, username, name");
+      const { data } = await supabase.from("users").select("id, created_at, username, name, pfp_url");
       return data as User[];
     },
   });
@@ -28,7 +28,7 @@ export default function Scores() {
     const points = won * 3 + draw;
 
     return {
-      avatar: user.name,
+      pfp_url: user.pfp_url,
       name: user.name,
       played,
       won,
@@ -64,7 +64,7 @@ export default function Scores() {
                 <TableRow key={row.name}>
                   <TableCell>
                     <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
-                      <Avatar text={row.name} />
+                      <Avatar text={row.name} url={row.pfp_url} />
                       <span>{row.name}</span>
                     </Box>
                   </TableCell>
