@@ -3,6 +3,7 @@ import PageHeader from "../components/header/PageHeader";
 import { useState } from "react";
 import { TabPanel } from "../components/utils/TabPanel";
 import GroupMatches from "../components/matches/GroupMatches";
+import DevelopmentNotice from "../components/DevelopmentNotice";
 
 export default function Matches() {
   const [mode, setMode] = useState(0);
@@ -14,6 +15,7 @@ export default function Matches() {
   return (
     <>
       <PageHeader title="Matches" />
+      <DevelopmentNotice />
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">

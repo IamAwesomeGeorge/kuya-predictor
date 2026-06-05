@@ -6,6 +6,7 @@ import { supabase } from "../utils/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import type { User } from "../models/User";
+import DevelopmentNotice from "../components/DevelopmentNotice";
 
 export default function Scores() {
   const { data, isFetched } = useQuery({
@@ -45,6 +46,7 @@ export default function Scores() {
   return (
     <>
       <PageHeader title="Scores" />
+      <DevelopmentNotice />
       {isFetched && (
         <TableContainer component={Paper} sx={{ mt: 1 }}>
           <Table>

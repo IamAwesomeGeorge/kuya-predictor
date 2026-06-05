@@ -3,6 +3,7 @@ import PageHeader from "../components/header/PageHeader";
 import GroupStandings from "../components/standings/GroupStandings";
 import { useState } from "react";
 import { TabPanel } from "../components/utils/TabPanel";
+import DevelopmentNotice from "../components/DevelopmentNotice";
 
 export default function Standings() {
   const [mode, setMode] = useState(0);
@@ -14,6 +15,7 @@ export default function Standings() {
   return (
     <>
       <PageHeader title="Current Standings" />
+      <DevelopmentNotice />
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
