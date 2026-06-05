@@ -8,6 +8,9 @@ export default function Header() {
   return (
     <div data-testid="header">
       <LinkHeader to="/">Home</LinkHeader>
+      {user && <LinkHeader to="/predict">Predict</LinkHeader>}
+      <LinkHeader to="/standings">Standings</LinkHeader>
+      <LinkHeader to="/scores">Scores</LinkHeader>
       {user ? <LinkHeader to="/account">My Account</LinkHeader> : <LinkHeader to="/login">Login</LinkHeader>}
       <hr />
     </div>
