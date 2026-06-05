@@ -4,6 +4,7 @@ import type { ScoreInfo } from "../models/Results";
 import Avatar from "../components/account/Avatar";
 import { supabase } from "../utils/supabase";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import type { User } from "../models/User";
 
 export default function Scores() {
@@ -17,8 +18,11 @@ export default function Scores() {
 
   // Todo: translate a User into ScoreInfo (placeholder defaults)
   const tempTrans = (user: User): ScoreInfo => {
+    // eslint-disable-next-line react-hooks/purity
     const played = Math.floor(Math.random() * 11); // 0-10
+    // eslint-disable-next-line react-hooks/purity
     const won = Math.floor(Math.random() * (played + 1));
+    // eslint-disable-next-line react-hooks/purity
     const draw = Math.floor(Math.random() * (played - won + 1));
     const lost = played - won - draw;
     const points = won * 3 + draw;
@@ -34,7 +38,9 @@ export default function Scores() {
     };
   };
 
-  const sorted = data?.map(tempTrans).sort((a, b) => b.points - a.points);
+  const sorted = useMemo(() => {
+    return data?.map(tempTrans).sort((a, b) => b.points - a.points);
+  }, [data]);
 
   return (
     <>
