@@ -1,34 +1,47 @@
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
-import type { MatchInfo } from "../../models/Results";
-import { findTeam } from "../utils/TeamUtils";
+import type { MatchInfo } from "../../models/Infos";
 import { Flag } from "../utils/FlagUtils";
 
 interface MatchGridProps {
   match: MatchInfo;
 }
 
+function formatMatchDate(dateTime: string) {
+  const formatter = new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "UTC",
+  });
+
+  const parts = formatter.formatToParts(new Date(dateTime));
+  const partMap = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+
+  return `${partMap.weekday} ${partMap.day} ${partMap.month} ${partMap.year} ${partMap.hour}:${partMap.minute}`;
+}
+
 export function MatchGrid(props: MatchGridProps) {
   const { match } = props;
 
-  const teamLeft = findTeam(match.team_left);
-  const teamRight = findTeam(match.team_right);
-
   return (
-    <Grid size={6}>
+    <Grid size={6} key={match.id}>
       <Box
         sx={{
-          width: "100%",
-          bgcolor: "#0f172a",
+          bgcolor: "#253049",
           color: "white",
           borderRadius: 2,
           p: 2,
         }}
       >
         {/* Top row */}
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Stack id={`match-${match.id}-top`} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
           {/* Left team */}
           <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
-            {teamLeft?.name} <Flag code={match.team_left} />
+            {match.team_left} <Flag code={match.team_left} />
           </Typography>
 
           {/* Time */}
@@ -40,7 +53,7 @@ export function MatchGrid(props: MatchGridProps) {
               color: "#38bdf8",
             }}
           >
-            {match.date_time}
+            {formatMatchDate(match.date_time)}
           </Typography>
 
           {/* Right team */}
@@ -52,18 +65,15 @@ export function MatchGrid(props: MatchGridProps) {
               flex: 1,
             }}
           >
-            {teamRight?.name} <Flag code={match.team_right} />
+            <Flag code={match.team_right} /> {match.team_right}
           </Typography>
         </Stack>
 
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
 
         {/* Bottom row */}
-        <Stack direction="row" spacing={1} justifyContent="center" sx={{ opacity: 0.8 }}>
+        <Stack id={`match-${match.id}-bottom`} direction="row" spacing={1} sx={{ justifyContent: "center", opacity: 0.8 }}>
           <Typography variant="body2">{match.stage}</Typography>
-
-          <Typography variant="body2">·</Typography>
-
           <Typography variant="body2">{match.stage_info}</Typography>
 
           <Typography variant="body2">·</Typography>
