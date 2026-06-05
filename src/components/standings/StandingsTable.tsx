@@ -1,6 +1,6 @@
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Grid } from "@mui/material";
 import type { GroupStageStandings } from "../../models/Results";
-import { Flag } from "../FlagUtils";
+import { Flag } from "../utils/FlagUtils";
 
 interface StandingsTableProps {
   tableName: string;

@@ -5,7 +5,7 @@ import { Alert, Box, Card, FormControl, FormLabel, TextField } from "@mui/materi
 import { UserContext } from "../contexts/UserContext";
 import type { User } from "../models/User";
 import { useNavigate } from "@tanstack/react-router";
-import { RequestLogIn } from "../components/account/LogInUtils";
+import { RequestLogIn } from "../components/utils/LogInUtils";
 
 export default function LogIn() {
   const [failed, setFailed] = useState(false);

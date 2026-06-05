@@ -1,5 +1,8 @@
+import type { TeamInfo } from "./Infos";
+
+//Todo: better
 export interface ScoreInfo {
-  avatar: string;
+  pfp_url?: string;
   name: string;
   played: number;
   won: number;
@@ -8,10 +11,7 @@ export interface ScoreInfo {
   points: number;
 }
 
-export interface GroupStageStandings {
-  code: string;
-  name: string;
-  group: string;
+export interface GroupStageStandings extends TeamInfo {
   played: number;
   won: number;
   drawn: number;
