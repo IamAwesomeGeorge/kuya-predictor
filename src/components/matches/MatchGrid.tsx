@@ -4,6 +4,7 @@ import { Flag } from "../utils/FlagUtils";
 import { MatchTime } from "./MatchTime";
 import { formatMatchDateShort, hasMatchFinished } from "../utils/TimeUtils";
 import { MatchScore } from "./MatchScore";
+import { FindTeamInfo } from "../utils/TeamsUtils";
 
 interface MatchGridProps {
   match: MatchInfo;
@@ -13,6 +14,8 @@ export function MatchGrid(props: MatchGridProps) {
   const { match } = props;
 
   const finished = hasMatchFinished(match.date_time);
+  const teamLeftName = FindTeamInfo(match.team_left)?.name || match.team_left;
+  const teamRightName = FindTeamInfo(match.team_right)?.name;
 
   return (
     <Grid size={6} key={match.id}>
@@ -28,7 +31,7 @@ export function MatchGrid(props: MatchGridProps) {
         <Stack id={`match-${match.id}-top`} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
           {/* Left team */}
           <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
-            {match.team_left} <Flag code={match.team_left} />
+            {teamLeftName} <Flag code={match.team_left} />
           </Typography>
 
           {finished ? <MatchScore match={match} /> : <MatchTime match={match} />}
@@ -42,7 +45,7 @@ export function MatchGrid(props: MatchGridProps) {
               flex: 1,
             }}
           >
-            <Flag code={match.team_right} /> {match.team_right}
+            <Flag code={match.team_right} /> {teamRightName}
           </Typography>
         </Stack>
 
