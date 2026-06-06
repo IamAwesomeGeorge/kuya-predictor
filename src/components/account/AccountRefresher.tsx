@@ -12,7 +12,7 @@ export default function AccountRefresher() {
     if (initialUserRef.current) {
       void refreshUserData(initialUserRef.current, setUser, navigator);
     }
-  }, [setUser]);
+  }, [setUser, navigator]);
 
   return <></>;
 }

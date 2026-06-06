@@ -9,6 +9,7 @@ import {
   TableBody,
   Stack,
   Typography,
+  Grid,
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
@@ -16,38 +17,39 @@ import type { TeamInfo } from "../../../models/Infos";
 import { Flag } from "../../utils/FlagUtils";
 
 interface GroupRankingChooserProps {
-  teams?: TeamInfo[];
+  teams: TeamInfo[];
 }
 
 export default function GroupRankingChooser({ teams }: GroupRankingChooserProps) {
-  const teamDemo = ["MX", "ZA", "KR", "CZ"];
-
   return (
-    <>
+    <Grid size={6}>
       <TableContainer component={Paper} sx={{ mt: 1 }}>
+        <Typography variant="h6" sx={{ fontWeight: 700 }}>
+          GROUP {teams[0].group}
+        </Typography>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Position</TableCell>
-              <TableCell>Team</TableCell>
+              <TableCell sx={{ pt: 0, pb: 0.5 }}>Position</TableCell>
+              <TableCell sx={{ pt: 0, pb: 0.5 }}>Team</TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {teamDemo.map((team, index) => (
-              <TableRow key={team} sx={{ bgcolor: index < 2 ? "rgb(200, 255, 200, 0.5)" : "transparent" }}>
-                <TableCell align="right" sx={{ width: "1%" }}>
+            {teams.map((team, index) => (
+              <TableRow key={team.code} sx={{ bgcolor: index < 2 ? "rgb(200, 255, 200, 0.5)" : "transparent" }}>
+                <TableCell align="right" sx={{ width: "1%", pt: 0, pb: 0.5 }}>
                   <Typography variant="body2" sx={{ fontWeight: 600 }}>
                     {index + 1}.
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ pt: 0, pb: 0.5 }}>
                   <Stack direction="row" spacing={1}>
-                    <Flag code={team} />
-                    <Typography variant="body2">{team}</Typography>
+                    <Flag code={team.code} />
+                    <Typography variant="body2">{team.name}</Typography>
                   </Stack>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="right" sx={{ pt: 0, pb: 0.5 }}>
                   <IconButton edge="end" aria-label="moveUp">
                     <ArrowUpwardIcon />
                   </IconButton>
@@ -60,6 +62,6 @@ export default function GroupRankingChooser({ teams }: GroupRankingChooserProps)
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Grid>
   );
 }
