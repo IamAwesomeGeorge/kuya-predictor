@@ -7,7 +7,7 @@ export default function Predict() {
       <PageHeader title="Predict" />
       <DevelopmentNotice />
       <h1>Predictions not open yet</h1>
-      <p>Still in development</p>
+      <p>Still in development. Inputs likely to be removed.</p>
     </>
   );
 }

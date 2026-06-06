@@ -1,27 +1,12 @@
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { MatchInfo } from "../../models/Infos";
 import { Flag } from "../utils/FlagUtils";
+import { MatchTime } from "./MatchTime";
+import { hasTimePassed } from "../utils/TimeUtils";
+import { MatchScore } from "./MatchScore";
 
 interface MatchGridProps {
   match: MatchInfo;
-}
-
-function formatMatchDate(dateTime: string) {
-  const formatter = new Intl.DateTimeFormat("en-GB", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "UTC",
-  });
-
-  const parts = formatter.formatToParts(new Date(dateTime));
-  const partMap = Object.fromEntries(parts.map((part) => [part.type, part.value]));
-
-  return `${partMap.weekday} ${partMap.day} ${partMap.month} ${partMap.year} ${partMap.hour}:${partMap.minute}`;
 }
 
 export function MatchGrid(props: MatchGridProps) {
@@ -44,17 +29,7 @@ export function MatchGrid(props: MatchGridProps) {
             {match.team_left} <Flag code={match.team_left} />
           </Typography>
 
-          {/* Time */}
-          <Typography
-            sx={{
-              fontWeight: 700,
-              fontSize: 20,
-              px: 2,
-              color: "#38bdf8",
-            }}
-          >
-            {formatMatchDate(match.date_time)}
-          </Typography>
+          {hasTimePassed(match.date_time) ? <MatchScore match={match} /> : <MatchTime match={match} />}
 
           {/* Right team */}
           <Typography

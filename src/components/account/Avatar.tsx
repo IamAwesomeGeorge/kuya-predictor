@@ -36,7 +36,7 @@ export default function Avatar(props: AvatarProps) {
   }
 
   if (url) {
-    return <MuiAvatar alt={text} src={"/pfps/" + url} />;
+    return <MuiAvatar alt={text} src={"/pfps/" + url} {...stringAvatar(text)} />;
   }
 
   return <MuiAvatar alt={text} {...stringAvatar(text)} />;
