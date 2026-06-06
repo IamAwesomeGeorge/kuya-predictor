@@ -1,7 +1,7 @@
 import { Alert, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import type { PredictCardProps } from "./PredictCardProps";
 
-export default function PredictGroupCard({ navigateTo, done }: PredictCardProps) {
+export default function PredictMatchCard({ navigateTo, done }: PredictCardProps) {
   return (
     <Card sx={{ maxWidth: 275 }}>
       <CardContent>
@@ -9,9 +9,9 @@ export default function PredictGroupCard({ navigateTo, done }: PredictCardProps)
           Photo?
         </Typography>
         <Typography variant="h5" component="div">
-          Group Stage Prediction
+          Match Prediction
         </Typography>
-        <Typography variant="body2">Predict the stage round</Typography>
+        <Typography variant="body2">Predict the match outcome</Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
         <Button size="small" onClick={navigateTo}>

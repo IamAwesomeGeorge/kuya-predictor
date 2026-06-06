@@ -10,6 +10,7 @@ import Scores from "../pages/Scores";
 import Predict from "../pages/Predict/Predict";
 import Matches from "../pages/Matches";
 import PredictGroup from "../pages/Predict/PredictGroup";
+import PredictMatch from "../pages/Predict/PredictMatch";
 
 export const rootRoute = createRootRoute({
   component: () => (
@@ -34,6 +35,7 @@ const routes = [
 
   { path: "/predict", component: Predict },
   { path: "/predict/group", component: PredictGroup },
+  { path: "/predict/match", component: PredictMatch },
   { path: "/scores", component: Scores },
 
   { path: "/login", component: Login },
