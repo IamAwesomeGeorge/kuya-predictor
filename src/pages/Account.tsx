@@ -3,6 +3,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "@tanstack/react-router";
 import AccountCard from "../components/account/AccountCard";
 import PageHeader from "../components/header/PageHeader";
+import AccountRefresher from "../components/account/AccountRefresher";
 
 export default function Account() {
   const { user, setUser } = useContext(UserContext);
@@ -16,6 +17,7 @@ export default function Account() {
 
   return (
     <>
+      <AccountRefresher />
       <PageHeader title="Account" />
       {user && <AccountCard user={user} handleLogOut={handleLogOut} />}
     </>
