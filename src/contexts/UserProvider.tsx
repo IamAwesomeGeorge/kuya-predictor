@@ -1,9 +1,9 @@
 import { useState, type ReactNode } from "react";
 import { UserContext } from "./UserContext";
-import type { User } from "../models/User";
+import type { UserLoggedIn } from "../models/User";
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(() => {
+  const [user, setUser] = useState<UserLoggedIn | null>(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
