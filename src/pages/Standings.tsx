@@ -19,7 +19,7 @@ export default function Standings() {
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Group" sx={{ color: "white" }} />
+          <Tab label="Group Stage" sx={{ color: "white" }} />
           <Tab label="Item Two" sx={{ color: "white" }} />
           <Tab label="Item Three" sx={{ color: "white" }} />
         </Tabs>
