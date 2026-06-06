@@ -8,7 +8,7 @@ import Looks4Icon from "@mui/icons-material/Looks4";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import type { JSX } from "react/jsx-runtime";
 import type { GroupPredictPre } from "../../../models/Predict";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface GroupRankingChooserProps {
   group: string;
@@ -32,19 +32,16 @@ export default function GroupRankingChooser({
   currentPredictRanking,
   handlePredictChange,
 }: GroupRankingChooserProps) {
-  const [selection, setSelection] = useState<Record<number, string | null>>(EMPTY_SELECTION);
-
-  useEffect(() => {
-    if (currentPredictRanking) {
-      console.log("Setting selection for group", group, currentPredictRanking);
-      setSelection({
-        1: currentPredictRanking.pos_1,
-        2: currentPredictRanking.pos_2,
-        3: currentPredictRanking.pos_3,
-        4: currentPredictRanking.pos_4,
-      });
-    }
-  }, [currentPredictRanking]);
+  const [selection, setSelection] = useState<Record<number, string | null>>(() =>
+    currentPredictRanking
+      ? {
+          1: currentPredictRanking.pos_1,
+          2: currentPredictRanking.pos_2,
+          3: currentPredictRanking.pos_3,
+          4: currentPredictRanking.pos_4,
+        }
+      : EMPTY_SELECTION,
+  );
 
   const numberIconMap: Record<number, JSX.Element> = {
     1: <LooksOneIcon />,
@@ -77,7 +74,7 @@ export default function GroupRankingChooser({
   };
 
   const selectionPos = (code: string) => {
-    const pos = Object.entries(selection).find(([_, c]) => c === code)?.[0];
+    const pos = Object.entries(selection).find(([, c]) => c === code)?.[0];
     return pos ? parseInt(pos) : null;
   };
 
