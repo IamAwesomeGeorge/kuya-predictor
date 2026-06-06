@@ -1,5 +1,6 @@
-export function hasTimePassed(dateTime: string) {
+export function hasMatchFinished(dateTime: string) {
   const matchDate = new Date(dateTime);
+  matchDate.setHours(matchDate.getHours() + 2); // Add 2 hours to account for match duration
   const now = new Date();
   return matchDate < now;
 }
