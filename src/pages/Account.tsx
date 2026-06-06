@@ -15,6 +15,7 @@ export default function Account() {
       <AccountRefresher />
       <PageHeader title="Account" />
       {user && <AccountCard user={user} handleLogOut={() => logOutUser(setUser, navigate)} />}
+      <p>Todo: show the current predictions here</p>
     </>
   );
 }
