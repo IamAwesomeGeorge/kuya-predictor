@@ -9,7 +9,9 @@ export default function AccountRefresher() {
   const navigator = useNavigate();
 
   useEffect(() => {
-    void refreshUserData(initialUserRef.current, setUser, navigator);
+    if (initialUserRef.current) {
+      void refreshUserData(initialUserRef.current, setUser, navigator);
+    }
   }, [setUser]);
 
   return <></>;
