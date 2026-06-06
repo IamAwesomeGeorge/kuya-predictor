@@ -34,7 +34,7 @@ export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
             {done ? "DONE" : "NOT DONE " + (data ? `(${data}/12)` : "")}
           </Alert>
         ) : (
-          <Skeleton variant="rounded" width={100} height={30} />
+          <Skeleton variant="rounded" width={65} height={35} sx={{ py: 0, px: 1, fontSize: 12 }} />
         )}
       </CardActions>
     </Card>
