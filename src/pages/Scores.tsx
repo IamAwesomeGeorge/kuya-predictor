@@ -12,7 +12,7 @@ export default function Scores() {
   const { data, isFetched } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data } = await supabase.from("users").select("id, created_at, username, name, pfp_url");
+      const { data } = await supabase.from("users").select("id, created_at, name, pfp_url, team");
       return data as User[];
     },
   });
