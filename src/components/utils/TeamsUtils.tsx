@@ -13,5 +13,5 @@ export function useTeamName(teamCode: string) {
 
 export function useTeamsFromGroup(group: string) {
   const { teams } = useContext(TeamsContext);
-  return teams.filter((team) => team.group === group);
+  return teams.filter((team) => team.group === group).sort((a, b) => a.name.localeCompare(b.name));
 }
