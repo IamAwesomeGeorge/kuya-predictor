@@ -1,9 +1,11 @@
 import "../App.css";
 import pkg from "../../package.json";
+import AccountRefresher from "../components/account/AccountRefresher";
 
-function App() {
+function Home() {
   return (
     <>
+      <AccountRefresher />
       <section id="center">
         <div>
           <h1>Brutal Bros Predictor</h1>
@@ -33,4 +35,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

@@ -1,4 +1,15 @@
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Grid } from "@mui/material";
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+  TableContainer,
+  Grid,
+  Typography,
+  Stack,
+} from "@mui/material";
 import type { GroupStageStandings } from "../../models/Results";
 import { Flag } from "../utils/FlagUtils";
 
@@ -9,7 +20,7 @@ interface StandingsTableProps {
 
 export function StandingsTable(props: StandingsTableProps) {
   const { tableName, data } = props;
-  const sorted = [...data].sort((a, b) => b.points - a.points);
+  const sorted = [...data].sort((a, b) => b.points - a.points || a.name.localeCompare(b.name));
 
   return (
     <Grid size={6}>
@@ -27,10 +38,16 @@ export function StandingsTable(props: StandingsTableProps) {
           </TableHead>
 
           <TableBody>
-            {sorted.map((row) => (
-              <TableRow key={row.name}>
+            {sorted.map((row, index) => (
+              <TableRow key={row.name} sx={{ bgcolor: index < 2 ? "rgb(200, 255, 200, 0.5)" : "transparent" }}>
                 <TableCell>
-                  <Flag code={row.code} /> {row.name}
+                  <Stack direction="row" spacing={1}>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                      {index + 1}.
+                    </Typography>
+                    <Flag code={row.code} />
+                    <Typography variant="body2">{row.name}</Typography>
+                  </Stack>
                 </TableCell>
                 <TableCell align="right">{row.played}</TableCell>
                 <TableCell align="right">{row.won}</TableCell>

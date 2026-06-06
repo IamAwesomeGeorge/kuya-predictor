@@ -1,9 +1,9 @@
 import { createContext } from "react";
-import type { User } from "../models/User";
+import type { UserLoggedIn } from "../models/User";
 
 interface UserContextType {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  user: UserLoggedIn | null;
+  setUser: React.Dispatch<React.SetStateAction<UserLoggedIn | null>>;
 }
 
 // Export only the context from this file. Fast refresh requires files that export

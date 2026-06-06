@@ -3,17 +3,15 @@ import { useContext, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { Alert, Box, Card, FormControl, FormLabel, TextField } from "@mui/material";
 import { UserContext } from "../contexts/UserContext";
-import type { User } from "../models/User";
 import { useNavigate } from "@tanstack/react-router";
-import { RequestLogIn } from "../components/utils/LogInUtils";
+import { requestLogIn } from "../components/utils/LogInUtils";
 
 export default function LogIn() {
-  const [failed, setFailed] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  const [failed, setFailed] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Current user:", user);
     if (user) {
       navigate({ to: "/" });
     }
@@ -28,16 +26,14 @@ export default function LogIn() {
         username: usernameInput?.value || "",
         password: passwordInput?.value || "",
       };
-      const user = await RequestLogIn(authRequest);
-      if (!user) {
-        throw new Error("Login failed");
+      try {
+        await requestLogIn(authRequest, setUser);
+      } catch (error) {
+        throw new Error("Login failed", { cause: error });
       }
-      return user;
     },
     onError: () => setFailed(true),
-    onSuccess: (data: User) => {
-      console.log("Login successful:", data);
-      setUser(data);
+    onSuccess: () => {
       navigate({ to: "/" });
     },
   });

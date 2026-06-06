@@ -5,6 +5,7 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
 import { router } from "./routes/__root";
 import { UserProvider } from "./contexts/UserProvider";
+import { TeamsProvider } from "./contexts/TeamsProvider";
 import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient();
@@ -17,7 +18,9 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <UserProvider>
-          <RouterProvider router={router} />
+          <TeamsProvider>
+            <RouterProvider router={router} />
+          </TeamsProvider>
           <ToastContainer />
         </UserProvider>
       </QueryClientProvider>

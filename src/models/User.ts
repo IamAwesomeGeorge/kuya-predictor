@@ -5,9 +5,12 @@ export interface AuthRequest {
 
 export interface User {
   id: number;
-  username: string;
   name: string;
   created_at: string;
   pfp_url?: string;
-  team?: string;
+  team?: Team;
 }
+
+export interface UserLoggedIn extends User, AuthRequest {}
+
+export type Team = "KUYA" | "MGS" | "PACBOY";
