@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, Skeleton, Typography } from "@mui/material";
+import { Button, Card, CardActions, Skeleton } from "@mui/material";
 
 export default function PredictSkeletonCard() {
   return (
