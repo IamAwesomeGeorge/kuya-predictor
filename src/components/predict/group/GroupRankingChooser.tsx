@@ -5,23 +5,36 @@ import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import Looks4Icon from "@mui/icons-material/Looks4";
-import CancelIcon from "@mui/icons-material/Cancel";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import type { JSX } from "react/jsx-runtime";
 import type { GroupPredictPre } from "../../../models/Predict";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface GroupRankingChooserProps {
   teams: TeamInfo[];
-  predictRanking: GroupPredictPre;
+  currentPredictRanking?: GroupPredictPre;
 }
 
-export default function GroupRankingChooser({ teams, predictRanking }: GroupRankingChooserProps) {
-  const [selection, setSelection] = useState<Record<number, string | null>>({
-    1: null,
-    2: null,
-    3: null,
-    4: null,
-  });
+const EMPTY_SELECTION: Record<number, string | null> = {
+  1: null,
+  2: null,
+  3: null,
+  4: null,
+};
+
+export default function GroupRankingChooser({ teams, currentPredictRanking }: GroupRankingChooserProps) {
+  const [selection, setSelection] = useState<Record<number, string | null>>(EMPTY_SELECTION);
+
+  useEffect(() => {
+    if (currentPredictRanking) {
+      setSelection({
+        1: currentPredictRanking.team1,
+        2: currentPredictRanking.team2,
+        3: currentPredictRanking.team3,
+        4: currentPredictRanking.team4,
+      });
+    }
+  }, [currentPredictRanking]);
 
   const numberIconMap: Record<number, JSX.Element> = {
     1: <LooksOneIcon />,
@@ -31,18 +44,11 @@ export default function GroupRankingChooser({ teams, predictRanking }: GroupRank
   };
 
   const resetSelection = () => {
-    setSelection({
-      1: null,
-      2: null,
-      3: null,
-      4: null,
-    });
+    setSelection(EMPTY_SELECTION);
   };
 
   const handleTeamClick = (code: string) => {
-    if (isInSelection(code)) {
-      return;
-    }
+    if (isInSelection(code)) return;
     if (!selection[1]) {
       setSelection({ ...selection, 1: code });
     } else if (!selection[2]) {
@@ -64,14 +70,29 @@ export default function GroupRankingChooser({ teams, predictRanking }: GroupRank
     return pos ? parseInt(pos) : null;
   };
 
+  const isSelectionComplete = Object.values(selection).every((c) => c !== null);
+
   return (
     <Grid size={{ xs: 12, md: 6 }}>
-      <Card>
-        <Typography variant="h6" sx={{ fontWeight: 700 }}>
+      <Card sx={{ position: "relative" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 700,
+            textAlign: "center",
+            pt: 1,
+            color: isSelectionComplete ? "#006400" : "#640000",
+          }}
+        >
           GROUP {teams[0].group}
         </Typography>
-        <IconButton aria-label="restart" size="small" onClick={resetSelection}>
-          <CancelIcon fontSize="small" />
+        <IconButton
+          aria-label="restart"
+          size="small"
+          onClick={resetSelection}
+          sx={{ position: "absolute", right: 8, top: 8 }}
+        >
+          <RestartAltIcon fontSize="small" />
         </IconButton>
         <Grid container spacing={1} sx={{ p: 1, pt: 0 }}>
           {teams.map((team) => (

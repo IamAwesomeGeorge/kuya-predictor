@@ -5,9 +5,9 @@ export interface GroupPredict extends GroupPredictPre {
 }
 
 export interface GroupPredictPre {
-  group: number;
-  team1: number;
-  team2: number;
-  team3: number;
-  team4: number;
+  group: string;
+  team1: string;
+  team2: string;
+  team3: string;
+  team4: string;
 }
