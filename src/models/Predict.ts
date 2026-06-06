@@ -6,8 +6,8 @@ export interface GroupPredict extends GroupPredictPre {
 
 export interface GroupPredictPre {
   group: string;
-  team1: string;
-  team2: string;
-  team3: string;
-  team4: string;
+  pos_1: string;
+  pos_2: string;
+  pos_3: string;
+  pos_4: string;
 }

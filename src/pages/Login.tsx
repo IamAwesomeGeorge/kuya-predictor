@@ -7,8 +7,8 @@ import { useNavigate } from "@tanstack/react-router";
 import { requestLogIn } from "../components/utils/LogInUtils";
 
 export default function LogIn() {
-  const [failed, setFailed] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  const [failed, setFailed] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {

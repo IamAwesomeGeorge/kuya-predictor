@@ -11,8 +11,11 @@ import type { GroupPredictPre } from "../../../models/Predict";
 import { useEffect, useState } from "react";
 
 interface GroupRankingChooserProps {
+  group: string;
   teams: TeamInfo[];
+  loading: boolean;
   currentPredictRanking?: GroupPredictPre;
+  handlePredictChange: (group: string, selection: Record<number, string | null>) => void;
 }
 
 const EMPTY_SELECTION: Record<number, string | null> = {
@@ -22,16 +25,23 @@ const EMPTY_SELECTION: Record<number, string | null> = {
   4: null,
 };
 
-export default function GroupRankingChooser({ teams, currentPredictRanking }: GroupRankingChooserProps) {
+export default function GroupRankingChooser({
+  group,
+  teams,
+  loading,
+  currentPredictRanking,
+  handlePredictChange,
+}: GroupRankingChooserProps) {
   const [selection, setSelection] = useState<Record<number, string | null>>(EMPTY_SELECTION);
 
   useEffect(() => {
     if (currentPredictRanking) {
+      console.log("Setting selection for group", group, currentPredictRanking);
       setSelection({
-        1: currentPredictRanking.team1,
-        2: currentPredictRanking.team2,
-        3: currentPredictRanking.team3,
-        4: currentPredictRanking.team4,
+        1: currentPredictRanking.pos_1,
+        2: currentPredictRanking.pos_2,
+        3: currentPredictRanking.pos_3,
+        4: currentPredictRanking.pos_4,
       });
     }
   }, [currentPredictRanking]);
@@ -54,10 +64,11 @@ export default function GroupRankingChooser({ teams, currentPredictRanking }: Gr
     } else if (!selection[2]) {
       setSelection({ ...selection, 2: code });
     } else if (!selection[3]) {
-      // find the 4th team not selected
       const lastSelected =
         teams.map((t) => t.code).find((c) => c !== selection[1] && c !== selection[2] && c !== code) ?? null;
-      setSelection({ ...selection, 3: code, 4: lastSelected });
+      const updatedSelection = { ...selection, 3: code, 4: lastSelected };
+      setSelection(updatedSelection);
+      handlePredictChange(group, updatedSelection);
     }
   };
 
@@ -73,8 +84,8 @@ export default function GroupRankingChooser({ teams, currentPredictRanking }: Gr
   const isSelectionComplete = Object.values(selection).every((c) => c !== null);
 
   return (
-    <Grid size={{ xs: 12, md: 6 }}>
-      <Card sx={{ position: "relative" }}>
+    <Grid key={group} size={{ xs: 12, md: 6 }}>
+      <Card key={group} sx={{ position: "relative" }}>
         <Typography
           variant="h6"
           sx={{
@@ -84,7 +95,7 @@ export default function GroupRankingChooser({ teams, currentPredictRanking }: Gr
             color: isSelectionComplete ? "#006400" : "#640000",
           }}
         >
-          GROUP {teams[0].group}
+          GROUP {group}
         </Typography>
         <IconButton
           aria-label="restart"
@@ -98,6 +109,7 @@ export default function GroupRankingChooser({ teams, currentPredictRanking }: Gr
           {teams.map((team) => (
             <Grid key={team.code} size={6}>
               <Button
+                disabled={loading}
                 variant={isInSelection(team.code) ? "contained" : "outlined"}
                 fullWidth
                 sx={{ justifyContent: "flex-start", py: 0.5, minHeight: 44 }}
