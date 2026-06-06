@@ -1,5 +1,4 @@
 import { Stack, Typography, Grid, Card, Button, IconButton } from "@mui/material";
-import type { TeamInfo } from "../../../models/Infos";
 import { Flag } from "../../utils/FlagUtils";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
@@ -9,10 +8,10 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import type { JSX } from "react/jsx-runtime";
 import type { GroupPredictPre } from "../../../models/Predict";
 import { useState } from "react";
+import { useTeamsFromGroup } from "../../utils/TeamsUtils";
 
 interface GroupRankingChooserProps {
   group: string;
-  teams: TeamInfo[];
   loading: boolean;
   currentPredictRanking?: GroupPredictPre;
   handlePredictChange: (group: string, selection: Record<number, string | null>) => void;
@@ -27,11 +26,11 @@ const EMPTY_SELECTION: Record<number, string | null> = {
 
 export default function GroupRankingChooser({
   group,
-  teams,
   loading,
   currentPredictRanking,
   handlePredictChange,
 }: GroupRankingChooserProps) {
+  const teams = useTeamsFromGroup(group);
   const [selection, setSelection] = useState<Record<number, string | null>>(() =>
     currentPredictRanking
       ? {

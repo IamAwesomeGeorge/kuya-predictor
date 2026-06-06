@@ -6,7 +6,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import { supabase } from "../../../utils/supabase";
 import type { GroupPredict } from "../../../models/Predict";
 import GroupRankingChooser from "./GroupRankingChooser";
-import { useTeamsFromGroup, useTeamsReady } from "../../utils/TeamsUtils";
+import { useTeamsReady } from "../../utils/TeamsUtils";
 
 export default function GroupRankingBase({ teamCodes }: { teamCodes: string[] }) {
   const { user } = useContext(UserContext);
@@ -84,7 +84,6 @@ export default function GroupRankingBase({ teamCodes }: { teamCodes: string[] })
             <GroupRankingChooser
               key={group}
               group={group}
-              teams={useTeamsFromGroup(group)}
               loading={isLoading}
               currentPredictRanking={getCurrentPredictForGroup(group)}
               handlePredictChange={handlePredictChange}
