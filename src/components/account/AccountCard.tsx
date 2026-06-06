@@ -1,9 +1,9 @@
 import { Button, Card, Typography } from "@mui/material";
 import MuiAvatar from "./Avatar";
-import type { User } from "../../models/User";
+import type { UserLoggedIn } from "../../models/User";
 
 interface AccountCardProps {
-  user: User;
+  user: UserLoggedIn;
   handleLogOut: () => void;
 }
 

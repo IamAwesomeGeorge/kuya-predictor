@@ -35,12 +35,21 @@ export async function requestLogIn(authRequest: AuthRequest, setUser: (user: Use
   }
 }
 
-export async function refreshUserData(user: UserLoggedIn | null, setUser: (user: UserLoggedIn | null) => void) {
+export async function refreshUserData(
+  user: UserLoggedIn | null,
+  setUser: (user: UserLoggedIn | null) => void,
+  navigate: (options: { to: string }) => void,
+) {
   try {
     if (!user) return;
     await requestLogIn({ username: user.username, password: user.password }, setUser);
   } catch {
-    console.log("needs to log out");
-    // logOut(setUser, navigate);
+    logOutUser(setUser, navigate);
   }
+}
+
+export async function logOutUser(setUser: (user: UserLoggedIn | null) => void, navigate: (options: { to: string }) => void) {
+  localStorage.removeItem("user");
+  setUser(null);
+  navigate({ to: "/" });
 }
