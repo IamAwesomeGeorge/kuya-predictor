@@ -7,12 +7,13 @@ import PredictMatchCard from "../../components/predict/card/PredictMatchCard";
 
 export default function Predict() {
   const navigate = useNavigate();
+
   return (
     <>
       <PageHeader title="Predict" />
       <Grid container spacing={1}>
-        <PredictGroupCard navigateTo={() => navigate({ to: "/predict/group" })} done={false} />
-        <PredictGroupCard navigateTo={() => navigate({ to: "/predict/group" })} done={true} />
+        <PredictGroupCard navigateTo={() => navigate({ to: "/predict/group" })} />
+        <PredictGroupCard navigateTo={() => navigate({ to: "/predict/group" })} />
         <PredictSkeletonCard />
         <PredictMatchCard navigateTo={() => navigate({ to: "/predict/match" })} done={false} />
       </Grid>

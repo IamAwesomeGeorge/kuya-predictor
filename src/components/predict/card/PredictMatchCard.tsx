@@ -1,25 +1,28 @@
-import { Alert, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Alert, Button, Card, CardActions, CardContent, Skeleton, Typography } from "@mui/material";
 import type { PredictCardProps } from "./PredictCardProps";
 
-export default function PredictMatchCard({ navigateTo, done }: PredictCardProps) {
+export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
+  const done = false;
+  const isFetched = true;
   return (
-    <Card sx={{ maxWidth: 275 }}>
+    <Card sx={{ width: 275, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <CardContent>
-        <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
-          Photo?
-        </Typography>
         <Typography variant="h5" component="div">
           Match Prediction
         </Typography>
-        <Typography variant="body2">Predict the match outcome</Typography>
+        <Typography variant="body2">Predict outcomes of every match</Typography>
       </CardContent>
-      <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
+      <CardActions sx={{ display: "flex", justifyContent: "space-between", mt: "auto" }}>
         <Button size="small" onClick={navigateTo}>
           {done ? "Edit" : "Start"}
         </Button>
-        <Alert severity={done ? "success" : "warning"} sx={{ py: 0, px: 1, fontSize: 12 }}>
-          {done ? "DONE" : "NOT DONE"}
-        </Alert>
+        {isFetched ? (
+          <Alert severity={done ? "success" : "warning"} sx={{ py: 0, px: 1, fontSize: 12 }}>
+            {done ? "DONE" : "NOT DONE"}
+          </Alert>
+        ) : (
+          <Skeleton variant="rounded" width={100} height={30} />
+        )}
       </CardActions>
     </Card>
   );

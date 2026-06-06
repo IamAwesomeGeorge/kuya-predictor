@@ -1,25 +1,41 @@
-import { Alert, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Alert, Button, Card, CardActions, CardContent, Skeleton, Typography } from "@mui/material";
 import type { PredictCardProps } from "./PredictCardProps";
+import { UserContext } from "../../../contexts/UserContext";
+import { useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../../../utils/supabase";
 
-export default function PredictGroupCard({ navigateTo, done }: PredictCardProps) {
+export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
+  const { user } = useContext(UserContext);
+
+  const { data, isFetched } = useQuery({
+    queryKey: ["predict", "count", "group", user?.id],
+    queryFn: async () => {
+      const { data } = await supabase.from("predictions_group").select().eq("user", user?.id);
+      return data?.length;
+    },
+  });
+  const done = data === 12;
+
   return (
-    <Card sx={{ maxWidth: 275 }}>
+    <Card sx={{ width: 275, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <CardContent>
-        <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
-          Photo?
-        </Typography>
         <Typography variant="h5" component="div">
           Group Stage Prediction
         </Typography>
         <Typography variant="body2">Predict the stage round</Typography>
       </CardContent>
-      <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
+      <CardActions sx={{ display: "flex", justifyContent: "space-between", mt: "auto" }}>
         <Button size="small" onClick={navigateTo}>
           {done ? "Edit" : "Start"}
         </Button>
-        <Alert severity={done ? "success" : "warning"} sx={{ py: 0, px: 1, fontSize: 12 }}>
-          {done ? "DONE" : "NOT DONE"}
-        </Alert>
+        {isFetched ? (
+          <Alert severity={done ? "success" : "warning"} sx={{ py: 0, px: 1, fontSize: 12 }}>
+            {done ? "DONE" : "NOT DONE " + (data ? `(${data}/12)` : "")}
+          </Alert>
+        ) : (
+          <Skeleton variant="rounded" width={100} height={30} />
+        )}
       </CardActions>
     </Card>
   );
