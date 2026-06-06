@@ -9,6 +9,7 @@ import Standings from "../pages/Standings";
 import Scores from "../pages/Scores";
 import Predict from "../pages/Predict/Predict";
 import Matches from "../pages/Matches";
+import PredictGroup from "../pages/Predict/PredictGroup";
 
 export const rootRoute = createRootRoute({
   component: () => (
@@ -27,10 +28,14 @@ export const rootRoute = createRootRoute({
 
 const routes = [
   { path: "/", component: Home },
-  { path: "/predict", component: Predict },
+
   { path: "/matches", component: Matches },
   { path: "/standings", component: Standings },
+
+  { path: "/predict", component: Predict },
+  { path: "/predict/group", component: PredictGroup },
   { path: "/scores", component: Scores },
+
   { path: "/login", component: Login },
   { path: "/account", component: Account },
 ];
