@@ -1,7 +1,7 @@
 import "../App.css";
 import pkg from "../../package.json";
 
-function App() {
+function Home() {
   return (
     <>
       <section id="center">
@@ -33,4 +33,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

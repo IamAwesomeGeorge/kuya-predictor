@@ -13,7 +13,6 @@ export default function LogIn() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Current user:", user);
     if (user) {
       navigate({ to: "/" });
     }
@@ -36,7 +35,6 @@ export default function LogIn() {
     },
     onError: () => setFailed(true),
     onSuccess: (data: User) => {
-      console.log("Login successful:", data);
       setUser(data);
       navigate({ to: "/" });
     },
