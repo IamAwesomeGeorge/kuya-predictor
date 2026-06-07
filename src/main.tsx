@@ -7,6 +7,8 @@ import { router } from "./routes/__root";
 import { UserProvider } from "./contexts/UserProvider";
 import { TeamsProvider } from "./contexts/TeamsProvider";
 import { ToastContainer } from "react-toastify";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const queryClient = new QueryClient();
 
@@ -20,8 +22,11 @@ if (!rootElement.innerHTML) {
         <UserProvider>
           <TeamsProvider>
             <RouterProvider router={router} />
+            <ToastContainer />
+            {/* Analytics */}
+            <Analytics />
+            <SpeedInsights />
           </TeamsProvider>
-          <ToastContainer />
         </UserProvider>
       </QueryClientProvider>
     </StrictMode>,
