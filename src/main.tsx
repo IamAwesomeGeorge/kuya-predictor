@@ -7,8 +7,8 @@ import { router } from "./routes/__root";
 import { UserProvider } from "./contexts/UserProvider";
 import { TeamsProvider } from "./contexts/TeamsProvider";
 import { ToastContainer } from "react-toastify";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const queryClient = new QueryClient();
 
