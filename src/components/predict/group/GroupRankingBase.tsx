@@ -16,7 +16,6 @@ interface GroupRankingBaseProps {
 export default function GroupRankingBase({ teamCodes, data, isPending }: GroupRankingBaseProps) {
   const { user } = useContext(UserContext);
   const [showWarning, setShowWarning] = useState(false);
-
   const queryClient = useQueryClient();
 
   const { mutate: sendNewPrediction, isPending: isSendingNewPrediction } = useMutation({
