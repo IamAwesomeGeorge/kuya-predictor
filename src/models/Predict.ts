@@ -1,10 +1,20 @@
-export interface GroupPredict extends GroupPredictPre {
+export interface PredictBase {
   id?: number;
   updated_at: string;
   user: number;
 }
 
-export interface GroupPredictPre {
+export interface PredictData extends PredictBase {
+  data: string[];
+}
+
+export interface PredictGroup extends PredictBase, PredictGroupPre {
+  id?: number;
+  updated_at: string;
+  user: number;
+}
+
+export interface PredictGroupPre {
   group: string;
   pos_1: string;
   pos_2: string;

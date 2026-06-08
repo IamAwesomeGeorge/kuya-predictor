@@ -6,15 +6,16 @@ import Looks3Icon from "@mui/icons-material/Looks3";
 import Looks4Icon from "@mui/icons-material/Looks4";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import type { JSX } from "react/jsx-runtime";
-import type { GroupPredictPre } from "../../../models/Predict";
+import type { PredictGroupPre } from "../../../models/Predict";
 import { useState } from "react";
 import { useTeamsFromGroup } from "../../utils/TeamsUtils";
 
 interface GroupRankingChooserProps {
   group: string;
   loading: boolean;
-  currentPredictRanking?: GroupPredictPre;
+  currentPredictRanking?: PredictGroupPre;
   handlePredictChange: (group: string, selection: Record<number, string | null>) => void;
+  setShowWarning: (show: boolean) => void;
 }
 
 const EMPTY_SELECTION: Record<number, string | null> = {
@@ -29,6 +30,7 @@ export default function GroupRankingChooser({
   loading,
   currentPredictRanking,
   handlePredictChange,
+  setShowWarning,
 }: GroupRankingChooserProps) {
   const teams = useTeamsFromGroup(group);
   const [selection, setSelection] = useState<Record<number, string | null>>(() =>
@@ -51,6 +53,7 @@ export default function GroupRankingChooser({
 
   const resetSelection = () => {
     setSelection(EMPTY_SELECTION);
+    setShowWarning(true);
   };
 
   const handleTeamClick = (code: string) => {
