@@ -15,6 +15,7 @@ interface GroupRankingChooserProps {
   loading: boolean;
   currentPredictRanking?: PredictGroupPre;
   handlePredictChange: (group: string, selection: Record<number, string | null>) => void;
+  setShowWarning: (show: boolean) => void;
 }
 
 const EMPTY_SELECTION: Record<number, string | null> = {
@@ -29,6 +30,7 @@ export default function GroupRankingChooser({
   loading,
   currentPredictRanking,
   handlePredictChange,
+  setShowWarning,
 }: GroupRankingChooserProps) {
   const teams = useTeamsFromGroup(group);
   const [selection, setSelection] = useState<Record<number, string | null>>(() =>
@@ -51,6 +53,7 @@ export default function GroupRankingChooser({
 
   const resetSelection = () => {
     setSelection(EMPTY_SELECTION);
+    setShowWarning(true);
   };
 
   const handleTeamClick = (code: string) => {

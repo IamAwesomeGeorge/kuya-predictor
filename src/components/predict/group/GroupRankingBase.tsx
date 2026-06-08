@@ -1,25 +1,23 @@
-import { Grid } from "@mui/material";
-import { useContext } from "react";
-
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Alert, Box, Grid } from "@mui/material";
+import { useContext, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import { supabase } from "../../../utils/supabase";
 import type { PredictGroup } from "../../../models/Predict";
 import GroupRankingChooser from "./GroupRankingChooser";
 import { useTeamsReady } from "../../utils/TeamsUtils";
 
-export default function GroupRankingBase({ teamCodes }: { teamCodes: string[] }) {
+interface GroupRankingBaseProps {
+  teamCodes: string[];
+  data?: PredictGroup[];
+  isPending: boolean;
+}
+
+export default function GroupRankingBase({ teamCodes, data, isPending }: GroupRankingBaseProps) {
   const { user } = useContext(UserContext);
+  const [showWarning, setShowWarning] = useState(false);
 
   const queryClient = useQueryClient();
-
-  const { data, isPending } = useQuery({
-    queryKey: ["predict", "group", user?.id],
-    queryFn: async () => {
-      const { data } = await supabase.from("predictions_group").select().eq("user", user?.id);
-      return data as PredictGroup[];
-    },
-  });
 
   const { mutate: sendNewPrediction, isPending: isSendingNewPrediction } = useMutation({
     mutationFn: async (newPredict: PredictGroup) => {
@@ -86,9 +84,20 @@ export default function GroupRankingBase({ teamCodes }: { teamCodes: string[] })
               loading={isLoading}
               currentPredictRanking={getCurrentPredictForGroup(group)}
               handlePredictChange={handlePredictChange}
+              setShowWarning={setShowWarning}
             />
           ))}
         </Grid>
+      )}
+
+      {showWarning && (
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Alert severity="warning" sx={{ mt: 2 }}>
+            Ensure your third place selections are still valid after editing.
+            <br />
+            Invalid selections will result in 0 points across all group predictions.
+          </Alert>
+        </Box>
       )}
     </>
   );

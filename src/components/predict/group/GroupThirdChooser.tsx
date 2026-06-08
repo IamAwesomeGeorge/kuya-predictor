@@ -9,7 +9,12 @@ import { UserContext } from "../../../contexts/UserContext";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { PredictData } from "../../../models/Predict";
 
-export default function GroupThirdChooser() {
+interface GroupThirdChooserProps {
+  currentSelection?: PredictData | null;
+  isCurrentSelectionPending: boolean;
+}
+
+export default function GroupThirdChooser({ currentSelection, isCurrentSelectionPending }: GroupThirdChooserProps) {
   const { user } = useContext(UserContext);
   const [selection, setSelection] = useState<string[]>([]);
 
@@ -24,17 +29,6 @@ export default function GroupThirdChooser() {
         }
       });
       return teams;
-    },
-  });
-
-  const { data: currentSelection, isPending: isCurrentSelectionPending } = useQuery({
-    queryKey: ["predict", "third", user?.id],
-    queryFn: async () => {
-      const { data } = await supabase.from("predictions_group_third").select().eq("user", user?.id);
-      if (data && data.length > 0) {
-        return data[0] as PredictData;
-      }
-      return null;
     },
   });
 
