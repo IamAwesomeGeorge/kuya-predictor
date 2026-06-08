@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import { supabase } from "../../../utils/supabase";
-import type { GroupPredict } from "../../../models/Predict";
+import type { PredictGroup } from "../../../models/Predict";
 import GroupRankingChooser from "./GroupRankingChooser";
 import { useTeamsReady } from "../../utils/TeamsUtils";
 
@@ -17,12 +17,12 @@ export default function GroupRankingBase({ teamCodes }: { teamCodes: string[] })
     queryKey: ["predict", "group", user?.id],
     queryFn: async () => {
       const { data } = await supabase.from("predictions_group").select().eq("user", user?.id);
-      return data as GroupPredict[];
+      return data as PredictGroup[];
     },
   });
 
   const { mutate: sendNewPrediction, isPending: isSendingNewPrediction } = useMutation({
-    mutationFn: async (newPredict: GroupPredict) => {
+    mutationFn: async (newPredict: PredictGroup) => {
       await supabase.from("predictions_group").insert(newPredict);
     },
     onSuccess: () => {
@@ -31,7 +31,7 @@ export default function GroupRankingBase({ teamCodes }: { teamCodes: string[] })
   });
 
   const { mutate: updatePrediction, isPending: isUpdatingPrediction } = useMutation({
-    mutationFn: async (newPredict: GroupPredict) => {
+    mutationFn: async (newPredict: PredictGroup) => {
       await supabase.from("predictions_group").update(newPredict).eq("id", newPredict.id);
     },
     onSuccess: () => {
@@ -44,14 +44,13 @@ export default function GroupRankingBase({ teamCodes }: { teamCodes: string[] })
   };
 
   const handlePredictChange = (group: string, selection: Record<number, string | null>) => {
-    console.log("Predict change for group", group, selection);
     if (!(selection[1] && selection[2] && selection[3] && selection[4])) {
       return;
     }
 
     const existingPredict = getCurrentPredictForGroup(group);
     if (existingPredict) {
-      const updatedPredict: GroupPredict = {
+      const updatedPredict: PredictGroup = {
         ...existingPredict,
         updated_at: new Date().toISOString(),
         pos_1: selection[1],
@@ -61,7 +60,7 @@ export default function GroupRankingBase({ teamCodes }: { teamCodes: string[] })
       };
       updatePrediction(updatedPredict);
     } else {
-      const newPredict: GroupPredict = {
+      const newPredict: PredictGroup = {
         updated_at: new Date().toISOString(),
         user: user?.id ?? 0,
         group,

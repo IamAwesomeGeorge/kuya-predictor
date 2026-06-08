@@ -6,14 +6,14 @@ import Looks3Icon from "@mui/icons-material/Looks3";
 import Looks4Icon from "@mui/icons-material/Looks4";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import type { JSX } from "react/jsx-runtime";
-import type { GroupPredictPre } from "../../../models/Predict";
+import type { PredictGroupPre } from "../../../models/Predict";
 import { useState } from "react";
 import { useTeamsFromGroup } from "../../utils/TeamsUtils";
 
 interface GroupRankingChooserProps {
   group: string;
   loading: boolean;
-  currentPredictRanking?: GroupPredictPre;
+  currentPredictRanking?: PredictGroupPre;
   handlePredictChange: (group: string, selection: Record<number, string | null>) => void;
 }
 
