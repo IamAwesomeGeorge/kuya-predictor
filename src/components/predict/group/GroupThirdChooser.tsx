@@ -2,11 +2,11 @@ import { Stack, Typography, Grid, Card, Button, IconButton } from "@mui/material
 import { Flag } from "../../utils/FlagUtils";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { useContext, useEffect, useState } from "react";
-import { useTeamName } from "../../utils/TeamsUtils";
+import { useContext, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import { UserContext } from "../../../contexts/UserContext";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { TeamsContext } from "../../../contexts/TeamsContext";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PredictData } from "../../../models/Predict";
 
 interface GroupThirdChooserProps {
@@ -16,7 +16,11 @@ interface GroupThirdChooserProps {
 
 export default function GroupThirdChooser({ currentSelection, isCurrentSelectionPending }: GroupThirdChooserProps) {
   const { user } = useContext(UserContext);
-  const [selection, setSelection] = useState<string[]>([]);
+  const { teams } = useContext(TeamsContext);
+  const queryClient = useQueryClient();
+  const [selection, setSelection] = useState<string[]>(() => currentSelection?.data ?? []);
+
+  const getTeamName = (teamCode: string) => teams.find((team) => team.code === teamCode)?.name ?? teamCode;
 
   const { data: thirdPlaces, isPending: isGroupPending } = useQuery({
     queryKey: ["predict", "third", "group", user?.id],
@@ -32,12 +36,6 @@ export default function GroupThirdChooser({ currentSelection, isCurrentSelection
     },
   });
 
-  useEffect(() => {
-    if (currentSelection) {
-      setSelection(currentSelection.data);
-    }
-  }, [currentSelection, setSelection]);
-
   const { mutate: sendNewThird, isPending: isSendingNewThird } = useMutation({
     mutationFn: async (newThirds: string[]) => {
       await supabase.from("predictions_group_third").delete().eq("user", user?.id);
@@ -47,6 +45,9 @@ export default function GroupThirdChooser({ currentSelection, isCurrentSelection
         data: newThirds,
       };
       await supabase.from("predictions_group_third").insert(prediction);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["predict", "third", user?.id] });
     },
   });
 
@@ -91,7 +92,7 @@ export default function GroupThirdChooser({ currentSelection, isCurrentSelection
       <Grid container spacing={1} sx={{ p: 1, pt: 0 }}>
         {thirdPlaces &&
           thirdPlaces
-            .sort((a, b) => useTeamName(a).localeCompare(useTeamName(b)))
+            .sort((a, b) => getTeamName(a).localeCompare(getTeamName(b)))
             .map((teamCode) => (
               <Grid key={teamCode} size={3}>
                 <Button
@@ -104,7 +105,7 @@ export default function GroupThirdChooser({ currentSelection, isCurrentSelection
                   <Stack direction="row" spacing={1} sx={{ width: "100%", alignItems: "center" }}>
                     <Flag code={teamCode} />
                     <Typography variant="body2" noWrap>
-                      {useTeamName(teamCode)}
+                      {getTeamName(teamCode)}
                     </Typography>
                   </Stack>
                   {isInSelection(teamCode) && <CheckCircleIcon />}

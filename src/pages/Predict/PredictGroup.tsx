@@ -68,7 +68,11 @@ export default function PredictGroup() {
       </TabPanel>
       <TabPanel value={mode} index={3}>
         {groupComplete ? (
-          <GroupThirdChooser currentSelection={currentSelection} isCurrentSelectionPending={isCurrentSelectionPending} />
+          <GroupThirdChooser
+            key={currentSelection?.updated_at ?? "empty"}
+            currentSelection={currentSelection}
+            isCurrentSelectionPending={isCurrentSelectionPending}
+          />
         ) : (
           <Box sx={{ padding: 2 }}>Please complete the group rankings before predicting the third place teams.</Box>
         )}
