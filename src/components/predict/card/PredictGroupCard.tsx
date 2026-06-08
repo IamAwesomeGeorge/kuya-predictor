@@ -12,8 +12,8 @@ export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
     queryKey: ["check", "group", user?.id],
     queryFn: async () => {
       const { data } = await supabase.from("predictions_group").select().eq("user", user?.id);
-
-      return data?.length === 12;
+      const { data: thirdPlaceData } = await supabase.from("predictions_group_third").select().eq("user", user?.id);
+      return data?.length === 12 && thirdPlaceData?.length === 8;
     },
   });
 

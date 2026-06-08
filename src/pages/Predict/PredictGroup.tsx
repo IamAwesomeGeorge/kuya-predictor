@@ -48,7 +48,7 @@ export default function PredictGroup() {
 
   return (
     <>
-      <PageHeader title="Predict Group" />
+      <PageHeader title="Predict Group Stage" />
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={mode} onChange={handleTabChange}>
           <Tab label="Groups A-D" sx={{ color: group1Complete ? "#c8ffc8" : "#ffc8c8" }} />
