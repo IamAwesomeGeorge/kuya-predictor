@@ -1,11 +1,10 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { useContext, useState } from "react";
-import { UserContext } from "../../../contexts/UserContext";
+import { useState } from "react";
 import { TabPanel } from "../../utils/TabPanel";
-import MatchGroupBase from "./matchGroupBase";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import type { MatchInfo } from "../../../models/Infos";
+import MatchGroupBase from "./MatchGroupBase";
 
 export default function MatchGroupTabs() {
   const [mode, setMode] = useState(0);
@@ -24,6 +23,21 @@ export default function MatchGroupTabs() {
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setMode(newValue);
+  };
+
+  const groupsIndexMap: { [key: number]: string } = {
+    0: "A",
+    1: "B",
+    2: "C",
+    3: "D",
+    4: "E",
+    5: "F",
+    6: "G",
+    7: "H",
+    8: "I",
+    9: "J",
+    10: "K",
+    11: "L",
   };
 
   const groupsComplete = {
@@ -61,12 +75,11 @@ export default function MatchGroupTabs() {
               <Tab label="L" sx={{ color: groupsComplete["L"] ? "#c8ffc8" : "#ffc8c8" }} />
             </Tabs>
           </Box>
-          <TabPanel value={mode} index={0}>
-            <MatchGroupBase matches={findMatchesFromGroup("A")} currents={[]} />
-          </TabPanel>
-          <TabPanel value={mode} index={1}></TabPanel>
-          <TabPanel value={mode} index={2}></TabPanel>
-          <TabPanel value={mode} index={3}></TabPanel>
+          {Object.entries(groupsIndexMap).map(([index, group]) => (
+            <TabPanel key={index} value={mode} index={parseInt(index)}>
+              <MatchGroupBase matches={findMatchesFromGroup(group)} currents={[]} />
+            </TabPanel>
+          ))}
         </>
       )}
     </>

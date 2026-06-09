@@ -1,12 +1,9 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import PageHeader from "../../header/PageHeader";
-import { useContext, useState } from "react";
-import { UserContext } from "../../../contexts/UserContext";
+import { useState } from "react";
 import { TabPanel } from "../../utils/TabPanel";
 
 export default function MatchKnockTabs() {
   const [mode, setMode] = useState(0);
-  const { user } = useContext(UserContext);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setMode(newValue);
