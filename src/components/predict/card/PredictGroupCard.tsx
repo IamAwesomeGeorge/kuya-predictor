@@ -1,4 +1,16 @@
-import { Alert, Button, Card, CardActions, CardContent, Skeleton, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Skeleton,
+  Typography,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import type { PredictCardProps } from "./PredictCardProps";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext } from "react";
@@ -24,12 +36,20 @@ export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
           Group Stage Prediction
         </Typography>
         <Typography variant="body2">Predict the final positions of each group in the stage round.</Typography>
-        <Typography variant="body2">
-          <strong>1 point</strong> for each position guessed correctly.
-        </Typography>
-        <Typography variant="body2">
-          <em>56 points max - 48 points for groups, 8 points for third places</em>
-        </Typography>
+        <Accordion sx={{ mt: 2 }}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`panel1-content`} id={`panel1-header`}>
+            <Typography component="span">Points breakdown</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography variant="body2">
+              <strong>1 point</strong> for each position guessed correctly.
+            </Typography>
+            <br />
+            <Typography variant="body2">
+              <em>56 points max - 48 points for groups, 8 points for third places</em>
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "space-between", mt: "auto" }}>
         <Button size="small" onClick={navigateTo}>
