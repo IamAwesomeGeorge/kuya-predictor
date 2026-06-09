@@ -16,21 +16,12 @@ interface GroupRankingBaseProps {
 export default function GroupRankingBase({ teamCodes, data, isPending }: GroupRankingBaseProps) {
   const { user } = useContext(UserContext);
   const [showWarning, setShowWarning] = useState(false);
-
   const queryClient = useQueryClient();
 
   const { mutate: sendNewPrediction, isPending: isSendingNewPrediction } = useMutation({
     mutationFn: async (newPredict: PredictGroup) => {
+      await supabase.from("predictions_group").delete().eq("user", user?.id).eq("group", newPredict.group);
       await supabase.from("predictions_group").insert(newPredict);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["predict", "group", user?.id] });
-    },
-  });
-
-  const { mutate: updatePrediction, isPending: isUpdatingPrediction } = useMutation({
-    mutationFn: async (newPredict: PredictGroup) => {
-      await supabase.from("predictions_group").update(newPredict).eq("id", newPredict.id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["predict", "group", user?.id] });
@@ -46,32 +37,19 @@ export default function GroupRankingBase({ teamCodes, data, isPending }: GroupRa
       return;
     }
 
-    const existingPredict = getCurrentPredictForGroup(group);
-    if (existingPredict) {
-      const updatedPredict: PredictGroup = {
-        ...existingPredict,
-        updated_at: new Date().toISOString(),
-        pos_1: selection[1],
-        pos_2: selection[2],
-        pos_3: selection[3],
-        pos_4: selection[4],
-      };
-      updatePrediction(updatedPredict);
-    } else {
-      const newPredict: PredictGroup = {
-        updated_at: new Date().toISOString(),
-        user: user?.id ?? 0,
-        group,
-        pos_1: selection[1],
-        pos_2: selection[2],
-        pos_3: selection[3],
-        pos_4: selection[4],
-      };
-      sendNewPrediction(newPredict);
-    }
+    const newPredict: PredictGroup = {
+      updated_at: new Date().toISOString(),
+      user: user?.id ?? 0,
+      group,
+      pos_1: selection[1],
+      pos_2: selection[2],
+      pos_3: selection[3],
+      pos_4: selection[4],
+    };
+    sendNewPrediction(newPredict);
   };
 
-  const isLoading = isSendingNewPrediction || isUpdatingPrediction;
+  const isLoading = isSendingNewPrediction;
 
   return (
     <>

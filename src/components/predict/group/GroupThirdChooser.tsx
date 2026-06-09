@@ -56,7 +56,6 @@ export default function GroupThirdChooser({ currentSelection, isCurrentSelection
   };
 
   const handleTeamClick = (code: string) => {
-    console.log("Clicked team code:", code);
     if (isInSelection(code)) return;
     const newSelection = [...selection, code];
     setSelection(newSelection);

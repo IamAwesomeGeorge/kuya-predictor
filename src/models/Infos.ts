@@ -16,4 +16,5 @@ export interface MatchInfo {
   stadium: string;
   score_left?: number;
   score_right?: number;
+  first_scorer?: string;
 }
