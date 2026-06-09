@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import { supabase } from "../../../utils/supabase";
@@ -7,6 +7,7 @@ import type { PredictMatch, PredictMatchView } from "../../../models/Predict";
 import { useTeamsReady } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
 import MatchPredict from "./MatchPredict";
+import { hasMatchStarted } from "../../utils/TimeUtils";
 
 interface MatchGroupBaseProps {
   matches?: MatchInfo[];
@@ -14,6 +15,7 @@ interface MatchGroupBaseProps {
 }
 
 export default function MatchGroupBase({ matches, currents }: MatchGroupBaseProps) {
+  const [doubleCode, setDoubleCode] = useState<number | null>(null);
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
 
@@ -55,15 +57,28 @@ export default function MatchGroupBase({ matches, currents }: MatchGroupBaseProp
     <>
       {useTeamsReady() && matches && (
         <Grid container spacing={1}>
-          {matches.map((match) => (
-            <MatchPredict
-              key={match.id}
-              match={match}
-              current={findCurrentPredict(match.id)}
-              handlePredictChange={handlePredictChange}
-              isLoading={isSendingNewPrediction}
-            />
-          ))}
+          {matches.map((match) => {
+            return hasMatchStarted(match.date_time) ? (
+              // Todo: change to over
+              <MatchPredict
+                key={match.id}
+                match={match}
+                current={findCurrentPredict(match.id)}
+                handlePredictChange={handlePredictChange}
+                isLoading={isSendingNewPrediction}
+                doubleCode={doubleCode}
+              />
+            ) : (
+              <MatchPredict
+                key={match.id}
+                match={match}
+                current={findCurrentPredict(match.id)}
+                handlePredictChange={handlePredictChange}
+                isLoading={isSendingNewPrediction}
+                doubleCode={doubleCode}
+              />
+            );
+          })}
         </Grid>
       )}
     </>
