@@ -1,4 +1,16 @@
-import { Alert, Button, Card, CardActions, CardContent, Skeleton, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Skeleton,
+  Typography,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import type { PredictCardProps } from "./PredictCardProps";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext } from "react";
@@ -8,9 +20,12 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
   const { user } = useContext(UserContext);
 
   const { data: done, isFetched } = useQuery({
-    queryKey: ["check", "knockout", user?.id],
+    queryKey: ["check", "knockoutStart", user?.id],
     queryFn: async () => {
       return false;
+      // const { data } = await supabase.from("predictions_group").select().eq("user", user?.id);
+      // const { data: thirdPlaceData } = await supabase.from("predictions_group_third").select("data").eq("user", user?.id);
+      // return data?.length === 12 && thirdPlaceData?.[0]?.data.length === 8;
     },
   });
 
@@ -20,13 +35,27 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
         <Typography variant="h5" component="div">
           Knockout Stage Prediction
         </Typography>
-        <Typography variant="body2">Predict the final positions of each group in the stage round.</Typography>
-        <Typography variant="body2">
-          <strong>1 point</strong> for each position guessed correctly.
-        </Typography>
-        <Typography variant="body2">
-          <em>56 points max - 48 points for groups, 8 points for third places</em>
-        </Typography>
+        <Typography variant="body2">Predict the knockout bracket based on your group predictions.</Typography>
+        <Accordion sx={{ mt: 2 }}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`panel1-content`} id={`panel1-header`}>
+            <Typography component="span">Points breakdown</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography variant="body2">
+              <strong>1 point</strong> for getting the correct winner/draw.
+              <br />
+              <strong>3 points</strong> for getting the correct score.
+              <br />
+              <strong>1 point</strong> for getting the correct team to score first.
+              <br />
+              An option to <strong>double</strong> the points per group.
+            </Typography>
+            <br />
+            <Typography variant="body2">
+              <em>5 points per match max.</em>
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "space-between", mt: "auto" }}>
         <Button size="small" onClick={navigateTo}>

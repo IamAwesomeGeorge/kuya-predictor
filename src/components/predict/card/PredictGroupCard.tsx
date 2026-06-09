@@ -42,7 +42,9 @@ export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="body2">
-              <strong>1 point</strong> for each position guessed correctly.
+              <strong>1 point</strong> for getting each position correct.
+              <br />
+              <strong>1 point</strong> for getting a correct third place team.
             </Typography>
             <br />
             <Typography variant="body2">
