@@ -27,6 +27,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
   const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
   const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
   const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
+  const [double, setDouble] = useState(doubleCode === match.id);
 
   const winnerText =
     scoreLeft !== null && scoreRight !== null
@@ -45,13 +46,14 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
     } else if (
       scoreLeft === current?.score_left &&
       scoreRight === current?.score_right &&
-      firstScorer === current?.first_scorer
+      firstScorer === current?.first_scorer &&
+      ((double && doubleCode === match.id) || (!double && doubleCode !== match.id))
     ) {
       setStopSave(true);
     } else {
       setStopSave(false);
     }
-  }, [isLoading, scoreLeft, scoreRight, firstScorer]);
+  }, [isLoading, scoreLeft, scoreRight, firstScorer, double, doubleCode, current, match.id]);
 
   return (
     <Grid size={6} key={match.id}>
@@ -140,6 +142,9 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           <Box>
             <Typography variant="body2">Double Points:</Typography>
             <Checkbox
+              disabled={doubleCode !== null && doubleCode !== match.id}
+              checked={double}
+              onChange={(e) => setDouble(e.target.checked)}
               sx={{
                 color: "White",
               }}
