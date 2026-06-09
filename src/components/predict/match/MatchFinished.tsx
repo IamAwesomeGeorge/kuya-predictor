@@ -1,14 +1,15 @@
-import { Box, Button, Checkbox, Divider, Grid, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, Checkbox, Divider, Grid, Stack, Tooltip, Typography } from "@mui/material";
 import type { PredictMatchView } from "../../../models/Predict";
 import { useTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
-import { Flag } from "../../utils/FlagUtils";
 import { formatMatchDateShort } from "../../utils/TimeUtils";
 import { useEffect, useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
 import MatchPredictFirstButton from "./MatchPredictFirstButton";
+import { MatchScore } from "../../matches/MatchScore";
+import MatchTeam from "../../matches/MatchTeam";
 
-interface MatchPredictProps {
+interface MatchFinishedProps {
   match: MatchInfo;
   current?: PredictMatchView;
   handlePredictChange: (
@@ -22,8 +23,7 @@ interface MatchPredictProps {
   doubleCode: number | null;
 }
 
-export default function MatchPredict({ match, current, handlePredictChange, isLoading, doubleCode }: MatchPredictProps) {
-  const [stopSave, setStopSave] = useState(true);
+export default function MatchFinished({ match, current, doubleCode }: MatchFinishedProps) {
   const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
   const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
   const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
@@ -41,23 +41,6 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           ? match.team_right
           : "DRAW"
       : "???";
-
-  useEffect(() => {
-    if (isLoading) {
-      setStopSave(true);
-    } else if (scoreLeft === null || scoreRight === null || firstScorer === null) {
-      setStopSave(true);
-    } else if (
-      scoreLeft === current?.score_left &&
-      scoreRight === current?.score_right &&
-      firstScorer === current?.first_scorer &&
-      ((double && doubleCode === match.id) || (!double && doubleCode !== match.id))
-    ) {
-      setStopSave(true);
-    } else {
-      setStopSave(false);
-    }
-  }, [isLoading, scoreLeft, scoreRight, firstScorer, double, doubleCode, current, match.id]);
 
   return (
     <Grid size={6} key={match.id}>
@@ -101,10 +84,9 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
         {/* Score row */}
         <Stack id={`match-${match.id}-score`} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
           {/* Left team */}
-          <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
-            {useTeamName(match.team_left)} <Flag code={match.team_left} />
-          </Typography>
+          <MatchTeam teamCode={match.team_left} side="left" />
 
+          <MatchScore match={match} />
           <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
           <Typography
             sx={{
@@ -119,16 +101,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
 
           {/* Right team */}
-          <Typography
-            sx={{
-              fontWeight: 600,
-              fontSize: 18,
-              textAlign: "right",
-              flex: 1,
-            }}
-          >
-            <Flag code={match.team_right} /> {useTeamName(match.team_right)}
-          </Typography>
+          <MatchTeam teamCode={match.team_right} side="right" />
         </Stack>
 
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
@@ -159,15 +132,6 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
               />
             </Box>
           </Tooltip>
-
-          {/* Save Button */}
-          <Button
-            variant="contained"
-            disabled={stopSave}
-            onClick={() => handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, firstScorer, double)}
-          >
-            Save
-          </Button>
         </Stack>
       </Box>
     </Grid>

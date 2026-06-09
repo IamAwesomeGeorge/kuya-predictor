@@ -32,6 +32,10 @@ export default function MatchGroupTabs() {
     return data?.filter((m) => m.stage_info === group);
   };
 
+  const findPredictionsFromGroup = (group: string) => {
+    return predictions?.filter((p) => p.stage_info === group).length;
+  };
+
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setMode(newValue);
   };
@@ -52,18 +56,18 @@ export default function MatchGroupTabs() {
   };
 
   const groupsComplete = {
-    A: false,
-    B: false,
-    C: false,
-    D: false,
-    E: false,
-    F: false,
-    G: false,
-    H: false,
-    I: false,
-    J: false,
-    K: false,
-    L: false,
+    A: findMatchesFromGroup("A")?.length === findPredictionsFromGroup("A"),
+    B: findMatchesFromGroup("B")?.length === findPredictionsFromGroup("B"),
+    C: findMatchesFromGroup("C")?.length === findPredictionsFromGroup("C"),
+    D: findMatchesFromGroup("D")?.length === findPredictionsFromGroup("D"),
+    E: findMatchesFromGroup("E")?.length === findPredictionsFromGroup("E"),
+    F: findMatchesFromGroup("F")?.length === findPredictionsFromGroup("F"),
+    G: findMatchesFromGroup("G")?.length === findPredictionsFromGroup("G"),
+    H: findMatchesFromGroup("H")?.length === findPredictionsFromGroup("H"),
+    I: findMatchesFromGroup("I")?.length === findPredictionsFromGroup("I"),
+    J: findMatchesFromGroup("J")?.length === findPredictionsFromGroup("J"),
+    K: findMatchesFromGroup("K")?.length === findPredictionsFromGroup("K"),
+    L: findMatchesFromGroup("L")?.length === findPredictionsFromGroup("L"),
   };
 
   return (

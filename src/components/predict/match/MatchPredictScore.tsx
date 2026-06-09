@@ -39,7 +39,11 @@ export default function MatchPredictScore({ id, value, setValue }: MatchPredictS
       onChange={onChange}
       onBlur={onBlur}
       error={invalid}
-      sx={{ color: "white", borderColor: "white", width: "10%" }}
+      inputProps={{ style: { textAlign: "center" } }}
+      sx={{
+        color: "white",
+        width: "10%",
+      }}
     />
   );
 }

@@ -1,10 +1,9 @@
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { MatchInfo } from "../../models/Infos";
-import { Flag } from "../utils/FlagUtils";
 import { MatchTime } from "./MatchTime";
 import { formatMatchDateShort, hasMatchFinished } from "../utils/TimeUtils";
 import { MatchScore } from "./MatchScore";
-import { useTeamName } from "../utils/TeamsUtils";
+import MatchTeam from "./MatchTeam";
 
 interface MatchGridProps {
   match: MatchInfo;
@@ -28,23 +27,12 @@ export function MatchGrid(props: MatchGridProps) {
         {/* Top row */}
         <Stack id={`match-${match.id}-top`} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
           {/* Left team */}
-          <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
-            {useTeamName(match.team_left)} <Flag code={match.team_left} />
-          </Typography>
+          <MatchTeam teamCode={match.team_left} side="left" />
 
           {finished ? <MatchScore match={match} /> : <MatchTime match={match} />}
 
           {/* Right team */}
-          <Typography
-            sx={{
-              fontWeight: 600,
-              fontSize: 18,
-              textAlign: "right",
-              flex: 1,
-            }}
-          >
-            <Flag code={match.team_right} /> {useTeamName(match.team_right)}
-          </Typography>
+          <MatchTeam teamCode={match.team_right} side="right" />
         </Stack>
 
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
