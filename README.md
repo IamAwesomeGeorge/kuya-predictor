@@ -4,9 +4,12 @@ for kuya klan
 
 todo:
 
+- Brackets from start
 - Fix flag bug
-- Make predict scores show
-- Have scores show
-- brackets
-- profiles
-- Remove test match
+- Prepare when match are finished
+- Close group feature
+- Remove test matches
+- Make scores add up
+- Show current predictions
+- Brackets after group
+- Profiles
