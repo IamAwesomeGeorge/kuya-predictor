@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import { supabase } from "../../../utils/supabase";
@@ -15,17 +15,17 @@ interface MatchGroupBaseProps {
 }
 
 export default function MatchGroupBase({ matches, currents }: MatchGroupBaseProps) {
-  const [doubleCode, setDoubleCode] = useState<number | null>(null);
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
+  const doubleCode = currents?.find((c) => c.double)?.match ?? null;
 
   const { mutate: sendNewPrediction, isPending: isSendingNewPrediction } = useMutation({
     mutationFn: async (newPredict: PredictMatch) => {
-      await supabase.from("predictions_match").delete().eq("user", user?.id).eq("match", newPredict.match);
-      await supabase.from("predictions_match").insert(newPredict);
+      await supabase.from("predictions_matches").delete().eq("user", user?.id).eq("match", newPredict.match);
+      await supabase.from("predictions_matches").insert(newPredict);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["predict", "group", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["predictions", "matches", "view", "group", user?.id] });
     },
   });
 
@@ -40,7 +40,6 @@ export default function MatchGroupBase({ matches, currents }: MatchGroupBaseProp
     first_scorer: string | null,
     double: boolean,
   ) => {
-    // Todo: check double is valid
     const newPredict: PredictMatch = {
       updated_at: new Date().toISOString(),
       user: user?.id ?? 0,

@@ -29,6 +29,10 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
   const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
   const [double, setDouble] = useState(doubleCode === match.id);
 
+  useEffect(() => {
+    setDouble(doubleCode === match.id);
+  }, [doubleCode, match.id]);
+
   const winnerText =
     scoreLeft !== null && scoreRight !== null
       ? scoreLeft > scoreRight
@@ -151,7 +155,11 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             />
           </Box>
           {/* Save Button */}
-          <Button variant="contained" disabled={stopSave}>
+          <Button
+            variant="contained"
+            disabled={stopSave}
+            onClick={() => handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, firstScorer, double)}
+          >
             Save
           </Button>
         </Stack>
