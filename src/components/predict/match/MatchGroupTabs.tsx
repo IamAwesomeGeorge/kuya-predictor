@@ -1,19 +1,30 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { TabPanel } from "../../utils/TabPanel";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import type { MatchInfo } from "../../../models/Infos";
 import MatchGroupBase from "./MatchGroupBase";
+import { UserContext } from "../../../contexts/UserContext";
+import type { PredictMatchView } from "../../../models/Predict";
 
 export default function MatchGroupTabs() {
   const [mode, setMode] = useState(0);
+  const { user } = useContext(UserContext);
 
-  const { data, isPending } = useQuery({
+  const { data } = useQuery({
     queryKey: ["matches", "group"],
     queryFn: async () => {
       const { data } = await supabase.from("matches").select().eq("stage", "GROUP").order("date_time", { ascending: true });
       return data as MatchInfo[];
+    },
+  });
+
+  const { data: predictions } = useQuery({
+    queryKey: ["predictions", "matches", "view", "group", user?.id],
+    queryFn: async () => {
+      const { data } = await supabase.from("predictions_matches_view").select().eq("stage", "GROUP").eq("user", user?.id);
+      return data as PredictMatchView[];
     },
   });
 
@@ -57,7 +68,7 @@ export default function MatchGroupTabs() {
 
   return (
     <>
-      {!isPending && data && (
+      {data && predictions && (
         <>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs value={mode} onChange={handleTabChange}>
@@ -77,7 +88,7 @@ export default function MatchGroupTabs() {
           </Box>
           {Object.entries(groupsIndexMap).map(([index, group]) => (
             <TabPanel key={index} value={mode} index={parseInt(index)}>
-              <MatchGroupBase matches={findMatchesFromGroup(group)} currents={[]} />
+              <MatchGroupBase matches={findMatchesFromGroup(group)} currents={predictions} />
             </TabPanel>
           ))}
         </>

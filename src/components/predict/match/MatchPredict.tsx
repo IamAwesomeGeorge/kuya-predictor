@@ -4,7 +4,7 @@ import { useTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
 import { Flag } from "../../utils/FlagUtils";
 import { formatMatchDateShort } from "../../utils/TimeUtils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
 import MatchPredictFirstButton from "./MatchPredictFirstButton";
 
@@ -23,6 +23,7 @@ interface MatchPredictProps {
 }
 
 export default function MatchPredict({ match, current, handlePredictChange, isLoading, doubleCode }: MatchPredictProps) {
+  const [stopSave, setStopSave] = useState(true);
   const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
   const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
   const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
@@ -35,6 +36,22 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           ? match.team_right
           : "DRAW"
       : "???";
+
+  useEffect(() => {
+    if (isLoading) {
+      setStopSave(true);
+    } else if (scoreLeft === null || scoreRight === null || firstScorer === null) {
+      setStopSave(true);
+    } else if (
+      scoreLeft === current?.score_left &&
+      scoreRight === current?.score_right &&
+      firstScorer === current?.first_scorer
+    ) {
+      setStopSave(true);
+    } else {
+      setStopSave(false);
+    }
+  }, [isLoading, scoreLeft, scoreRight, firstScorer]);
 
   return (
     <Grid size={6} key={match.id}>
@@ -112,12 +129,14 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
 
         {/* Extra row */}
         <Stack id={`match-${match.id}-extra`} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
+          {/* First team to score */}
           <Box>
             <Typography variant="body2">First team to score</Typography>
             <MatchPredictFirstButton teamCode={match.team_left} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
             <br />
             <MatchPredictFirstButton teamCode={match.team_right} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
           </Box>
+          {/* Double Points */}
           <Box>
             <Typography variant="body2">Double Points:</Typography>
             <Checkbox
@@ -126,7 +145,8 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
               }}
             />
           </Box>
-          <Button variant="contained" disabled>
+          {/* Save Button */}
+          <Button variant="contained" disabled={stopSave}>
             Save
           </Button>
         </Stack>
