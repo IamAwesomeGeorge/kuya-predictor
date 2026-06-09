@@ -4,6 +4,8 @@ import { useTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
 import { Flag } from "../../utils/FlagUtils";
 import { formatMatchDateShort, hasMatchFinished } from "../../utils/TimeUtils";
+import { useState } from "react";
+import MatchPredictScore from "./MatchPredictScore";
 
 interface MatchPredictProps {
   match: MatchInfo;
@@ -19,6 +21,9 @@ interface MatchPredictProps {
 }
 
 export default function MatchPredict({ match, current, handlePredictChange, isLoading }: MatchPredictProps) {
+  const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
+  const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
+
   const finished = hasMatchFinished(match.date_time);
   return (
     <Grid size={6} key={match.id}>
@@ -60,6 +65,19 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
             {useTeamName(match.team_left)} <Flag code={match.team_left} />
           </Typography>
+
+          <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontSize: 20,
+              px: 2,
+              color: "#38bdf8",
+            }}
+          >
+            -
+          </Typography>
+          <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
 
           {/* <NumberField label="Left" min={0} max={99} size="small" />
           <NumberField label="Right" min={0} max={99} size="small" /> */}
