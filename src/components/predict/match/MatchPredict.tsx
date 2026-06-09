@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { PredictMatchView } from "../../../models/Predict";
 import { useTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
@@ -6,6 +6,7 @@ import { Flag } from "../../utils/FlagUtils";
 import { formatMatchDateShort } from "../../utils/TimeUtils";
 import { useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
+import MatchPredictFirstButton from "./MatchPredictFirstButton";
 
 interface MatchPredictProps {
   match: MatchInfo;
@@ -113,39 +114,21 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
         <Stack id={`match-${match.id}-extra`} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
           <Box>
             <Typography variant="body2">First team to score</Typography>
-            <Button
-              variant={firstScorer === match.team_left ? "contained" : "outlined"}
-              fullWidth
-              onClick={() => setFirstScorer(match.team_left)}
-              sx={{ justifyContent: "flex-start", py: 0.5, minHeight: 44 }}
-            >
-              <Stack direction="row" spacing={1} sx={{ width: "100%", alignItems: "center" }}>
-                <Flag code={match.team_left} />
-                <Typography variant="body2" noWrap>
-                  {useTeamName(match.team_left)}
-                </Typography>
-              </Stack>
-            </Button>
+            <MatchPredictFirstButton teamCode={match.team_left} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
             <br />
-            <Button
-              variant={firstScorer === match.team_right ? "contained" : "outlined"}
-              fullWidth
-              onClick={() => setFirstScorer(match.team_right)}
-              sx={{ justifyContent: "flex-start", py: 0.5, minHeight: 44 }}
-            >
-              <Stack direction="row" spacing={1} sx={{ width: "100%", alignItems: "center" }}>
-                <Flag code={match.team_right} />
-                <Typography variant="body2" noWrap>
-                  {useTeamName(match.team_right)}
-                </Typography>
-              </Stack>
-            </Button>
+            <MatchPredictFirstButton teamCode={match.team_right} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
           </Box>
           <Box>
-            <Typography variant="body2">{winnerText} to win</Typography>
-            <Typography variant="body2">{winnerText} to win</Typography>
+            <Typography variant="body2">Double Points:</Typography>
+            <Checkbox
+              sx={{
+                color: "White",
+              }}
+            />
           </Box>
-          <Typography variant="body2">{winnerText} to win</Typography>
+          <Button variant="contained" disabled>
+            Save
+          </Button>
         </Stack>
       </Box>
     </Grid>
