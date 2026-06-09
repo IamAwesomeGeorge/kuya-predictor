@@ -3,7 +3,7 @@ import type { PredictMatchView } from "../../../models/Predict";
 import { useTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
 import { formatMatchDateShort } from "../../utils/TimeUtils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
 import MatchPredictFirstButton from "./MatchPredictFirstButton";
 import { MatchScore } from "../../matches/MatchScore";
@@ -27,11 +27,8 @@ export default function MatchFinished({ match, current, doubleCode }: MatchFinis
   const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
   const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
   const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
-  const [double, setDouble] = useState(doubleCode === match.id);
 
-  useEffect(() => {
-    setDouble(doubleCode === match.id);
-  }, [doubleCode, match.id]);
+  const double = doubleCode === match.id;
 
   const winnerText =
     scoreLeft !== null && scoreRight !== null

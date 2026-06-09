@@ -23,15 +23,25 @@ interface MatchPredictProps {
 }
 
 export default function MatchPredict({ match, current, handlePredictChange, isLoading, doubleCode }: MatchPredictProps) {
-  const [stopSave, setStopSave] = useState(true);
   const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
   const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
   const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
   const [double, setDouble] = useState(doubleCode === match.id);
 
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/set-state-in-effect
     setDouble(doubleCode === match.id);
   }, [doubleCode, match.id]);
+
+  const stopSave =
+    isLoading ||
+    scoreLeft === null ||
+    scoreRight === null ||
+    firstScorer === null ||
+    (scoreLeft === current?.score_left &&
+      scoreRight === current?.score_right &&
+      firstScorer === current?.first_scorer &&
+      ((double && doubleCode === match.id) || (!double && doubleCode !== match.id)));
 
   const winnerText =
     scoreLeft !== null && scoreRight !== null
@@ -41,23 +51,6 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           ? match.team_right
           : "DRAW"
       : "???";
-
-  useEffect(() => {
-    if (isLoading) {
-      setStopSave(true);
-    } else if (scoreLeft === null || scoreRight === null || firstScorer === null) {
-      setStopSave(true);
-    } else if (
-      scoreLeft === current?.score_left &&
-      scoreRight === current?.score_right &&
-      firstScorer === current?.first_scorer &&
-      ((double && doubleCode === match.id) || (!double && doubleCode !== match.id))
-    ) {
-      setStopSave(true);
-    } else {
-      setStopSave(false);
-    }
-  }, [isLoading, scoreLeft, scoreRight, firstScorer, double, doubleCode, current, match.id]);
 
   return (
     <Grid size={6} key={match.id}>

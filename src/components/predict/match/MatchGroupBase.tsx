@@ -8,7 +8,6 @@ import { useTeamsReady } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
 import MatchPredict from "./MatchPredict";
 import { hasMatchStarted } from "../../utils/TimeUtils";
-import MatchFinished from "./MatchFinished";
 
 interface MatchGroupBaseProps {
   matches?: MatchInfo[];

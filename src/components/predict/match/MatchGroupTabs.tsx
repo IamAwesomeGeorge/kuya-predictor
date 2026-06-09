@@ -33,7 +33,7 @@ export default function MatchGroupTabs() {
   };
 
   const findPredictionsFromGroup = (group: string) => {
-    return predictions?.filter((p) => p.stage_info === group).length;
+    return predictions?.filter((p) => p.stage_info === group);
   };
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -56,18 +56,18 @@ export default function MatchGroupTabs() {
   };
 
   const groupsComplete = {
-    A: findMatchesFromGroup("A")?.length === findPredictionsFromGroup("A"),
-    B: findMatchesFromGroup("B")?.length === findPredictionsFromGroup("B"),
-    C: findMatchesFromGroup("C")?.length === findPredictionsFromGroup("C"),
-    D: findMatchesFromGroup("D")?.length === findPredictionsFromGroup("D"),
-    E: findMatchesFromGroup("E")?.length === findPredictionsFromGroup("E"),
-    F: findMatchesFromGroup("F")?.length === findPredictionsFromGroup("F"),
-    G: findMatchesFromGroup("G")?.length === findPredictionsFromGroup("G"),
-    H: findMatchesFromGroup("H")?.length === findPredictionsFromGroup("H"),
-    I: findMatchesFromGroup("I")?.length === findPredictionsFromGroup("I"),
-    J: findMatchesFromGroup("J")?.length === findPredictionsFromGroup("J"),
-    K: findMatchesFromGroup("K")?.length === findPredictionsFromGroup("K"),
-    L: findMatchesFromGroup("L")?.length === findPredictionsFromGroup("L"),
+    A: findMatchesFromGroup("A")?.length === findPredictionsFromGroup("A")?.length,
+    B: findMatchesFromGroup("B")?.length === findPredictionsFromGroup("B")?.length,
+    C: findMatchesFromGroup("C")?.length === findPredictionsFromGroup("C")?.length,
+    D: findMatchesFromGroup("D")?.length === findPredictionsFromGroup("D")?.length,
+    E: findMatchesFromGroup("E")?.length === findPredictionsFromGroup("E")?.length,
+    F: findMatchesFromGroup("F")?.length === findPredictionsFromGroup("F")?.length,
+    G: findMatchesFromGroup("G")?.length === findPredictionsFromGroup("G")?.length,
+    H: findMatchesFromGroup("H")?.length === findPredictionsFromGroup("H")?.length,
+    I: findMatchesFromGroup("I")?.length === findPredictionsFromGroup("I")?.length,
+    J: findMatchesFromGroup("J")?.length === findPredictionsFromGroup("J")?.length,
+    K: findMatchesFromGroup("K")?.length === findPredictionsFromGroup("K")?.length,
+    L: findMatchesFromGroup("L")?.length === findPredictionsFromGroup("L")?.length,
   };
 
   return (
@@ -92,7 +92,7 @@ export default function MatchGroupTabs() {
           </Box>
           {Object.entries(groupsIndexMap).map(([index, group]) => (
             <TabPanel key={index} value={mode} index={parseInt(index)}>
-              <MatchGroupBase matches={findMatchesFromGroup(group)} currents={predictions} />
+              <MatchGroupBase matches={findMatchesFromGroup(group)} currents={findPredictionsFromGroup(group)} />
             </TabPanel>
           ))}
         </>
