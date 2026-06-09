@@ -21,3 +21,17 @@ export interface PredictGroupPre {
   pos_3: string;
   pos_4: string;
 }
+
+export interface PredictMatch extends PredictBase {
+  match: number;
+  score_left: number;
+  score_right: number;
+  first_scorer: string | null;
+  double: boolean;
+}
+
+export interface PredictMatchView extends PredictMatch {
+  winner: string;
+  stage: string;
+  stage_info: string;
+}

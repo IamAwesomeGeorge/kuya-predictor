@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../../contexts/UserContext";
 import { TabPanel } from "../../utils/TabPanel";
 
-export default function matchKnockTabs() {
+export default function MatchKnockTabs() {
   const [mode, setMode] = useState(0);
   const { user } = useContext(UserContext);
 

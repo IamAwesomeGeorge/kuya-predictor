@@ -3,8 +3,8 @@ import PageHeader from "../../components/header/PageHeader";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { TabPanel } from "../../components/utils/TabPanel";
-import MatchGroupTabs from "../../components/predict/match/matchGroupTabs";
-import MatchKnockTabs from "../../components/predict/match/matchKnockTabs";
+import MatchGroupTabs from "../../components/predict/match/MatchGroupTabs";
+import MatchKnockTabs from "../../components/predict/match/MatchKnockTabs";
 
 export default function PredictMatch() {
   const [mode, setMode] = useState(0);

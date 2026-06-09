@@ -4,11 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../utils/supabase";
 import { MatchGrid } from "./MatchGrid";
 
-export default function Standings() {
+export default function GroupMatches() {
   const { data, isFetched } = useQuery({
-    queryKey: ["matches"],
+    queryKey: ["matches", "group"],
     queryFn: async () => {
-      const { data } = await supabase.from("matches").select().order("date_time", { ascending: true });
+      const { data } = await supabase.from("matches").select().eq("stage", "GROUP").order("date_time", { ascending: true });
       return data as MatchInfo[];
     },
   });

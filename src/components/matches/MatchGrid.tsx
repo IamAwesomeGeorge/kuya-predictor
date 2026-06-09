@@ -53,18 +53,26 @@ export function MatchGrid(props: MatchGridProps) {
         <Stack id={`match-${match.id}-bottom`} direction="row" spacing={1} sx={{ justifyContent: "center", opacity: 0.8 }}>
           {finished && (
             <>
-              <Typography variant="body2">{formatMatchDateShort(match.date_time)}</Typography>
-              <Typography variant="body2">·</Typography>
+              <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+                {formatMatchDateShort(match.date_time)}
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+                ·
+              </Typography>
             </>
           )}
 
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
             {match.stage} {match.stage_info}
           </Typography>
 
-          <Typography variant="body2">·</Typography>
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+            ·
+          </Typography>
 
-          <Typography variant="body2">{match.stadium}</Typography>
+          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+            {match.stadium}
+          </Typography>
         </Stack>
       </Box>
     </Grid>
