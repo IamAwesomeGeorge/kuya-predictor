@@ -4,7 +4,7 @@ export interface TeamInfo {
   group: string;
 }
 
-export type Stage = "GROUP" | "ROUND_OF_16";
+export type Stage = "GROUP" | "ROUND_OF_32" | "ROUND_OF_16" | "QUARTERFINAL" | "SEMIFINAL" | "FINAL";
 
 export interface MatchInfo {
   id: number;
