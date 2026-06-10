@@ -6,8 +6,7 @@ import { supabase } from "../../utils/supabase";
 import { UserContext } from "../../contexts/UserContext";
 import { useQuery } from "@tanstack/react-query";
 import { useTeamInfo } from "../../components/utils/TeamsUtils";
-import KnockoutMatch from "../../components/predict/knockout/KnockoutMatch";
-import { Grid, Stack } from "@mui/material";
+import { Grid } from "@mui/material";
 import KnockoutDuel from "../../components/predict/knockout/KnockoutDuel";
 
 export default function PredictKnockoutStart() {
@@ -46,19 +45,23 @@ export default function PredictKnockoutStart() {
         {predictData && (
           <>
             <KnockoutDuel
+              topLabel={"M12"}
               topTopTeamLabel={"1F"}
               topBottomTeamLabel={"2F"}
               topTopTeam={useTeamInfo(predictData[0].pos_1)}
               topBottomTeam={useTeamInfo(predictData[0].pos_2)}
+              bottomLabel={"M34"}
               bottomTopTeamLabel={"3F"}
               bottomBottomTeamLabel={"4F"}
               bottomTopTeam={useTeamInfo(predictData[0].pos_3)}
               bottomBottomTeam={useTeamInfo(predictData[0].pos_4)}
             />
             <KnockoutDuel
+              topLabel={"M34"}
               topTopTeamLabel={"M78"}
               topBottomTeamLabel={"M87"}
               topTopTeam={useTeamInfo(predictData[0].pos_1)}
+              bottomLabel={"M56"}
               bottomTopTeamLabel={"3F"}
               bottomBottomTeamLabel={"4F"}
             />

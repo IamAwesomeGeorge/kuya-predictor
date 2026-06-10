@@ -3,10 +3,12 @@ import type { TeamInfo } from "../../../models/Infos";
 import KnockoutMatch from "./KnockoutMatch";
 
 interface KnockoutDuelProps {
+  topLabel: string;
   topTopTeamLabel: string;
   topBottomTeamLabel: string;
   topTopTeam?: TeamInfo;
   topBottomTeam?: TeamInfo;
+  bottomLabel: string;
   bottomTopTeamLabel: string;
   bottomBottomTeamLabel: string;
   bottomTopTeam?: TeamInfo;
@@ -14,10 +16,12 @@ interface KnockoutDuelProps {
 }
 
 export default function KnockoutDuel({
+  topLabel,
   topTopTeamLabel,
   topBottomTeamLabel,
   topTopTeam,
   topBottomTeam,
+  bottomLabel,
   bottomTopTeamLabel,
   bottomBottomTeamLabel,
   bottomTopTeam,
@@ -31,6 +35,7 @@ export default function KnockoutDuel({
     >
       <Stack spacing={0} sx={{ width: "100%" }}>
         <KnockoutMatch
+          label={topLabel}
           topTeamLabel={topTopTeamLabel}
           bottomTeamLabel={topBottomTeamLabel}
           topTeam={topTopTeam}
@@ -67,6 +72,7 @@ export default function KnockoutDuel({
           }}
         />
         <KnockoutMatch
+          label={bottomLabel}
           topTeamLabel={bottomTopTeamLabel}
           bottomTeamLabel={bottomBottomTeamLabel}
           topTeam={bottomTopTeam}
