@@ -3,8 +3,6 @@ import PageHeader from "../../components/header/PageHeader";
 import { useContext, useState } from "react";
 import { TabPanel } from "../../components/utils/TabPanel";
 import { BracketBuilderStart } from "../../components/predict/knockout/BracketBuilder";
-import { thirdPlaceFinder } from "../../components/predict/knockout/ThirdPlaceHelper";
-import { findTeamInfo } from "../../components/utils/TeamsUtils";
 import type { PredictData, PredictGroup } from "../../models/Predict";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../utils/supabase";

@@ -44,7 +44,7 @@ export function BracketBuilderStart(teams: TeamInfo[], predicts: PredictGroup[],
     const rightTeam = findPredictedTeam(match.right, teams, predicts, thirdPlaceTeams);
     matchInfo.push({ ...match, leftTeam, rightTeam });
   });
-  return matchInfo;
+  return fix3Label(matchInfo);
 }
 
 function findPredictedTeam(position: string, teams: TeamInfo[], predicts: PredictGroup[], thirds: string[]) {
@@ -69,6 +69,18 @@ function findPredictedTeam(position: string, teams: TeamInfo[], predicts: Predic
   } else {
     return undefined;
   }
+}
+
+function fix3Label(matchInfo: KnockoutMatchInfo[]) {
+  const cleanInfo = [];
+  for (const match of matchInfo) {
+    if (match.right[0] === "3" && match.rightTeam?.group) {
+      cleanInfo.push({ ...match, right: "3" + match.rightTeam?.group });
+    } else {
+      cleanInfo.push(match);
+    }
+  }
+  return cleanInfo;
 }
 
 const slotOrder = ["3A", "3B", "3D", "3E", "3G", "3I", "3K", "3L"];
