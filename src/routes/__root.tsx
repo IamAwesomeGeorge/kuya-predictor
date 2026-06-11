@@ -1,30 +1,42 @@
+import { lazy, Suspense } from "react";
 import { Outlet, createRouter, createRoute, createRootRoute } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Header from "../components/header/Header";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Account from "../pages/Account";
-import Standings from "../pages/Standings";
-import Scores from "../pages/Scores";
-import Predict from "../pages/Predict/Predict";
-import Matches from "../pages/Matches";
-import PredictGroup from "../pages/Predict/PredictGroup";
-import PredictMatch from "../pages/Predict/PredictMatch";
-import PredictKnockoutStart from "../pages/Predict/PredictKnockoutStart";
+
+const Home = lazy(() => import("../pages/Home"));
+const Login = lazy(() => import("../pages/Login"));
+const Account = lazy(() => import("../pages/Account"));
+const Standings = lazy(() => import("../pages/Standings"));
+const Scores = lazy(() => import("../pages/Scores"));
+const Predict = lazy(() => import("../pages/Predict/Predict"));
+const Matches = lazy(() => import("../pages/Matches"));
+const PredictGroup = lazy(() => import("../pages/Predict/PredictGroup"));
+const PredictMatch = lazy(() => import("../pages/Predict/PredictMatch"));
+const PredictKnockoutStart = lazy(() => import("../pages/Predict/PredictKnockoutStart"));
+
+const TanStackRouterDevtools = lazy(() =>
+  import("@tanstack/react-router-devtools").then((module) => ({
+    default: module.TanStackRouterDevtools,
+  })),
+);
+
+const ReactQueryDevtools = lazy(() =>
+  import("@tanstack/react-query-devtools").then((module) => ({
+    default: module.ReactQueryDevtools,
+  })),
+);
 
 export const rootRoute = createRootRoute({
   component: () => (
-    <>
+    <Suspense fallback={null}>
       <Header />
       <Outlet />
       {import.meta.env.VITE_DEV === "true" && (
-        <>
+        <Suspense fallback={null}>
           <TanStackRouterDevtools />
           <ReactQueryDevtools />
-        </>
+        </Suspense>
       )}
-    </>
+    </Suspense>
   ),
 });
 
