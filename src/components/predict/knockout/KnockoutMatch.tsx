@@ -4,18 +4,18 @@ import type { TeamInfo } from "../../../models/Infos";
 import KnockoutButton from "./KnockoutButton";
 
 interface KnockoutMatchProps {
-  label: string;
+  id: number;
   topTeamLabel: string;
   bottomTeamLabel: string;
   topTeam?: TeamInfo;
   bottomTeam?: TeamInfo;
 }
 
-export default function KnockoutMatch({ label, topTeamLabel, bottomTeamLabel, topTeam, bottomTeam }: KnockoutMatchProps) {
+export default function KnockoutMatch({ id, topTeamLabel, bottomTeamLabel, topTeam, bottomTeam }: KnockoutMatchProps) {
   const [selection, setSelection] = useState<string>("");
   const loading = false;
   return (
-    <Card key={topTeamLabel + bottomTeamLabel} sx={{ position: "relative" }}>
+    <Card key={"M" + id} sx={{ position: "relative" }}>
       <Box
         sx={{
           display: "inline-flex",
@@ -37,7 +37,7 @@ export default function KnockoutMatch({ label, topTeamLabel, bottomTeamLabel, to
             lineHeight: 1,
           }}
         >
-          {label}
+          M{id}
         </Typography>
       </Box>
       <KnockoutButton

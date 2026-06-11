@@ -71,9 +71,9 @@ export default function GroupRankingBase({ teamCodes, data, isPending }: GroupRa
       {showWarning && (
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Alert severity="warning" sx={{ mt: 2 }}>
-            Ensure your third place selections are still valid after editing.
+            Ensure your <strong>third place and knockout</strong> selections are still <strong>valid</strong> after editing.
             <br />
-            Invalid selections will result in 0 points across all group predictions.
+            Invalid selections will result in <strong>0 points</strong> across all group predictions.
           </Alert>
         </Box>
       )}

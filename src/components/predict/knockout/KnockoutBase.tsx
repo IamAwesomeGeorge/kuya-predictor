@@ -16,13 +16,13 @@ export default function KnockoutBase({ knockoutMatchInfo }: KnockoutBaseProps) {
             const nextMatch = knockoutMatchInfo[index + 1];
             acc.push(
               <KnockoutDuel
-                key={"M" + match.id}
-                topLabel={"M" + match.id}
+                key={match.id}
+                topLabel={match.id}
                 topTopTeamLabel={match.left}
                 topTopTeam={match.leftTeam}
                 topBottomTeamLabel={match.right}
                 topBottomTeam={match.rightTeam}
-                bottomLabel={nextMatch ? "M" + nextMatch.id : ""}
+                bottomLabel={nextMatch ? nextMatch.id : 0}
                 bottomTopTeamLabel={nextMatch?.left}
                 bottomTopTeam={nextMatch?.leftTeam}
                 bottomBottomTeamLabel={nextMatch?.right}
