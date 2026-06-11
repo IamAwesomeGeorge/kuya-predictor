@@ -14,7 +14,7 @@ export default function Doner() {
     },
   });
 
-  const { data: dones } = useQuery({
+  const { data } = useQuery({
     queryKey: ["dones", users],
     enabled: !!users,
     queryFn: async () => {
@@ -29,7 +29,9 @@ export default function Doner() {
         .order("date_time", { ascending: true });
       const { data: predictionsData } = await supabase.from("predictions_matches_view").select().eq("stage", "GROUP");
 
-      const data = {} as Record<string, boolean[]>;
+      const dones = {} as Record<string, boolean[]>;
+      const matchesDoneNumbers = {} as Record<string, number>;
+      matchesDoneNumbers[100] = (matchesData?.length || 2) - 2;
       for (const user of users) {
         const predictionsGroupUser = predictionsGroup?.filter((p) => p.user === user.id);
         const thirdPlaceDataUser = thirdPlaceData?.filter((p) => p.user === user.id);
@@ -43,16 +45,17 @@ export default function Doner() {
         const predictionsDataUser = predictionsData?.filter((p) => p.user === user.id);
         // todo: remove 2
         const matchesDone = (matchesData?.length || 2) - 2 === predictionsDataUser?.length;
+        matchesDoneNumbers[user.id] = predictionsDataUser?.length || 0;
 
-        data[user.id] = [groupDone, knockoutPreDone, knockoutDone, matchesDone];
+        dones[user.id] = [groupDone, knockoutPreDone, knockoutDone, matchesDone];
       }
-      return data;
+      return { dones, matchesDoneNumbers };
     },
   });
 
   return (
     <>
-      {users && dones ? (
+      {users && data ? (
         <TableContainer component={Paper} sx={{ mt: 1 }}>
           <Table>
             <TableHead>
@@ -74,10 +77,13 @@ export default function Doner() {
                       <span>{row.name}</span>
                     </Box>
                   </TableCell>
-                  <TableCell align="right">{<DoneSymbol done={dones[row.id]?.[0]} />}</TableCell>
-                  <TableCell align="right">{<DoneSymbol done={dones[row.id]?.[1]} />}</TableCell>
-                  <TableCell align="right">{<DoneSymbol done={dones[row.id]?.[2]} />}</TableCell>
-                  <TableCell align="right">{<DoneSymbol done={dones[row.id]?.[3]} />}</TableCell>
+                  <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[0]} />}</TableCell>
+                  <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[1]} />}</TableCell>
+                  <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[2]} />}</TableCell>
+                  <TableCell align="right">
+                    {<DoneSymbol done={data.dones[row.id]?.[3]} />}
+                    {data.matchesDoneNumbers[row.id]}/{data.matchesDoneNumbers[100]}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
