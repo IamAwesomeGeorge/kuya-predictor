@@ -42,6 +42,13 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
       scoreRight === current?.score_right &&
       firstScorer === current?.first_scorer &&
       ((double && doubleCode === match.id) || (!double && doubleCode !== match.id)));
+  const saveLabel =
+    scoreLeft === current?.score_left &&
+    scoreRight === current?.score_right &&
+    firstScorer === current?.first_scorer &&
+    ((double && doubleCode === match.id) || (!double && doubleCode !== match.id))
+      ? "Saved"
+      : "Save";
 
   const winnerText =
     scoreLeft !== null && scoreRight !== null
@@ -159,7 +166,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             disabled={stopSave}
             onClick={() => handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, firstScorer, double)}
           >
-            Save
+            {saveLabel}
           </Button>
         </Stack>
       </Box>
