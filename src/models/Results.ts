@@ -1,4 +1,5 @@
 import type { TeamInfo } from "./Infos";
+import type { User } from "./User";
 
 //Todo: better
 export interface ScoreInfo {
@@ -11,9 +12,7 @@ export interface ScoreInfo {
   points: number;
 }
 
-export interface UserScoreInfo {
-  pfp_url?: string;
-  name: string;
+export interface UserScoreInfo extends User {
   groups: number;
   knockoutPre: number;
   knockout: number;

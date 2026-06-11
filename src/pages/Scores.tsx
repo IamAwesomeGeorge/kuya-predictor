@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import type { User } from "../models/User";
 import DevelopmentNotice from "../components/DevelopmentNotice";
+import TeamTag from "../components/account/TeamTag";
 
 export default function Scores() {
   const { data, isFetched } = useQuery({
@@ -30,8 +31,11 @@ export default function Scores() {
     const points = groups + knockoutPre + knockout + matches;
 
     return {
+      id: user.id,
+      created_at: user.created_at,
       pfp_url: user.pfp_url,
       name: user.name,
+      team: user.team,
       groups,
       knockoutPre,
       knockout,
@@ -69,6 +73,7 @@ export default function Scores() {
                     <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
                       <Avatar text={row.name} url={row.pfp_url} />
                       <span>{row.name}</span>
+                      <TeamTag team={row.team} />
                     </Box>
                   </TableCell>
                   <TableCell align="right">{row.groups}</TableCell>

@@ -2,7 +2,7 @@ import type { AuthRequest } from "../../models/User";
 import type { UserLoggedIn } from "../../models/User";
 import { supabase } from "../../utils/supabase";
 
-const USER_COLUMNS = "id, created_at, username, name, pfp_url";
+const USER_COLUMNS = "id, created_at, username, name, pfp_url, team";
 
 async function getUserDetails(authRequest: AuthRequest) {
   const { data, error } = await supabase

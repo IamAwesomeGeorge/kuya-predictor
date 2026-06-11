@@ -1,21 +1,10 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Skeleton,
-  Typography,
-} from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import type { PredictCardProps } from "./PredictCardProps";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
-import DoneSymbol from "./DoneSymbol";
 import PredictCardButtons from "./PredictCardButtons";
 
 export default function PredictMatchCard({ navigateTo }: PredictCardProps) {

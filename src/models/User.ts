@@ -8,7 +8,7 @@ export interface User {
   name: string;
   created_at: string;
   pfp_url?: string;
-  team?: Team;
+  team: Team;
 }
 
 export interface UserLoggedIn extends User, AuthRequest {}
