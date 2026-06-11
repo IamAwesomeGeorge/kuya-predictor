@@ -1,24 +1,16 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Skeleton,
-  Typography,
-} from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import type { PredictCardProps } from "./PredictCardProps";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
-import DoneSymbol from "./DoneSymbol";
+import PredictCardButtons from "./PredictCardButtons";
 
 export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
+
+  const closed = import.meta.env.VITE_CLOSE_GROUP === "true";
 
   const { data: done, isFetched } = useQuery({
     queryKey: ["check", "group", user?.id],
@@ -53,16 +45,7 @@ export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
           </AccordionDetails>
         </Accordion>
       </CardContent>
-      <CardActions sx={{ display: "flex", justifyContent: "space-between", mt: "auto" }}>
-        <Button size="small" onClick={navigateTo}>
-          {done ? "Edit" : "Start"}
-        </Button>
-        {isFetched ? (
-          <DoneSymbol done={done} />
-        ) : (
-          <Skeleton variant="rounded" width={65} height={35} sx={{ py: 0, px: 1, fontSize: 12 }} />
-        )}
-      </CardActions>
+      <PredictCardButtons navigateTo={navigateTo} closed={closed} done={done} isFetched={isFetched} />
     </Card>
   );
 }

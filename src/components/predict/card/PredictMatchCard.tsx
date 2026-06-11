@@ -16,6 +16,7 @@ import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import DoneSymbol from "./DoneSymbol";
+import PredictCardButtons from "./PredictCardButtons";
 
 export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
@@ -61,16 +62,7 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
           </AccordionDetails>
         </Accordion>
       </CardContent>
-      <CardActions sx={{ display: "flex", justifyContent: "space-between", mt: "auto" }}>
-        <Button size="small" onClick={navigateTo}>
-          {done ? "Edit" : "Start"}
-        </Button>
-        {isFetched ? (
-          <DoneSymbol done={done} />
-        ) : (
-          <Skeleton variant="rounded" width={65} height={35} sx={{ py: 0, px: 1, fontSize: 12 }} />
-        )}
-      </CardActions>
+      <PredictCardButtons navigateTo={navigateTo} done={done} isFetched={isFetched} />
     </Card>
   );
 }
