@@ -1,5 +1,5 @@
 import { Stack, Typography, Grid, Card, Button, IconButton } from "@mui/material";
-import { Flag } from "../../utils/FlagUtils";
+import { Flag } from "../../utils/Flag";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";

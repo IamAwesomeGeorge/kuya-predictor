@@ -69,23 +69,25 @@ export default function Doner() {
             </TableHead>
 
             <TableBody>
-              {users?.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell>
-                    <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
-                      <Avatar text={row.name} url={row.pfp_url} />
-                      <span>{row.name}</span>
-                    </Box>
-                  </TableCell>
-                  <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[0]} />}</TableCell>
-                  <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[1]} />}</TableCell>
-                  <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[2]} />}</TableCell>
-                  <TableCell align="right">
-                    {<DoneSymbol done={data.dones[row.id]?.[3]} />}
-                    {data.matchesDoneNumbers[row.id]}/{data.matchesDoneNumbers[100]}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {users
+                ?.sort((a, b) => a.name.localeCompare(b.name))
+                .map((row) => (
+                  <TableRow key={row.name}>
+                    <TableCell>
+                      <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
+                        <Avatar text={row.name} url={row.pfp_url} />
+                        <span>{row.name}</span>
+                      </Box>
+                    </TableCell>
+                    <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[0]} />}</TableCell>
+                    <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[1]} />}</TableCell>
+                    <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[2]} />}</TableCell>
+                    <TableCell align="right">
+                      {<DoneSymbol done={data.dones[row.id]?.[3]} />}
+                      {data.matchesDoneNumbers[row.id]}/{data.matchesDoneNumbers[100]}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

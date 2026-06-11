@@ -1,6 +1,6 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { useTeamName } from "../../utils/TeamsUtils";
-import { Flag } from "../../utils/FlagUtils";
+import { Flag } from "../../utils/Flag";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 interface MatchPredictFirstButtonProps {

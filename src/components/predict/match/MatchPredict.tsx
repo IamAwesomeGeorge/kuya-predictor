@@ -2,7 +2,7 @@ import { Box, Button, Checkbox, Divider, Grid, Stack, Tooltip, Typography } from
 import type { PredictMatchView } from "../../../models/Predict";
 import { findTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
-import { Flag } from "../../utils/FlagUtils";
+import { Flag } from "../../utils/Flag";
 import { formatMatchDateShort } from "../../utils/TimeUtils";
 import { useContext, useEffect, useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";

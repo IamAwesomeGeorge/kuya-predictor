@@ -1,7 +1,7 @@
 {
   "name": "kuya-predictor",
   "private": true,
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -21,6 +21,7 @@
     "@tanstack/react-router-devtools": "^1.167.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "flag-icons": "^7.5.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-toastify": "^11.1.0"
