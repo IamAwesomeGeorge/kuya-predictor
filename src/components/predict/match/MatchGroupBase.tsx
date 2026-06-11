@@ -8,6 +8,7 @@ import { useTeamsReady } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
 import MatchPredict from "./MatchPredict";
 import { hasMatchStarted } from "../../utils/TimeUtils";
+import MatchFinished from "./MatchFinished";
 
 interface MatchGroupBaseProps {
   matches?: MatchInfo[];
@@ -58,16 +59,15 @@ export default function MatchGroupBase({ matches, currents }: MatchGroupBaseProp
         <Grid container spacing={1}>
           {matches.map((match) => {
             return hasMatchStarted(match.date_time) ? (
-              <></>
+              <MatchFinished
+                key={match.id}
+                match={match}
+                current={findCurrentPredict(match.id)}
+                handlePredictChange={handlePredictChange}
+                isLoading={isSendingNewPrediction}
+                doubleCode={doubleCode}
+              />
             ) : (
-              // <MatchFinished
-              //   key={match.id}
-              //   match={match}
-              //   current={findCurrentPredict(match.id)}
-              //   handlePredictChange={handlePredictChange}
-              //   isLoading={isSendingNewPrediction}
-              //   doubleCode={doubleCode}
-              // />
               <MatchPredict
                 key={match.id}
                 match={match}
