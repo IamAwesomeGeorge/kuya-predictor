@@ -5,6 +5,7 @@ for kuya klan
 todo:
 
 - Brackets from start
+- Improve mobile
 - Fix flag bug
 - Prepare when match are finished
 - Close group feature

@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { TeamsContext } from "../../contexts/TeamsContext";
+import type { TeamInfo } from "../../models/Infos";
 
 export function useTeamsReady() {
   const { teams } = useContext(TeamsContext);
@@ -8,6 +9,10 @@ export function useTeamsReady() {
 
 export function useTeamInfo(teamCode: string) {
   const { teams } = useContext(TeamsContext);
+  return findTeamInfo(teams, teamCode);
+}
+
+export function findTeamInfo(teams: TeamInfo[], teamCode: string) {
   return teams.find((team) => team.code === teamCode);
 }
 

@@ -4,6 +4,7 @@ import PredictSkeletonCard from "../../components/predict/card/PredictSkeletonCa
 import PredictGroupCard from "../../components/predict/card/PredictGroupCard";
 import { useNavigate } from "@tanstack/react-router";
 import PredictMatchCard from "../../components/predict/card/PredictMatchCard";
+import PredictKnockoutStartCard from "../../components/predict/card/PredictKnockoutStartCard";
 // import PredictMatchCard from "../../components/predict/card/PredictMatchCard";
 
 export default function Predict() {
@@ -14,7 +15,7 @@ export default function Predict() {
       <PageHeader title="Predict" />
       <Grid container spacing={1}>
         <PredictGroupCard navigateTo={() => navigate({ to: "/predict/group" })} />
-        <PredictSkeletonCard />
+        <PredictKnockoutStartCard navigateTo={() => navigate({ to: "/predict/knockout-start" })} />
         <PredictSkeletonCard />
         <PredictMatchCard navigateTo={() => navigate({ to: "/predict/match" })} />
       </Grid>
