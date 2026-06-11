@@ -31,7 +31,6 @@ export interface PredictMatch extends PredictBase {
 }
 
 export interface PredictMatchView extends PredictMatch {
-  winner: string;
   stage: string;
   stage_info: string;
 }
