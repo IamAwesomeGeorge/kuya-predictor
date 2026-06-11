@@ -11,7 +11,7 @@ import { UserContext } from "../../contexts/UserContext";
 import KnockoutBase from "../../components/predict/knockout/KnockoutBase";
 import type { Stage } from "../../models/Infos";
 import KnockoutFinals from "../../components/predict/knockout/KnockoutFinals";
-import { isMobile } from "../../components/utils/Mobileutils";
+import { isMobile } from "../../components/utils/MobileUtils";
 
 export default function PredictKnockoutStart() {
   const { user } = useContext(UserContext);

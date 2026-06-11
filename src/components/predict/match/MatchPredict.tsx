@@ -7,7 +7,7 @@ import { formatMatchDateShort } from "../../utils/TimeUtils";
 import { useContext, useEffect, useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
 import MatchPredictFirstButton from "./MatchPredictFirstButton";
-import { isMobile } from "../../utils/Mobileutils";
+import { isMobile } from "../../utils/MobileUtils";
 import { TeamsContext } from "../../../contexts/TeamsContext";
 
 interface MatchPredictProps {

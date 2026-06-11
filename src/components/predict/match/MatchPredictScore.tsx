@@ -1,6 +1,6 @@
 import { OutlinedInput } from "@mui/material";
 import { useState } from "react";
-import { isMobile } from "../../utils/Mobileutils";
+import { isMobile } from "../../utils/MobileUtils";
 
 interface MatchPredictScoreProps {
   id: string;

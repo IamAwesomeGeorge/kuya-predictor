@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import LinkHeader from "./LinkHeader";
-import { isMobile } from "../utils/Mobileutils";
+import { isMobile } from "../utils/MobileUtils";
 
 export default function Header() {
   const { user } = useContext(UserContext);
