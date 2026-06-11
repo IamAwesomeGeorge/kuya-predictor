@@ -11,6 +11,7 @@ import { UserContext } from "../../contexts/UserContext";
 import KnockoutBase from "../../components/predict/knockout/KnockoutBase";
 import type { Stage } from "../../models/Infos";
 import KnockoutFinals from "../../components/predict/knockout/KnockoutFinals";
+import { isMobile } from "../../components/utils/Mobileutils";
 
 export default function PredictKnockoutStart() {
   const { user } = useContext(UserContext);
@@ -71,12 +72,12 @@ export default function PredictKnockoutStart() {
     <>
       <PageHeader title="Predict Knockout Start" />
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={mode} onChange={handleTabChange}>
-          <Tab label="Round of 32" sx={{ color: isGroupComplete[32] ? "#c8ffc8" : "#ffc8c8" }} />
-          <Tab label="Round of 16" sx={{ color: isGroupComplete[16] ? "#c8ffc8" : "#ffc8c8" }} />
-          <Tab label="Quarterfinals" sx={{ color: isGroupComplete[8] ? "#c8ffc8" : "#ffc8c8" }} />
-          <Tab label="Semifinals" sx={{ color: isGroupComplete[4] ? "#c8ffc8" : "#ffc8c8" }} />
-          <Tab label="Final" sx={{ color: isGroupComplete[2] ? "#c8ffc8" : "#ffc8c8" }} />
+        <Tabs variant="scrollable" scrollButtons="auto" value={mode} onChange={handleTabChange}>
+          <Tab label={isMobile() ? "R32" : "Round of 32"} sx={{ color: isGroupComplete[32] ? "#c8ffc8" : "#ffc8c8" }} />
+          <Tab label={isMobile() ? "R16" : "Round of 16"} sx={{ color: isGroupComplete[16] ? "#c8ffc8" : "#ffc8c8" }} />
+          <Tab label={isMobile() ? "QF" : "Quarterfinals"} sx={{ color: isGroupComplete[8] ? "#c8ffc8" : "#ffc8c8" }} />
+          <Tab label={isMobile() ? "SF" : "Semifinals"} sx={{ color: isGroupComplete[4] ? "#c8ffc8" : "#ffc8c8" }} />
+          <Tab label={isMobile() ? "F" : "Final"} sx={{ color: isGroupComplete[2] ? "#c8ffc8" : "#ffc8c8" }} />
         </Tabs>
       </Box>
       {isPredictKnockoutStartDataPending ? (

@@ -7,6 +7,7 @@ import { formatMatchDateShort } from "../../utils/TimeUtils";
 import { useEffect, useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
 import MatchPredictFirstButton from "./MatchPredictFirstButton";
+import { isMobile } from "../../utils/Mobileutils";
 
 interface MatchPredictProps {
   match: MatchInfo;
@@ -60,7 +61,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
       : "???";
 
   return (
-    <Grid size={6} key={match.id}>
+    <Grid size={{ xs: 12, md: 6 }} key={match.id}>
       <Box
         sx={{
           bgcolor: "#253049",
@@ -99,37 +100,86 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
         </Stack>
 
         {/* Score row */}
-        <Stack id={`match-${match.id}-score`} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
-          {/* Left team */}
-          <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
-            {useTeamName(match.team_left)} <Flag code={match.team_left} />
-          </Typography>
+        {isMobile() ? (
+          <>
+            <Stack
+              id={`match-${match.id}-score-top`}
+              direction="row"
+              sx={{ alignItems: "center", justifyContent: "space-between" }}
+            >
+              {/* Left team */}
+              <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
+                {useTeamName(match.team_left)} <Flag code={match.team_left} />
+              </Typography>
 
-          <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
-          <Typography
-            sx={{
-              fontWeight: 700,
-              fontSize: 20,
-              px: 2,
-              color: "#38bdf8",
-            }}
+              {/* Right team */}
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                  fontSize: 18,
+                  textAlign: "right",
+                  flex: 1,
+                }}
+              >
+                <Flag code={match.team_right} /> {useTeamName(match.team_right)}
+              </Typography>
+            </Stack>
+            <Stack
+              id={`match-${match.id}-score-bottom`}
+              direction="row"
+              sx={{ alignItems: "center", justifyContent: "space-between" }}
+            >
+              <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  fontSize: 20,
+                  px: 2,
+                  color: "#38bdf8",
+                }}
+              >
+                -
+              </Typography>
+              <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
+            </Stack>
+          </>
+        ) : (
+          <Stack
+            id={`match-${match.id}-score`}
+            direction="row"
+            sx={{ alignItems: "center", justifyContent: "space-between" }}
           >
-            -
-          </Typography>
-          <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
+            {/* Left team */}
+            <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
+              {useTeamName(match.team_left)} <Flag code={match.team_left} />
+            </Typography>
 
-          {/* Right team */}
-          <Typography
-            sx={{
-              fontWeight: 600,
-              fontSize: 18,
-              textAlign: "right",
-              flex: 1,
-            }}
-          >
-            <Flag code={match.team_right} /> {useTeamName(match.team_right)}
-          </Typography>
-        </Stack>
+            <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
+            <Typography
+              sx={{
+                fontWeight: 700,
+                fontSize: 20,
+                px: 2,
+                color: "#38bdf8",
+              }}
+            >
+              -
+            </Typography>
+            <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
+
+            {/* Right team */}
+            <Typography
+              sx={{
+                fontWeight: 600,
+                fontSize: 18,
+                textAlign: "right",
+                flex: 1,
+              }}
+            >
+              <Flag code={match.team_right} /> {useTeamName(match.team_right)}
+            </Typography>
+          </Stack>
+        )}
 
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
 
@@ -144,30 +194,63 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           </Box>
           {/* Double Points */}
 
-          <Tooltip title={"You can double for one match per group."} placement="top">
-            <Box>
-              <Typography variant="body2" sx={{ opacity: doubleCode !== null && doubleCode !== match.id ? 0.5 : 1 }}>
-                Double Points:
-              </Typography>
-              <Checkbox
-                disabled={doubleCode !== null && doubleCode !== match.id}
-                checked={double}
-                onChange={(e) => setDouble(e.target.checked)}
-                sx={{
-                  color: "White",
-                }}
-              />
-            </Box>
-          </Tooltip>
+          {isMobile() ? (
+            <>
+              <Box>
+                <Tooltip title={"You can double for one match per group."} placement="top">
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Typography variant="body2" sx={{ opacity: doubleCode !== null && doubleCode !== match.id ? 0.5 : 1 }}>
+                      X2:
+                    </Typography>
+                    <Checkbox
+                      disabled={doubleCode !== null && doubleCode !== match.id}
+                      checked={double}
+                      onChange={(e) => setDouble(e.target.checked)}
+                      sx={{
+                        color: "White",
+                      }}
+                    />
+                  </Box>
+                </Tooltip>
 
-          {/* Save Button */}
-          <Button
-            variant="contained"
-            disabled={stopSave}
-            onClick={() => handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, firstScorer, double)}
-          >
-            {saveLabel}
-          </Button>
+                {/* Save Button */}
+                <Button
+                  variant="contained"
+                  disabled={stopSave}
+                  onClick={() => handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, firstScorer, double)}
+                >
+                  {saveLabel}
+                </Button>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Tooltip title={"You can double for one match per group."} placement="top">
+                <Box>
+                  <Typography variant="body2" sx={{ opacity: doubleCode !== null && doubleCode !== match.id ? 0.5 : 1 }}>
+                    Double Points:
+                  </Typography>
+                  <Checkbox
+                    disabled={doubleCode !== null && doubleCode !== match.id}
+                    checked={double}
+                    onChange={(e) => setDouble(e.target.checked)}
+                    sx={{
+                      color: "White",
+                    }}
+                  />
+                </Box>
+              </Tooltip>
+
+              {/* Save Button */}
+              <Button
+                variant="contained"
+                disabled={stopSave}
+                onClick={() => handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, firstScorer, double)}
+              >
+                {saveLabel}
+              </Button>
+            </>
+          )}
         </Stack>
       </Box>
     </Grid>

@@ -44,7 +44,7 @@ export default function MatchFinished({ match, current, doubleCode }: MatchFinis
       : "???";
 
   return (
-    <Grid size={6} key={match.id}>
+    <Grid size={{ xs: 12, md: 6 }} key={match.id}>
       <Box
         sx={{
           bgcolor: "#253049",
