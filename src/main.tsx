@@ -6,7 +6,6 @@ import { RouterProvider } from "@tanstack/react-router";
 import { router } from "./routes/__root";
 import { UserProvider } from "./contexts/UserProvider";
 import { TeamsProvider } from "./contexts/TeamsProvider";
-import Loading from "./pages/loading";
 
 const ToastContainer = lazy(() =>
   import("react-toastify").then((module) => ({
@@ -38,7 +37,7 @@ if (!rootElement.innerHTML) {
         <UserProvider>
           <TeamsProvider>
             <RouterProvider router={router} />
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={null}>
               <ToastContainer />
               <Analytics />
               <SpeedInsights />
