@@ -11,6 +11,16 @@ export interface ScoreInfo {
   points: number;
 }
 
+export interface UserScoreInfo {
+  pfp_url?: string;
+  name: string;
+  groups: number;
+  knockoutPre: number;
+  knockout: number;
+  matches: number;
+  points: number;
+}
+
 export interface GroupStageStandings extends TeamInfo {
   played: number;
   won: number;

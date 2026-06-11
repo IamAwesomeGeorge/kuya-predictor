@@ -1,6 +1,6 @@
 import PageHeader from "../components/header/PageHeader";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Box } from "@mui/material";
-import type { ScoreInfo } from "../models/Results";
+import type { UserScoreInfo } from "../models/Results";
 import Avatar from "../components/account/Avatar";
 import { supabase } from "../utils/supabase";
 import { useQuery } from "@tanstack/react-query";
@@ -17,24 +17,25 @@ export default function Scores() {
     },
   });
 
-  // Todo: translate a User into ScoreInfo (placeholder defaults)
-  const tempTrans = (user: User): ScoreInfo => {
+  // Todo: translate a User into UserScoreInfo (placeholder defaults)
+  const tempTrans = (user: User): UserScoreInfo => {
     // eslint-disable-next-line react-hooks/purity
-    const played = Math.floor(Math.random() * 11); // 0-10
+    const groups = Math.floor(Math.random() * 51); // 0-50
     // eslint-disable-next-line react-hooks/purity
-    const won = Math.floor(Math.random() * (played + 1));
+    const knockoutPre = Math.floor(Math.random() * 11); // 0-10
     // eslint-disable-next-line react-hooks/purity
-    const draw = Math.floor(Math.random() * (played - won + 1));
-    const lost = played - won - draw;
-    const points = won * 3 + draw;
+    const knockout = Math.floor(Math.random() * 11); // 0-10
+    // eslint-disable-next-line react-hooks/purity
+    const matches = Math.floor(Math.random() * 11); // 0-10
+    const points = groups + knockoutPre + knockout + matches;
 
     return {
       pfp_url: user.pfp_url,
       name: user.name,
-      played,
-      won,
-      draw,
-      lost,
+      groups,
+      knockoutPre,
+      knockout,
+      matches,
       points,
     };
   };
@@ -53,10 +54,10 @@ export default function Scores() {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell align="right">P</TableCell>
-                <TableCell align="right">W</TableCell>
-                <TableCell align="right">D</TableCell>
-                <TableCell align="right">L</TableCell>
+                <TableCell align="right">Groups</TableCell>
+                <TableCell align="right">Knockout Pre</TableCell>
+                <TableCell align="right">Knockout</TableCell>
+                <TableCell align="right">Matches</TableCell>
                 <TableCell align="right">Points</TableCell>
               </TableRow>
             </TableHead>
@@ -70,10 +71,10 @@ export default function Scores() {
                       <span>{row.name}</span>
                     </Box>
                   </TableCell>
-                  <TableCell align="right">{row.played}</TableCell>
-                  <TableCell align="right">{row.won}</TableCell>
-                  <TableCell align="right">{row.draw}</TableCell>
-                  <TableCell align="right">{row.lost}</TableCell>
+                  <TableCell align="right">{row.groups}</TableCell>
+                  <TableCell align="right">{row.knockoutPre}</TableCell>
+                  <TableCell align="right">{row.knockout}</TableCell>
+                  <TableCell align="right">{row.matches}</TableCell>
                   <TableCell align="right">
                     <strong>{row.points}</strong>
                   </TableCell>

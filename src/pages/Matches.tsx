@@ -20,18 +20,11 @@ export default function Matches() {
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Group Stage" sx={{ color: "white" }} />
-          <Tab label="Item Two" sx={{ color: "white" }} />
-          <Tab label="Item Three" sx={{ color: "white" }} />
+          <Tab label="Knockout Stage" disabled sx={{ color: "white" }} />
         </Tabs>
       </Box>
       <TabPanel value={mode} index={0}>
         <GroupMatches />
-      </TabPanel>
-      <TabPanel value={mode} index={1}>
-        Not done yet
-      </TabPanel>
-      <TabPanel value={mode} index={2}>
-        Also not done yet
       </TabPanel>
     </>
   );

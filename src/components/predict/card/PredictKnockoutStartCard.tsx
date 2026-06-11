@@ -15,6 +15,7 @@ import type { PredictCardProps } from "./PredictCardProps";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../../../utils/supabase";
 
 export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
@@ -22,10 +23,9 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
   const { data: done, isFetched } = useQuery({
     queryKey: ["check", "knockoutStart", user?.id],
     queryFn: async () => {
-      return false;
-      // const { data } = await supabase.from("predictions_group").select().eq("user", user?.id);
-      // const { data: thirdPlaceData } = await supabase.from("predictions_group_third").select("data").eq("user", user?.id);
-      // return data?.length === 12 && thirdPlaceData?.[0]?.data.length === 8;
+      const { data } = await supabase.from("predictions_knockout_start").select().eq("user", user?.id);
+      console.log(data?.length);
+      return data?.length === 32;
     },
   });
 
