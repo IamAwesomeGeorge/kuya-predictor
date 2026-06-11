@@ -10,6 +10,7 @@ import { TeamsContext } from "../../contexts/TeamsContext";
 import { UserContext } from "../../contexts/UserContext";
 import KnockoutBase from "../../components/predict/knockout/KnockoutBase";
 import type { Stage } from "../../models/Infos";
+import KnockoutFinals from "../../components/predict/knockout/KnockoutFinals";
 
 export default function PredictKnockoutStart() {
   const { user } = useContext(UserContext);
@@ -89,16 +90,28 @@ export default function PredictKnockoutStart() {
             />
           </TabPanel>
           <TabPanel value={mode} index={1}>
-            <KnockoutBase knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_16")} />
+            <KnockoutBase
+              knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_16")}
+              currentPredictions={predictKnockoutStartData}
+            />
           </TabPanel>
           <TabPanel value={mode} index={2}>
-            <KnockoutBase knockoutMatchInfo={bracket.filter((match) => match.stage === "QUARTERFINAL")} />
+            <KnockoutBase
+              knockoutMatchInfo={bracket.filter((match) => match.stage === "QUARTERFINAL")}
+              currentPredictions={predictKnockoutStartData}
+            />
           </TabPanel>
           <TabPanel value={mode} index={3}>
-            <KnockoutBase knockoutMatchInfo={bracket.filter((match) => match.stage === "SEMIFINAL")} />
+            <KnockoutBase
+              knockoutMatchInfo={bracket.filter((match) => match.stage === "SEMIFINAL")}
+              currentPredictions={predictKnockoutStartData}
+            />
           </TabPanel>
           <TabPanel value={mode} index={4}>
-            <KnockoutBase knockoutMatchInfo={bracket.filter((match) => match.stage === "FINAL")} />
+            <KnockoutFinals
+              knockoutMatchInfo={bracket.filter((match) => match.stage === "FINAL")}
+              currentPredictions={predictKnockoutStartData}
+            />
           </TabPanel>
         </>
       )}

@@ -53,6 +53,9 @@ export default function KnockoutMatch({
 
   const loading = isPending || !topTeam || !bottomTeam;
 
+  // If id is 103, set label to "3RD PLACE", if id is 104, set label to "FINAL", else set label to "M" + id
+  const label = id === 103 ? "3RD PLACE" : id === 104 ? "FINAL" : "M" + id;
+
   return (
     <Card key={"M" + id} sx={{ position: "relative" }}>
       <Box
@@ -76,7 +79,7 @@ export default function KnockoutMatch({
             lineHeight: 1,
           }}
         >
-          M{id}
+          {label}
         </Typography>
       </Box>
       <KnockoutButton
