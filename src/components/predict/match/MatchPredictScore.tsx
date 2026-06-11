@@ -1,5 +1,6 @@
 import { OutlinedInput } from "@mui/material";
 import { useState } from "react";
+import { isMobile } from "../../utils/MobileUtils";
 
 interface MatchPredictScoreProps {
   id: string;
@@ -42,7 +43,7 @@ export default function MatchPredictScore({ id, value, setValue }: MatchPredictS
       inputProps={{ style: { textAlign: "center" } }}
       sx={{
         color: "white",
-        width: "10%",
+        width: isMobile() ? "30%" : "10%",
       }}
     />
   );

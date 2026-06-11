@@ -32,7 +32,7 @@ export default function KnockoutDuel({
   currentPredictions,
 }: KnockoutDuelProps) {
   return (
-    <Grid key={"M" + topId + "M" + bottomId} size={3} sx={{ position: "relative" }}>
+    <Grid key={"M" + topId + "M" + bottomId} size={{ xs: 6, md: 3 }} sx={{ position: "relative" }}>
       <Stack spacing={0} sx={{ width: "100%" }}>
         <KnockoutMatch
           id={topId}

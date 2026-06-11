@@ -23,7 +23,7 @@ export function StandingsTable(props: StandingsTableProps) {
   const sorted = [...data].sort((a, b) => b.points - a.points || a.name.localeCompare(b.name));
 
   return (
-    <Grid size={6}>
+    <Grid size={{ xs: 12, md: 6 }}>
       <TableContainer component={Paper} sx={{ mt: 1 }}>
         <Table>
           <TableHead>

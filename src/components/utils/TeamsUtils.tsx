@@ -21,6 +21,11 @@ export function useTeamName(teamCode: string) {
   return teamInfo ? teamInfo.name : teamCode;
 }
 
+export function findTeamName(teams: TeamInfo[], teamCode: string) {
+  const teamInfo = findTeamInfo(teams, teamCode);
+  return teamInfo ? teamInfo.name : teamCode;
+}
+
 export function useTeamsFromGroup(group: string) {
   const { teams } = useContext(TeamsContext);
   return teams.filter((team) => team.group === group).sort((a, b) => a.name.localeCompare(b.name));

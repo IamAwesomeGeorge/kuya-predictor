@@ -2,7 +2,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Alert,
   Button,
   Card,
   CardActions,
@@ -16,6 +15,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
+import DoneSymbol from "./DoneSymbol";
 
 export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
@@ -58,9 +58,7 @@ export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
           {done ? "Edit" : "Start"}
         </Button>
         {isFetched ? (
-          <Alert severity={done ? "success" : "warning"} sx={{ py: 0, px: 1, fontSize: 12 }}>
-            {done ? "DONE" : "NOT DONE "}
-          </Alert>
+          <DoneSymbol done={done} />
         ) : (
           <Skeleton variant="rounded" width={65} height={35} sx={{ py: 0, px: 1, fontSize: 12 }} />
         )}

@@ -75,7 +75,7 @@ export default function MatchGroupTabs() {
       {data && predictions && (
         <>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs value={mode} onChange={handleTabChange}>
+            <Tabs variant="scrollable" scrollButtons="auto" value={mode} onChange={handleTabChange}>
               <Tab label="A" sx={{ color: groupsComplete["A"] ? "#c8ffc8" : "#ffc8c8" }} />
               <Tab label="B" sx={{ color: groupsComplete["B"] ? "#c8ffc8" : "#ffc8c8" }} />
               <Tab label="C" sx={{ color: groupsComplete["C"] ? "#c8ffc8" : "#ffc8c8" }} />

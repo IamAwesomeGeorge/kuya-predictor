@@ -16,7 +16,7 @@ export default function GroupMatches() {
   return (
     <>
       {isFetched ? (
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {data?.map((match) => (
             <MatchGrid match={match} />
           ))}

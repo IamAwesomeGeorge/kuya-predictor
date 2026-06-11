@@ -15,7 +15,7 @@ export function MatchGrid(props: MatchGridProps) {
   const finished = hasMatchFinished(match.date_time);
 
   return (
-    <Grid size={6} key={match.id}>
+    <Grid key={match.id} size={{ xs: 12, md: 6 }}>
       <Box
         sx={{
           bgcolor: "#253049",

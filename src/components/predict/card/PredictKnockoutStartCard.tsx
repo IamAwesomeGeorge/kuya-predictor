@@ -2,7 +2,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Alert,
   Button,
   Card,
   CardActions,
@@ -16,6 +15,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
+import DoneSymbol from "./DoneSymbol";
 
 export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
@@ -24,7 +24,6 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
     queryKey: ["check", "knockoutStart", user?.id],
     queryFn: async () => {
       const { data } = await supabase.from("predictions_knockout_start").select().eq("user", user?.id);
-      console.log(data?.length);
       return data?.length === 32;
     },
   });
@@ -50,9 +49,7 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
           {done ? "Edit" : "Start"}
         </Button>
         {isFetched ? (
-          <Alert severity={done ? "success" : "warning"} sx={{ py: 0, px: 1, fontSize: 12 }}>
-            {done ? "DONE" : "NOT DONE "}
-          </Alert>
+          <DoneSymbol done={done} />
         ) : (
           <Skeleton variant="rounded" width={65} height={35} sx={{ py: 0, px: 1, fontSize: 12 }} />
         )}

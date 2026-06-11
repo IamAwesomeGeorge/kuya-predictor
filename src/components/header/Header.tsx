@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import LinkHeader from "./LinkHeader";
+import { isMobile } from "../utils/MobileUtils";
 
 export default function Header() {
   const { user } = useContext(UserContext);
@@ -12,6 +13,7 @@ export default function Header() {
       <LinkHeader to="/standings">Standings</LinkHeader>
       {user ? (
         <>
+          {isMobile() && <br />}
           <LinkHeader to="/predict">Predict</LinkHeader>
           <LinkHeader to="/scores">Scores</LinkHeader>
           <LinkHeader to="/account">My Account</LinkHeader>

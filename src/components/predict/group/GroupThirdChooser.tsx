@@ -93,7 +93,7 @@ export default function GroupThirdChooser({ currentSelection, isCurrentSelection
           thirdPlaces
             .sort((a, b) => getTeamName(a).localeCompare(getTeamName(b)))
             .map((teamCode) => (
-              <Grid key={teamCode} size={3}>
+              <Grid key={teamCode} size={{ xs: 6, md: 3 }}>
                 <Button
                   disabled={isLoading || (selection.length === 8 && !isInSelection(teamCode))}
                   variant={isInSelection(teamCode) ? "contained" : "outlined"}
