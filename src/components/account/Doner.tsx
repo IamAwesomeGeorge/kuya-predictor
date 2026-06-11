@@ -35,7 +35,8 @@ export default function Doner() {
       for (const user of users) {
         const predictionsGroupUser = predictionsGroup?.filter((p) => p.user === user.id);
         const thirdPlaceDataUser = thirdPlaceData?.filter((p) => p.user === user.id);
-        const groupDone = predictionsGroupUser?.length === 12 && thirdPlaceDataUser?.[0]?.data.length === 8;
+        const groupDone = predictionsGroupUser?.length === 12;
+        const thirdDone = thirdPlaceDataUser?.[0]?.data.length === 8;
 
         const predictionsKnockoutStartUser = predictionsKnockoutStart?.filter((p) => p.user === user.id);
         const knockoutPreDone = predictionsKnockoutStartUser?.length === 32;
@@ -46,7 +47,7 @@ export default function Doner() {
         const matchesDone = (matchesData?.length || 72) === predictionsDataUser?.length;
         matchesDoneNumbers[user.id] = predictionsDataUser?.length || 0;
 
-        dones[user.id] = [groupDone, knockoutPreDone, knockoutDone, matchesDone];
+        dones[user.id] = [groupDone, thirdDone, knockoutPreDone, knockoutDone, matchesDone];
       }
       return { dones, matchesDoneNumbers };
     },
@@ -74,15 +75,19 @@ export default function Doner() {
                   <TableRow key={row.name}>
                     <TableCell>
                       <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
+                        <span>{row.id}</span>
                         <Avatar text={row.name} url={row.pfp_url} />
                         <span>{row.name}</span>
                       </Box>
                     </TableCell>
-                    <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[0]} />}</TableCell>
-                    <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[1]} />}</TableCell>
-                    <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[2]} />}</TableCell>
                     <TableCell align="right">
-                      {<DoneSymbol done={data.dones[row.id]?.[3]} />}
+                      {<DoneSymbol done={data.dones[row.id]?.[0]} />}
+                      {<DoneSymbol done={data.dones[row.id]?.[1]} />}
+                    </TableCell>
+                    <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[2]} />}</TableCell>
+                    <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[3]} />}</TableCell>
+                    <TableCell align="right">
+                      {<DoneSymbol done={data.dones[row.id]?.[4]} />}
                       {data.matchesDoneNumbers[row.id]}/{data.matchesDoneNumbers[100]}
                     </TableCell>
                   </TableRow>

@@ -44,7 +44,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
       : "???";
 
   const trueWinnerText =
-    match.score_left && match.score_right
+    match.score_left !== undefined && match.score_right !== undefined
       ? match.score_left > match.score_right
         ? match.team_left
         : match.score_left < match.score_right
@@ -182,7 +182,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
                     {match.score_left ?? "??"}-{match.score_right ?? "??"}
                   </strong>
                 </Typography>
-                <Typography sx={{ fontSize: 14, color: winnerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                <Typography sx={{ fontSize: 14, color: scoreCorrect ? "#c8ffc8" : "#ffc8c8" }}>
                   <strong>{findTeamName(teams, trueWinnerText)}</strong> won
                 </Typography>
                 <Typography sx={{ fontSize: 14, color: firstScorerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
