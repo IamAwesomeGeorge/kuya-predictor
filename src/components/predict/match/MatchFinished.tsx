@@ -1,13 +1,14 @@
-import { Box, Checkbox, Divider, Grid, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { PredictMatchView } from "../../../models/Predict";
-import { useTeamName } from "../../utils/TeamsUtils";
+import { findTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
-import { formatMatchDateShort } from "../../utils/TimeUtils";
-import { useEffect, useState } from "react";
-import MatchPredictScore from "./MatchPredictScore";
-import MatchPredictFirstButton from "./MatchPredictFirstButton";
-import { MatchScore } from "../../matches/MatchScore";
+import { formatMatchDateShort, hasMatchFinished } from "../../utils/TimeUtils";
+import { useContext } from "react";
 import MatchTeam from "../../matches/MatchTeam";
+import { isMobile } from "../../utils/MobileUtils";
+import { TeamsContext } from "../../../contexts/TeamsContext";
+import MatchPredictScoreDisplay from "./MatchPredictScoreDisplay";
+import MatchFinishedBreakdown from "./MatchFinishedBreakdown";
 
 interface MatchFinishedProps {
   match: MatchInfo;
@@ -20,28 +21,42 @@ interface MatchFinishedProps {
     double: boolean,
   ) => void;
   isLoading: boolean;
-  doubleCode: number | null;
 }
 
-export default function MatchFinished({ match, current, doubleCode }: MatchFinishedProps) {
-  const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
-  const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
-  const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
-  const [double, setDouble] = useState(doubleCode === match.id);
+export default function MatchFinished({ match, current }: MatchFinishedProps) {
+  const { teams } = useContext(TeamsContext);
 
-  useEffect(() => {
-    //eslint-disable-next-line react-hooks/set-state-in-effect
-    setDouble(doubleCode === match.id);
-  }, [doubleCode, match.id]);
+  const isFinished = hasMatchFinished(match.date_time);
+  const waitingForResult = match.score_left === null || match.score_right === null;
 
-  const winnerText =
-    scoreLeft !== null && scoreRight !== null
-      ? scoreLeft > scoreRight
+  const guessedScoreLeft = current?.score_left ?? "??";
+  const guessedScoreRight = current?.score_right ?? "??";
+  const guessedFirstScorer = current?.first_scorer ?? "???";
+  const doubleUsed = current?.double ?? false;
+
+  const guessWinnerText =
+    guessedScoreLeft !== "??" && guessedScoreRight !== "??"
+      ? guessedScoreLeft > guessedScoreRight
         ? match.team_left
-        : scoreLeft < scoreRight
+        : guessedScoreLeft < guessedScoreRight
           ? match.team_right
           : "DRAW"
       : "???";
+
+  const trueWinnerText =
+    match.score_left && match.score_right
+      ? match.score_left > match.score_right
+        ? match.team_left
+        : match.score_left < match.score_right
+          ? match.team_right
+          : "DRAW"
+      : "???";
+
+  const winnerCorrect = guessWinnerText === trueWinnerText && guessWinnerText !== "???";
+  const scoreCorrect = guessedScoreLeft === match.score_left && guessedScoreRight === match.score_right;
+  const firstScorerCorrect = guessedFirstScorer === match.first_scorer && guessedFirstScorer !== "???";
+  const finalScore = (winnerCorrect ? 1 : 0) + (scoreCorrect ? 3 : 0) + (firstScorerCorrect ? 1 : 0);
+  const totalScore = doubleUsed ? finalScore * 2 : finalScore;
 
   return (
     <Grid size={{ xs: 12, md: 6 }} key={match.id}>
@@ -77,63 +92,118 @@ export default function MatchFinished({ match, current, doubleCode }: MatchFinis
 
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
 
-        {/* Winner row */}
-        <Stack id={`match-${match.id}-details`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
-          <Typography sx={{ fontWeight: 600, fontSize: 18 }}>{useTeamName(winnerText)} to win</Typography>
-        </Stack>
+        {/* Guess Winner row */}
+
+        <Typography sx={{ fontSize: 20 }}>
+          <strong>Your Prediction:</strong>
+        </Typography>
+        <Typography sx={{ fontSize: 18 }}>
+          <strong>{findTeamName(teams, guessWinnerText)}</strong> to win
+        </Typography>
 
         {/* Score row */}
-        <Stack id={`match-${match.id}-score`} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
-          {/* Left team */}
-          <MatchTeam teamCode={match.team_left} side="left" />
+        {isMobile() ? (
+          <>
+            <Stack
+              id={`match-${match.id}-score-top`}
+              direction="row"
+              sx={{ alignItems: "center", justifyContent: "space-between" }}
+            >
+              {/* Left team */}
+              <MatchTeam teamCode={match.team_left} side="left" />
 
-          <MatchScore match={match} />
-          <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
-          <Typography
-            sx={{
-              fontWeight: 700,
-              fontSize: 20,
-              px: 2,
-              color: "#38bdf8",
-            }}
-          >
-            -
-          </Typography>
-          <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
-
-          {/* Right team */}
-          <MatchTeam teamCode={match.team_right} side="right" />
-        </Stack>
-
-        <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
-
-        {/* Extra row */}
-        <Stack id={`match-${match.id}-extra`} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
-          {/* First team to score */}
-          <Box>
-            <Typography variant="body2">First team to score</Typography>
-            <MatchPredictFirstButton teamCode={match.team_left} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
-            <br />
-            <MatchPredictFirstButton teamCode={match.team_right} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
-          </Box>
-          {/* Double Points */}
-
-          <Tooltip title={"You can double for one match per group."} placement="top">
-            <Box>
-              <Typography variant="body2" sx={{ opacity: doubleCode !== null && doubleCode !== match.id ? 0.5 : 1 }}>
-                Double Points:
-              </Typography>
-              <Checkbox
-                disabled={doubleCode !== null && doubleCode !== match.id}
-                checked={double}
-                onChange={(e) => setDouble(e.target.checked)}
+              {/* Right team */}
+              <MatchTeam teamCode={match.team_right} side="right" />
+            </Stack>
+            <Stack
+              id={`match-${match.id}-score-bottom`}
+              direction="row"
+              sx={{ alignItems: "center", justifyContent: "space-between" }}
+            >
+              <MatchPredictScoreDisplay id={"left-" + match.id} value={match.score_left ?? "??"} />
+              <Typography
                 sx={{
-                  color: "White",
+                  fontWeight: 700,
+                  fontSize: 20,
+                  px: 2,
+                  color: "#38bdf8",
                 }}
-              />
-            </Box>
-          </Tooltip>
-        </Stack>
+              >
+                -
+              </Typography>
+              <MatchPredictScoreDisplay id={"right-" + match.id} value={match.score_right ?? "??"} />
+            </Stack>
+          </>
+        ) : (
+          <Stack
+            id={`match-${match.id}-score`}
+            direction="row"
+            sx={{ alignItems: "center", justifyContent: "space-between" }}
+          >
+            {/* Left team */}
+            <MatchTeam teamCode={match.team_left} side="left" />
+
+            <MatchPredictScoreDisplay id={"left-" + match.id} value={guessedScoreLeft ?? "??"} />
+            <Typography
+              sx={{
+                fontWeight: 700,
+                fontSize: 20,
+                px: 2,
+                color: "#38bdf8",
+              }}
+            >
+              -
+            </Typography>
+            <MatchPredictScoreDisplay id={"right-" + match.id} value={guessedScoreRight ?? "??"} />
+
+            {/* Right team */}
+            <MatchTeam teamCode={match.team_right} side="right" />
+          </Stack>
+        )}
+        <Typography sx={{ fontSize: 18 }}>
+          <strong>{findTeamName(teams, guessedFirstScorer)}</strong> to score first
+        </Typography>
+
+        {/* True Winner row */}
+        <Typography sx={{ fontSize: 20, mt: 2 }}>
+          <strong>Final Results:</strong>
+        </Typography>
+        {isFinished ? (
+          <>
+            {waitingForResult ? (
+              <Stack id={`match-${match.id}-details`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
+                <Typography sx={{ fontWeight: 600, fontSize: 14 }}>Waiting for result...</Typography>
+              </Stack>
+            ) : (
+              <Stack id={`match-${match.id}-details`} direction="row" spacing={6} sx={{ justifyContent: "center" }}>
+                <Typography sx={{ fontSize: 14, color: winnerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                  FT:{" "}
+                  <strong>
+                    {match.score_left ?? "??"}-{match.score_right ?? "??"}
+                  </strong>
+                </Typography>
+                <Typography sx={{ fontSize: 14, color: winnerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                  <strong>{findTeamName(teams, trueWinnerText)}</strong> won
+                </Typography>
+                <Typography sx={{ fontSize: 14, color: firstScorerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                  <strong>{findTeamName(teams, match.first_scorer ?? "?")}</strong> scored first
+                </Typography>
+              </Stack>
+            )}
+          </>
+        ) : (
+          <Typography sx={{ fontWeight: 600, fontSize: 14 }}>Match currently ongoing...</Typography>
+        )}
+
+        {!waitingForResult && (
+          <MatchFinishedBreakdown
+            totalScore={totalScore}
+            winnerCorrect={winnerCorrect}
+            scoreCorrect={scoreCorrect}
+            firstScorerCorrect={firstScorerCorrect}
+            doubleUsed={doubleUsed}
+          />
+        )}
       </Box>
     </Grid>
   );

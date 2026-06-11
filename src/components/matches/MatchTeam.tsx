@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { Flag } from "../utils/FlagUtils";
+import { Flag } from "../utils/Flag";
 import { useTeamName } from "../utils/TeamsUtils";
 
 interface MatchTeamProps {
@@ -8,23 +8,22 @@ interface MatchTeamProps {
 }
 
 export default function MatchTeam({ teamCode, side }: MatchTeamProps) {
-  const sideSwap = side === "left" ? "right" : "left";
   return (
     <Typography
       sx={{
         fontWeight: 600,
         fontSize: 18,
-        textAlign: sideSwap,
+        textAlign: side,
         flex: 1,
       }}
     >
-      {sideSwap === "left" && (
+      {side === "right" && (
         <>
           <Flag code={teamCode} />{" "}
         </>
       )}
       {useTeamName(teamCode)}
-      {sideSwap === "right" && (
+      {side === "left" && (
         <>
           {" "}
           <Flag code={teamCode} />

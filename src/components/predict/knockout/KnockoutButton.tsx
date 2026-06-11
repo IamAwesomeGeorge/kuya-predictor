@@ -1,5 +1,5 @@
 import { Stack, Typography, Button } from "@mui/material";
-import { Flag } from "../../utils/FlagUtils";
+import { Flag } from "../../utils/Flag";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import type { TeamInfo } from "../../../models/Infos";
 
