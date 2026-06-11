@@ -28,6 +28,8 @@ export const rootRoute = createRootRoute({
   ),
 });
 
+const closed = import.meta.env.VITE_CLOSE_GROUP === "true";
+
 const routes = [
   { path: "/", component: Home },
 
@@ -35,8 +37,15 @@ const routes = [
   { path: "/standings", component: Standings },
 
   { path: "/predict", component: Predict },
-  { path: "/predict/group", component: PredictGroup },
-  { path: "/predict/knockout-start", component: PredictKnockoutStart },
+
+  // stop routes if closed
+  ...(closed
+    ? []
+    : [
+        { path: "/predict/group", component: PredictGroup },
+        { path: "/predict/knockout-start", component: PredictKnockoutStart },
+      ]),
+
   // { path: "/predict/knockout", component: PredictKnockoutStart },
   { path: "/predict/match", component: PredictMatch },
   { path: "/scores", component: Scores },
