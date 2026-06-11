@@ -79,7 +79,12 @@ function findPredictedTeam(
   current: PredictKnockout[],
 ) {
   if (position[0] === "M" && position[4] === "L") {
-    return undefined;
+    const setup = position === "M101L" ? [97, 98, 101] : [99, 100, 102];
+    const top = current.find((m) => m.matchId === setup[0])?.winner;
+    const bottom = current.find((m) => m.matchId === setup[1])?.winner;
+    const picked = current.find((m) => m.matchId === setup[2])?.winner;
+    const looserPicked = picked === top ? bottom : top;
+    return findTeam(teams, looserPicked);
   } else if (position[0] === "M") {
     const matchNumber = parseInt(position.slice(1));
     const matchGuessed = current.find((m) => m.matchId === matchNumber);

@@ -1,4 +1,4 @@
-import { Grid, Stack } from "@mui/material";
+import { Grid } from "@mui/material";
 import type { KnockoutMatchInfo } from "../../../models/Knockout";
 import type { PredictKnockout } from "../../../models/Predict";
 import KnockoutMatch from "./KnockoutMatch";
