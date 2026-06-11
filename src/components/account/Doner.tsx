@@ -31,7 +31,7 @@ export default function Doner() {
 
       const dones = {} as Record<string, boolean[]>;
       const matchesDoneNumbers = {} as Record<string, number>;
-      matchesDoneNumbers[100] = (matchesData?.length || 2) - 2;
+      matchesDoneNumbers[100] = matchesData?.length || 72;
       for (const user of users) {
         const predictionsGroupUser = predictionsGroup?.filter((p) => p.user === user.id);
         const thirdPlaceDataUser = thirdPlaceData?.filter((p) => p.user === user.id);
@@ -43,8 +43,7 @@ export default function Doner() {
         const knockoutDone = false;
 
         const predictionsDataUser = predictionsData?.filter((p) => p.user === user.id);
-        // todo: remove 2
-        const matchesDone = (matchesData?.length || 2) - 2 === predictionsDataUser?.length;
+        const matchesDone = (matchesData?.length || 72) === predictionsDataUser?.length;
         matchesDoneNumbers[user.id] = predictionsDataUser?.length || 0;
 
         dones[user.id] = [groupDone, knockoutPreDone, knockoutDone, matchesDone];
