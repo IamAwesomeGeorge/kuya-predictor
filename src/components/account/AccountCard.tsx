@@ -1,6 +1,7 @@
 import { Button, Card, Typography } from "@mui/material";
 import MuiAvatar from "./Avatar";
 import type { UserLoggedIn } from "../../models/User";
+import TeamTag from "./TeamTag";
 
 interface AccountCardProps {
   user: UserLoggedIn;
@@ -19,10 +20,9 @@ export default function AccountCard(props: AccountCardProps) {
           gap: "1em",
         }}
       >
-        <div data-testid="account-avatar">
-          <MuiAvatar text={user.name} url={user.pfp_url} />
-        </div>
+        <MuiAvatar text={user.name} url={user.pfp_url} />
         <div style={{ display: "flex", flexDirection: "column" }}>
+          <TeamTag team={user.team} />
           <Typography data-testid="account-name" align="left" sx={{ fontWeight: "bold" }}>
             {user.name}
           </Typography>
@@ -30,6 +30,9 @@ export default function AccountCard(props: AccountCardProps) {
             {user.username}
           </Typography>
         </div>
+
+        {/* <TeamTag team={user.team} /> */}
+
         <div>
           <Button data-testid="account-logout" onClick={handleLogOut}>
             Log Out
