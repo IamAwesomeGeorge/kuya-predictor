@@ -1,13 +1,14 @@
 import { Box, Button, Checkbox, Divider, Grid, Stack, Tooltip, Typography } from "@mui/material";
 import type { PredictMatchView } from "../../../models/Predict";
-import { useTeamName } from "../../utils/TeamsUtils";
+import { findTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
 import { Flag } from "../../utils/FlagUtils";
 import { formatMatchDateShort } from "../../utils/TimeUtils";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
 import MatchPredictFirstButton from "./MatchPredictFirstButton";
 import { isMobile } from "../../utils/Mobileutils";
+import { TeamsContext } from "../../../contexts/TeamsContext";
 
 interface MatchPredictProps {
   match: MatchInfo;
@@ -24,6 +25,7 @@ interface MatchPredictProps {
 }
 
 export default function MatchPredict({ match, current, handlePredictChange, isLoading, doubleCode }: MatchPredictProps) {
+  const { teams } = useContext(TeamsContext);
   const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
   const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
   const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
@@ -96,7 +98,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
 
         {/* Winner row */}
         <Stack id={`match-${match.id}-details`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
-          <Typography sx={{ fontWeight: 600, fontSize: 18 }}>{useTeamName(winnerText)} to win</Typography>
+          <Typography sx={{ fontWeight: 600, fontSize: 18 }}>{findTeamName(teams, winnerText)} to win</Typography>
         </Stack>
 
         {/* Score row */}
@@ -109,7 +111,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             >
               {/* Left team */}
               <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
-                {useTeamName(match.team_left)} <Flag code={match.team_left} />
+                {findTeamName(teams, match.team_left)} <Flag code={match.team_left} />
               </Typography>
 
               {/* Right team */}
@@ -121,7 +123,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
                   flex: 1,
                 }}
               >
-                <Flag code={match.team_right} /> {useTeamName(match.team_right)}
+                <Flag code={match.team_right} /> {findTeamName(teams, match.team_right)}
               </Typography>
             </Stack>
             <Stack
@@ -151,7 +153,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           >
             {/* Left team */}
             <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
-              {useTeamName(match.team_left)} <Flag code={match.team_left} />
+              {findTeamName(teams, match.team_left)} <Flag code={match.team_left} />
             </Typography>
 
             <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
@@ -176,7 +178,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
                 flex: 1,
               }}
             >
-              <Flag code={match.team_right} /> {useTeamName(match.team_right)}
+              <Flag code={match.team_right} /> {findTeamName(teams, match.team_right)}
             </Typography>
           </Stack>
         )}
