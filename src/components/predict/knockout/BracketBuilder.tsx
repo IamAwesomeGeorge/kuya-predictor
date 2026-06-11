@@ -1,6 +1,6 @@
 import type { TeamInfo } from "../../../models/Infos";
 import type { KnockoutMatch, KnockoutMatchInfo } from "../../../models/Knockout";
-import type { PredictData, PredictGroup } from "../../../models/Predict";
+import type { PredictData, PredictGroup, PredictKnockout } from "../../../models/Predict";
 import { findTeamInfo } from "../../utils/TeamsUtils";
 import { thirdPlaceFinder } from "./ThirdPlaceHelper";
 
@@ -50,7 +50,12 @@ const matches: KnockoutMatch[] = [
   { id: 104, stage: "FINAL", left: "M101", right: "M102" },
 ];
 
-export function BracketBuilderStart(teams: TeamInfo[], predicts: PredictGroup[], thirds?: PredictData | null) {
+export function BracketBuilderStart(
+  teams: TeamInfo[],
+  predicts: PredictGroup[],
+  current: PredictKnockout[],
+  thirds?: PredictData | null,
+) {
   const thirdTeams = thirds?.data
     .map((code) => findTeamInfo(teams, code))
     .filter((team): team is NonNullable<typeof team> => team !== undefined)
@@ -59,37 +64,49 @@ export function BracketBuilderStart(teams: TeamInfo[], predicts: PredictGroup[],
 
   const matchInfo: KnockoutMatchInfo[] = [];
   matches.forEach((match) => {
-    const leftTeam = findPredictedTeam(match.left, teams, predicts, thirdPlaceTeams);
-    const rightTeam = findPredictedTeam(match.right, teams, predicts, thirdPlaceTeams);
+    const leftTeam = findPredictedTeam(match.left, teams, predicts, thirdPlaceTeams, current);
+    const rightTeam = findPredictedTeam(match.right, teams, predicts, thirdPlaceTeams, current);
     matchInfo.push({ ...match, leftTeam, rightTeam });
   });
   return fix3Label(matchInfo);
 }
 
-function findPredictedTeam(position: string, teams: TeamInfo[], predicts: PredictGroup[], thirds: string[]) {
+function findPredictedTeam(
+  position: string,
+  teams: TeamInfo[],
+  predicts: PredictGroup[],
+  thirds: string[],
+  current: PredictKnockout[],
+) {
   if (position[0] === "M" && position[4] === "L") {
     return undefined;
   } else if (position[0] === "M") {
-    return undefined;
+    const matchNumber = parseInt(position.slice(1));
+    const matchGuessed = current.find((m) => m.matchId === matchNumber);
+    return findTeam(teams, matchGuessed?.winner);
   } else if (position[0] === "1") {
     const group = position[1];
     const predictGroup = predicts.find((p) => p.group === group);
     const teamCode = predictGroup?.pos_1;
-    return findTeamInfo(teams, teamCode || "") || undefined;
+    return findTeam(teams, teamCode);
   } else if (position[0] === "2") {
     const group = position[1];
     const predictGroup = predicts.find((p) => p.group === group);
     const teamCode = predictGroup?.pos_2;
-    return findTeamInfo(teams, teamCode || "") || undefined;
+    return findTeam(teams, teamCode);
   } else if (position[0] === "3") {
     if (thirds.length === 0) return undefined;
     const index = slotOrder.indexOf(position);
     const groupCode = thirds[index][1];
     const group = predicts.find((p) => p.group === groupCode);
-    return findTeamInfo(teams, group?.pos_3 || "") || undefined;
+    return findTeam(teams, group?.pos_3);
   } else {
     return undefined;
   }
+}
+
+function findTeam(teams: TeamInfo[], code?: string) {
+  return findTeamInfo(teams, code || "") || undefined;
 }
 
 function fix3Label(matchInfo: KnockoutMatchInfo[]) {
