@@ -41,19 +41,7 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
             <Typography component="span">Points breakdown</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography variant="body2">
-              <strong>1 point</strong> for getting the correct winner/draw.
-              <br />
-              <strong>3 points</strong> for getting the correct score.
-              <br />
-              <strong>1 point</strong> for getting the correct team to score first.
-              <br />
-              An option to <strong>double</strong> the points per group.
-            </Typography>
-            <br />
-            <Typography variant="body2">
-              <em>5 points per match max.</em>
-            </Typography>
+            <Typography variant="body2">idk yet</Typography>
           </AccordionDetails>
         </Accordion>
       </CardContent>
