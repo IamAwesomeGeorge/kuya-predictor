@@ -4,71 +4,79 @@ import type { UserScoreInfo } from "../models/Results";
 import Avatar from "../components/account/Avatar";
 import { supabase } from "../utils/supabase";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
-import type { User } from "../models/User";
-import DevelopmentNotice from "../components/DevelopmentNotice";
 import TeamTag from "../components/account/TeamTag";
 
 export default function Scores() {
   const { data, isFetched } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["users", "scores"],
     queryFn: async () => {
-      const { data } = await supabase.from("users").select("id, created_at, name, pfp_url, team");
-      return data as User[];
+      const { data } = await supabase.from("user_scores").select();
+      // Calculate total points
+      const updatedData =
+        data?.map((row) => ({
+          ...row,
+          total: row.groups + row.knockoutPre + row.knockout + row.matches,
+        })) ?? [];
+      // Sort by total points, then by name
+      updatedData.sort((a, b) => {
+        if (b.total === a.total) {
+          return a.name.localeCompare(b.name);
+        }
+        return b.total - a.total;
+      });
+
+      return updatedData as UserScoreInfo[];
     },
   });
 
-  // Todo: translate a User into UserScoreInfo (placeholder defaults)
-  const tempTrans = (user: User): UserScoreInfo => {
-    // eslint-disable-next-line react-hooks/purity
-    const groups = Math.floor(Math.random() * 51); // 0-50
-    // eslint-disable-next-line react-hooks/purity
-    const knockoutPre = Math.floor(Math.random() * 11); // 0-10
-    // eslint-disable-next-line react-hooks/purity
-    const knockout = Math.floor(Math.random() * 11); // 0-10
-    // eslint-disable-next-line react-hooks/purity
-    const matches = Math.floor(Math.random() * 11); // 0-10
-    const points = groups + knockoutPre + knockout + matches;
+  const scoresWithPositions = data?.reduce<Array<UserScoreInfo & { position: number }>>((accumulator, row, index) => {
+    const previousRow = accumulator[accumulator.length - 1];
+    const position = !previousRow || row.total !== previousRow.total ? index + 1 : previousRow.position;
 
-    return {
-      id: user.id,
-      created_at: user.created_at,
-      pfp_url: user.pfp_url,
-      name: user.name,
-      team: user.team,
-      groups,
-      knockoutPre,
-      knockout,
-      matches,
-      points,
-    };
-  };
+    accumulator.push({
+      ...row,
+      position,
+    });
 
-  const sorted = useMemo(() => {
-    return data?.map(tempTrans).sort((a, b) => b.points - a.points);
-  }, [data]);
+    return accumulator;
+  }, []);
 
   return (
     <>
       <PageHeader title="Scores" />
-      <DevelopmentNotice />
       {isFetched && (
         <TableContainer component={Paper} sx={{ mt: 1 }}>
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell></TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell align="right">Groups</TableCell>
                 <TableCell align="right">Knockout Pre</TableCell>
                 <TableCell align="right">Knockout</TableCell>
                 <TableCell align="right">Matches</TableCell>
-                <TableCell align="right">Points</TableCell>
+                <TableCell align="right">
+                  <strong>Total</strong>
+                </TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {sorted?.map((row) => (
-                <TableRow key={row.name}>
+              {scoresWithPositions?.map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{
+                    backgroundColor:
+                      row.position === 1
+                        ? "rgb(255, 247, 200)"
+                        : row.position === 2
+                          ? "rgb(242, 242, 242)"
+                          : row.position === 3
+                            ? "rgb(255, 234, 213)"
+                            : "inherit",
+                  }}
+                >
+                  <TableCell>{row.position}.</TableCell>
                   <TableCell>
                     <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
                       <Avatar text={row.name} url={row.pfp_url} />
@@ -81,7 +89,7 @@ export default function Scores() {
                   <TableCell align="right">{row.knockout}</TableCell>
                   <TableCell align="right">{row.matches}</TableCell>
                   <TableCell align="right">
-                    <strong>{row.points}</strong>
+                    <strong>{row.total}</strong>
                   </TableCell>
                 </TableRow>
               ))}
