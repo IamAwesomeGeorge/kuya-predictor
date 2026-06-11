@@ -32,7 +32,13 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
             <Typography component="span">Points breakdown</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography variant="body2">idk yet</Typography>
+            <Typography variant="body2">
+              <strong>5 points</strong> for each match outcome correct with correct teams playing in that match.
+            </Typography>
+            <br />
+            <Typography variant="body2">
+              <em>160 points max - however requires you to already have a perfect score in group stage.</em>
+            </Typography>
           </AccordionDetails>
         </Accordion>
       </CardContent>
