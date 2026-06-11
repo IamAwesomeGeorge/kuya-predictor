@@ -1,24 +1,16 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Skeleton,
-  Typography,
-} from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import type { PredictCardProps } from "./PredictCardProps";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
-import DoneSymbol from "./DoneSymbol";
+import PredictCardButtons from "./PredictCardButtons";
 
 export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
+
+  const closed = import.meta.env.VITE_CLOSE_GROUP === "true";
 
   const { data: done, isFetched } = useQuery({
     queryKey: ["check", "knockoutStart", user?.id],
@@ -40,20 +32,17 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
             <Typography component="span">Points breakdown</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography variant="body2">idk yet</Typography>
+            <Typography variant="body2">
+              <strong>5 points</strong> for each match outcome correct with correct teams playing in that match.
+            </Typography>
+            <br />
+            <Typography variant="body2">
+              <em>160 points max - however requires you to already have a perfect score in group stage.</em>
+            </Typography>
           </AccordionDetails>
         </Accordion>
       </CardContent>
-      <CardActions sx={{ display: "flex", justifyContent: "space-between", mt: "auto" }}>
-        <Button size="small" onClick={navigateTo}>
-          {done ? "Edit" : "Start"}
-        </Button>
-        {isFetched ? (
-          <DoneSymbol done={done} />
-        ) : (
-          <Skeleton variant="rounded" width={65} height={35} sx={{ py: 0, px: 1, fontSize: 12 }} />
-        )}
-      </CardActions>
+      <PredictCardButtons navigateTo={navigateTo} closed={closed} done={done} isFetched={isFetched} />
     </Card>
   );
 }
