@@ -2,13 +2,13 @@ import { Box, Button, Checkbox, Divider, Grid, Stack, Tooltip, Typography } from
 import type { PredictMatchView } from "../../../models/Predict";
 import { findTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
-import { Flag } from "../../utils/Flag";
 import { formatMatchDateShort } from "../../utils/TimeUtils";
 import { useContext, useEffect, useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
 import MatchPredictFirstButton from "./MatchPredictFirstButton";
 import { isMobile } from "../../utils/MobileUtils";
 import { TeamsContext } from "../../../contexts/TeamsContext";
+import MatchTeam from "../../matches/MatchTeam";
 
 interface MatchPredictProps {
   match: MatchInfo;
@@ -110,21 +110,10 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
               sx={{ alignItems: "center", justifyContent: "space-between" }}
             >
               {/* Left team */}
-              <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
-                {findTeamName(teams, match.team_left)} <Flag code={match.team_left} />
-              </Typography>
+              <MatchTeam teamCode={match.team_left} side="left" />
 
               {/* Right team */}
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                  fontSize: 18,
-                  textAlign: "right",
-                  flex: 1,
-                }}
-              >
-                <Flag code={match.team_right} /> {findTeamName(teams, match.team_right)}
-              </Typography>
+              <MatchTeam teamCode={match.team_right} side="right" />
             </Stack>
             <Stack
               id={`match-${match.id}-score-bottom`}
@@ -152,9 +141,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             sx={{ alignItems: "center", justifyContent: "space-between" }}
           >
             {/* Left team */}
-            <Typography sx={{ fontWeight: 600, fontSize: 18, flex: 1 }}>
-              {findTeamName(teams, match.team_left)} <Flag code={match.team_left} />
-            </Typography>
+            <MatchTeam teamCode={match.team_left} side="left" />
 
             <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
             <Typography
@@ -170,16 +157,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
 
             {/* Right team */}
-            <Typography
-              sx={{
-                fontWeight: 600,
-                fontSize: 18,
-                textAlign: "right",
-                flex: 1,
-              }}
-            >
-              <Flag code={match.team_right} /> {findTeamName(teams, match.team_right)}
-            </Typography>
+            <MatchTeam teamCode={match.team_right} side="right" />
           </Stack>
         )}
 

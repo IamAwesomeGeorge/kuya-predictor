@@ -65,7 +65,6 @@ export default function MatchGroupBase({ matches, currents }: MatchGroupBaseProp
                 current={findCurrentPredict(match.id)}
                 handlePredictChange={handlePredictChange}
                 isLoading={isSendingNewPrediction}
-                doubleCode={doubleCode}
               />
             ) : (
               <MatchPredict
