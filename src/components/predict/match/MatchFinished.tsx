@@ -9,6 +9,8 @@ import { isMobile } from "../../utils/MobileUtils";
 import { TeamsContext } from "../../../contexts/TeamsContext";
 import MatchPredictScoreDisplay from "./MatchPredictScoreDisplay";
 import MatchFinishedBreakdown from "./MatchFinishedBreakdown";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../../../utils/supabase";
 
 interface MatchFinishedProps {
   match: MatchInfo;
@@ -57,6 +59,14 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
   const firstScorerCorrect = guessedFirstScorer === match.first_scorer && guessedFirstScorer !== "???";
   const finalScore = (winnerCorrect ? 1 : 0) + (scoreCorrect ? 3 : 0) + (firstScorerCorrect ? 1 : 0);
   const totalScore = doubleUsed ? finalScore * 2 : finalScore;
+
+  const { data: otherPredictions } = useQuery({
+    queryKey: ["predictions", "view", match.id],
+    queryFn: async () => {
+      const { data } = await supabase.from("predictions_matches_view").select().eq("stage", "GROUP").eq("id", user?.id);
+      return data as PredictMatchView[];
+    },
+  });
 
   return (
     <Grid size={{ xs: 12, md: 6 }} key={match.id}>
@@ -177,13 +187,13 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
             ) : (
               <Stack id={`match-${match.id}-details`} direction="row" spacing={6} sx={{ justifyContent: "center" }}>
                 <Typography sx={{ fontSize: 14, color: winnerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                  <strong>{findTeamName(teams, trueWinnerText)}</strong> won
+                </Typography>
+                <Typography sx={{ fontSize: 14, color: scoreCorrect ? "#c8ffc8" : "#ffc8c8" }}>
                   FT:{" "}
                   <strong>
                     {match.score_left ?? "??"}-{match.score_right ?? "??"}
                   </strong>
-                </Typography>
-                <Typography sx={{ fontSize: 14, color: scoreCorrect ? "#c8ffc8" : "#ffc8c8" }}>
-                  <strong>{findTeamName(teams, trueWinnerText)}</strong> won
                 </Typography>
                 <Typography sx={{ fontSize: 14, color: firstScorerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
                   <strong>{findTeamName(teams, match.first_scorer ?? "?")}</strong> scored first
