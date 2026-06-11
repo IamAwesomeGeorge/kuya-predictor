@@ -28,6 +28,26 @@ const matches: KnockoutMatch[] = [
 
   { id: 85, stage: "ROUND_OF_32", left: "1B", right: "3B" },
   { id: 87, stage: "ROUND_OF_32", left: "1K", right: "3K" },
+
+  { id: 89, stage: "ROUND_OF_16", left: "M74", right: "M77" },
+  { id: 90, stage: "ROUND_OF_16", left: "M73", right: "M75" },
+  { id: 91, stage: "ROUND_OF_16", left: "M76", right: "M78" },
+  { id: 92, stage: "ROUND_OF_16", left: "M79", right: "M80" },
+  { id: 93, stage: "ROUND_OF_16", left: "M83", right: "M84" },
+  { id: 94, stage: "ROUND_OF_16", left: "M81", right: "M82" },
+  { id: 95, stage: "ROUND_OF_16", left: "M86", right: "M88" },
+  { id: 96, stage: "ROUND_OF_16", left: "M85", right: "M87" },
+
+  { id: 97, stage: "QUARTERFINAL", left: "M89", right: "M90" },
+  { id: 98, stage: "QUARTERFINAL", left: "M93", right: "M94" },
+  { id: 99, stage: "QUARTERFINAL", left: "M91", right: "M92" },
+  { id: 100, stage: "QUARTERFINAL", left: "M95", right: "M96" },
+
+  { id: 101, stage: "SEMIFINAL", left: "M97", right: "M98" },
+  { id: 102, stage: "SEMIFINAL", left: "M99", right: "M100" },
+
+  { id: 103, stage: "FINAL", left: "M101L", right: "M102L" },
+  { id: 104, stage: "FINAL", left: "M101", right: "M102" },
 ];
 
 export function BracketBuilderStart(teams: TeamInfo[], predicts: PredictGroup[], thirds?: PredictData | null) {
@@ -36,7 +56,6 @@ export function BracketBuilderStart(teams: TeamInfo[], predicts: PredictGroup[],
     .filter((team): team is NonNullable<typeof team> => team !== undefined)
     .sort((a, b) => a.group.localeCompare(b.group));
   const thirdPlaceTeams = thirdTeams ? thirdPlaceFinder(thirdTeams) : [];
-  console.log("thirdPlaceTeams", thirdPlaceTeams);
 
   const matchInfo: KnockoutMatchInfo[] = [];
   matches.forEach((match) => {
@@ -48,7 +67,9 @@ export function BracketBuilderStart(teams: TeamInfo[], predicts: PredictGroup[],
 }
 
 function findPredictedTeam(position: string, teams: TeamInfo[], predicts: PredictGroup[], thirds: string[]) {
-  if (position[0] === "M") {
+  if (position[0] === "M" && position[4] === "L") {
+    return undefined;
+  } else if (position[0] === "M") {
     return undefined;
   } else if (position[0] === "1") {
     const group = position[1];

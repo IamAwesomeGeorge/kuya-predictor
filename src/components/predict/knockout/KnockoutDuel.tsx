@@ -1,7 +1,8 @@
-import { Box, Grid, Stack } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import type { TeamInfo } from "../../../models/Infos";
 import KnockoutMatch from "./KnockoutMatch";
 import KnockoutLine from "./KnockoutLine";
+import type { PredictKnockout } from "../../../models/Predict";
 
 interface KnockoutDuelProps {
   topId: number;
@@ -14,6 +15,7 @@ interface KnockoutDuelProps {
   bottomBottomTeamLabel: string;
   bottomTopTeam?: TeamInfo;
   bottomBottomTeam?: TeamInfo;
+  currentPredictions?: PredictKnockout[];
 }
 
 export default function KnockoutDuel({
@@ -27,6 +29,7 @@ export default function KnockoutDuel({
   bottomBottomTeamLabel,
   bottomTopTeam,
   bottomBottomTeam,
+  currentPredictions,
 }: KnockoutDuelProps) {
   return (
     <Grid key={"M" + topId + "M" + bottomId} size={3} sx={{ position: "relative" }}>
@@ -37,6 +40,7 @@ export default function KnockoutDuel({
           bottomTeamLabel={topBottomTeamLabel}
           topTeam={topTopTeam}
           bottomTeam={topBottomTeam}
+          currentPrediction={currentPredictions?.find((pred) => pred.matchId === topId)}
         />
         <KnockoutLine />
         <KnockoutMatch
@@ -45,6 +49,7 @@ export default function KnockoutDuel({
           bottomTeamLabel={bottomBottomTeamLabel}
           topTeam={bottomTopTeam}
           bottomTeam={bottomBottomTeam}
+          currentPrediction={currentPredictions?.find((pred) => pred.matchId === bottomId)}
         />
       </Stack>
     </Grid>

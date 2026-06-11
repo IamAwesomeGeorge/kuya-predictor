@@ -3,7 +3,7 @@ import PageHeader from "../../components/header/PageHeader";
 import { useContext, useState } from "react";
 import { TabPanel } from "../../components/utils/TabPanel";
 import { BracketBuilderStart } from "../../components/predict/knockout/BracketBuilder";
-import type { PredictData, PredictGroup } from "../../models/Predict";
+import type { PredictData, PredictGroup, PredictKnockout } from "../../models/Predict";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../utils/supabase";
 import { TeamsContext } from "../../contexts/TeamsContext";
@@ -41,6 +41,14 @@ export default function PredictKnockoutStart() {
     },
   });
 
+  const { data: predictKnockoutStartData } = useQuery({
+    queryKey: ["predict", "knockout", "start", user?.id],
+    queryFn: async () => {
+      const { data } = await supabase.from("predictions_knockout_start").select().eq("user", user?.id);
+      return data as PredictKnockout[];
+    },
+  });
+
   const bracket = BracketBuilderStart(teams, predictData || [], predictThirdData);
 
   return (
@@ -56,7 +64,22 @@ export default function PredictKnockoutStart() {
         </Tabs>
       </Box>
       <TabPanel value={mode} index={0}>
-        <KnockoutBase knockoutMatchInfo={bracket} />
+        <KnockoutBase
+          knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_32")}
+          currentPredictions={predictKnockoutStartData}
+        />
+      </TabPanel>
+      <TabPanel value={mode} index={1}>
+        <KnockoutBase knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_16")} />
+      </TabPanel>
+      <TabPanel value={mode} index={2}>
+        <KnockoutBase knockoutMatchInfo={bracket.filter((match) => match.stage === "QUARTERFINAL")} />
+      </TabPanel>
+      <TabPanel value={mode} index={3}>
+        <KnockoutBase knockoutMatchInfo={bracket.filter((match) => match.stage === "SEMIFINAL")} />
+      </TabPanel>
+      <TabPanel value={mode} index={4}>
+        <KnockoutBase knockoutMatchInfo={bracket.filter((match) => match.stage === "FINAL")} />
       </TabPanel>
     </>
   );

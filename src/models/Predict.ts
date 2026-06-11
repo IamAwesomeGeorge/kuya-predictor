@@ -35,3 +35,8 @@ export interface PredictMatchView extends PredictMatch {
   stage: string;
   stage_info: string;
 }
+
+export interface PredictKnockout extends PredictBase {
+  matchId: number;
+  winner: string;
+}

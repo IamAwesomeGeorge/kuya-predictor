@@ -2,12 +2,14 @@ import { Grid } from "@mui/material";
 import KnockoutDuel from "./KnockoutDuel";
 import type { KnockoutMatchInfo } from "../../../models/Knockout";
 import type { JSX } from "react/jsx-runtime";
+import type { PredictKnockout } from "../../../models/Predict";
 
 interface KnockoutBaseProps {
   knockoutMatchInfo: KnockoutMatchInfo[];
+  currentPredictions?: PredictKnockout[];
 }
 
-export default function KnockoutBase({ knockoutMatchInfo }: KnockoutBaseProps) {
+export default function KnockoutBase({ knockoutMatchInfo, currentPredictions }: KnockoutBaseProps) {
   return (
     <>
       <Grid container spacing={1}>
@@ -17,16 +19,17 @@ export default function KnockoutBase({ knockoutMatchInfo }: KnockoutBaseProps) {
             acc.push(
               <KnockoutDuel
                 key={match.id}
-                topLabel={match.id}
+                topId={match.id}
                 topTopTeamLabel={match.left}
                 topTopTeam={match.leftTeam}
                 topBottomTeamLabel={match.right}
                 topBottomTeam={match.rightTeam}
-                bottomLabel={nextMatch ? nextMatch.id : 0}
+                bottomId={nextMatch ? nextMatch.id : 0}
                 bottomTopTeamLabel={nextMatch?.left}
                 bottomTopTeam={nextMatch?.leftTeam}
                 bottomBottomTeamLabel={nextMatch?.right}
                 bottomBottomTeam={nextMatch?.rightTeam}
+                currentPredictions={currentPredictions}
               />,
             );
           }
