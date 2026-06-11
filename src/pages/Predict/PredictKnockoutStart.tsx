@@ -2,10 +2,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import PageHeader from "../../components/header/PageHeader";
 import { useContext, useState } from "react";
 import { TabPanel } from "../../components/utils/TabPanel";
-import MatchGroupTabs from "../../components/predict/match/MatchGroupTabs";
-import MatchKnockTabs from "../../components/predict/match/MatchKnockTabs";
-import KnockoutR32 from "../../components/predict/knockout/KnockoutR32";
-import { BracketBuilder } from "../../components/predict/knockout/BracketBuilder";
+import { BracketBuilderStart } from "../../components/predict/knockout/BracketBuilder";
 import { thirdPlaceFinder } from "../../components/predict/knockout/ThirdPlaceHelper";
 import { findTeamInfo } from "../../components/utils/TeamsUtils";
 import type { PredictData, PredictGroup } from "../../models/Predict";
@@ -46,13 +43,7 @@ export default function PredictKnockoutStart() {
     },
   });
 
-  const thirdTeams = predictThirdData?.data
-    .map((code) => findTeamInfo(teams, code))
-    .filter((team): team is NonNullable<typeof team> => team !== undefined)
-    .sort((a, b) => a.group.localeCompare(b.group));
-  const thirdPlaceTeams = thirdTeams ? thirdPlaceFinder(thirdTeams) : [];
-
-  const bracket = BracketBuilder(teams, predictData || []);
+  const bracket = BracketBuilderStart(teams, predictData || [], predictThirdData);
 
   return (
     <>

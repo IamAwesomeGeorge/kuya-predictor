@@ -1,7 +1,8 @@
 import type { TeamInfo } from "../../../models/Infos";
 import type { KnockoutMatch, KnockoutMatchInfo } from "../../../models/Knockout";
-import type { PredictGroup } from "../../../models/Predict";
+import type { PredictData, PredictGroup } from "../../../models/Predict";
 import { findTeamInfo } from "../../utils/TeamsUtils";
+import { thirdPlaceFinder } from "./ThirdPlaceHelper";
 
 const matches: KnockoutMatch[] = [
   { id: 74, stage: "ROUND_OF_32", left: "1E", right: "3E" },
@@ -29,17 +30,24 @@ const matches: KnockoutMatch[] = [
   { id: 87, stage: "ROUND_OF_32", left: "1K", right: "3K" },
 ];
 
-export function BracketBuilder(teams: TeamInfo[], predicts: PredictGroup[]) {
+export function BracketBuilderStart(teams: TeamInfo[], predicts: PredictGroup[], thirds?: PredictData | null) {
+  const thirdTeams = thirds?.data
+    .map((code) => findTeamInfo(teams, code))
+    .filter((team): team is NonNullable<typeof team> => team !== undefined)
+    .sort((a, b) => a.group.localeCompare(b.group));
+  const thirdPlaceTeams = thirdTeams ? thirdPlaceFinder(thirdTeams) : [];
+  console.log("thirdPlaceTeams", thirdPlaceTeams);
+
   const matchInfo: KnockoutMatchInfo[] = [];
   matches.forEach((match) => {
-    const leftTeam = findPredictedTeam(match.left, teams, predicts);
-    const rightTeam = findPredictedTeam(match.right, teams, predicts);
+    const leftTeam = findPredictedTeam(match.left, teams, predicts, thirdPlaceTeams);
+    const rightTeam = findPredictedTeam(match.right, teams, predicts, thirdPlaceTeams);
     matchInfo.push({ ...match, leftTeam, rightTeam });
   });
   return matchInfo;
 }
 
-function findPredictedTeam(position: string, teams: TeamInfo[], predicts: PredictGroup[]) {
+function findPredictedTeam(position: string, teams: TeamInfo[], predicts: PredictGroup[], thirds: string[]) {
   if (position[0] === "M") {
     return undefined;
   } else if (position[0] === "1") {
@@ -53,8 +61,14 @@ function findPredictedTeam(position: string, teams: TeamInfo[], predicts: Predic
     const teamCode = predictGroup?.pos_2;
     return findTeamInfo(teams, teamCode || "") || undefined;
   } else if (position[0] === "3") {
-    return undefined;
+    if (thirds.length === 0) return undefined;
+    const index = slotOrder.indexOf(position);
+    const groupCode = thirds[index][1];
+    const group = predicts.find((p) => p.group === groupCode);
+    return findTeamInfo(teams, group?.pos_3 || "") || undefined;
   } else {
     return undefined;
   }
 }
+
+const slotOrder = ["3A", "3B", "3D", "3E", "3G", "3I", "3K", "3L"];

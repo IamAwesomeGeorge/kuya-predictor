@@ -1,7 +1,6 @@
 import type { TeamInfo } from "../../../models/Infos";
 
 export function thirdPlaceFinder(teamsInput: TeamInfo[]) {
-  // Get all the groups, then sort the groups by alphabetical order
   if (teamsInput.length === 0) return [];
   const teamGroups: string[] = [];
   teamsInput.forEach((team) => {
@@ -24,20 +23,6 @@ function lookupCombination(groups: string[]) {
   }
   return null;
 }
-
-const GROUPS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
-const selected = new Set();
-
-const matchSlots = [
-  { match: 74, label: "M74", opp: "Winner Group E", slot: "1E", validGroups: ["A", "B", "C", "D", "F"] },
-  { match: 77, label: "M77", opp: "Winner Group I", slot: "1I", validGroups: ["C", "D", "F", "G", "H"] },
-  { match: 79, label: "M79", opp: "Winner Group A", slot: "1A", validGroups: ["C", "E", "F", "H", "I"] },
-  { match: 80, label: "M80", opp: "Winner Group L", slot: "1L", validGroups: ["E", "H", "I", "J", "K"] },
-  { match: 81, label: "M81", opp: "Winner Group D", slot: "1D", validGroups: ["B", "E", "F", "I", "J"] },
-  { match: 82, label: "M82", opp: "Winner Group G", slot: "1G", validGroups: ["A", "E", "H", "I", "J"] },
-  { match: 85, label: "M85", opp: "Winner Group B", slot: "1B", validGroups: ["E", "F", "G", "I", "J"] },
-  { match: 87, label: "M87", opp: "Winner Group K", slot: "1K", validGroups: ["D", "E", "I", "J", "L"] },
-];
 
 const combinations = [
   ["E", "F", "G", "H", "I", "J", "K", "L", "3E", "3J", "3I", "3F", "3H", "3G", "3L", "3K"],
@@ -535,17 +520,4 @@ const combinations = [
   ["A", "B", "C", "D", "E", "F", "G", "J", "3C", "3G", "3B", "3D", "3A", "3F", "3E", "3J"],
   ["A", "B", "C", "D", "E", "F", "G", "I", "3C", "3G", "3B", "3D", "3A", "3F", "3E", "3I"],
   ["A", "B", "C", "D", "E", "F", "G", "H", "3H", "3G", "3B", "3C", "3A", "3F", "3D", "3E"],
-];
-
-const slotOrder = ["1A", "1B", "1D", "1E", "1G", "1I", "1K", "1L"];
-const matchNums = [79, 85, 81, 74, 82, 77, 87, 80];
-const opponents = [
-  "Winner Group A",
-  "Winner Group B",
-  "Winner Group D",
-  "Winner Group E",
-  "Winner Group G",
-  "Winner Group I",
-  "Winner Group K",
-  "Winner Group L",
 ];
