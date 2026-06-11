@@ -25,7 +25,7 @@ export default function Standings() {
   return (
     <>
       {isFetched ? (
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <StandingsTable tableName="Group A" data={findGroupData("A")} />
           <StandingsTable tableName="Group B" data={findGroupData("B")} />
           <StandingsTable tableName="Group C" data={findGroupData("C")} />

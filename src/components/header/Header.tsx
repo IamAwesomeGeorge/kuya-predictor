@@ -12,6 +12,7 @@ export default function Header() {
       <LinkHeader to="/standings">Standings</LinkHeader>
       {user ? (
         <>
+          {window.innerWidth < 600 && <br />}
           <LinkHeader to="/predict">Predict</LinkHeader>
           <LinkHeader to="/scores">Scores</LinkHeader>
           <LinkHeader to="/account">My Account</LinkHeader>
