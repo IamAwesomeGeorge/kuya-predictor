@@ -31,11 +31,11 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
 
   const guessedScoreLeft = current?.score_left ?? "??";
   const guessedScoreRight = current?.score_right ?? "??";
-  const guessedFirstScorer = current?.first_scorer ?? "??";
+  const guessedFirstScorer = current?.first_scorer ?? "???";
   const doubleUsed = current?.double ?? false;
 
   const guessWinnerText =
-    guessedScoreLeft !== null && guessedScoreRight !== null
+    guessedScoreLeft !== "??" && guessedScoreRight !== "??"
       ? guessedScoreLeft > guessedScoreRight
         ? match.team_left
         : guessedScoreLeft < guessedScoreRight
@@ -54,7 +54,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
 
   const winnerCorrect = guessWinnerText === trueWinnerText && guessWinnerText !== "???";
   const scoreCorrect = guessedScoreLeft === match.score_left && guessedScoreRight === match.score_right;
-  const firstScorerCorrect = guessedFirstScorer === match.first_scorer && guessedFirstScorer !== "??";
+  const firstScorerCorrect = guessedFirstScorer === match.first_scorer && guessedFirstScorer !== "???";
   const finalScore = (winnerCorrect ? 1 : 0) + (scoreCorrect ? 3 : 0) + (firstScorerCorrect ? 1 : 0);
   const totalScore = doubleUsed ? finalScore * 2 : finalScore;
 
