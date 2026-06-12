@@ -15,4 +15,11 @@ export function Flag({ code, ...props }: FlagProps) {
   }
   const className = `fi fi-${code.toLowerCase()}`;
   return <span className={className} {...props}></span>;
+
+  // todo: tooltip with country name
+  // return (
+  //   <Tooltip title={"You can double for one match per group."} placement="top">
+  //     <span className={className} {...props}></span>
+  //   </Tooltip>
+  // );
 }

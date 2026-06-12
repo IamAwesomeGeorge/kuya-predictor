@@ -11,6 +11,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -21,6 +22,8 @@ import { useQuery } from "@tanstack/react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext, useState } from "react";
 import { Flag } from "../../utils/Flag";
+import NameTag from "../../account/NameTag";
+import { isMobile } from "../../utils/MobileUtils";
 
 interface MatchFinishedOthersProps {
   match: MatchInfo;
@@ -58,9 +61,13 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell>Win</TableCell>
-                <TableCell>Score</TableCell>
-                <TableCell>First</TableCell>
+                {!isMobile() && (
+                  <>
+                    <TableCell align="center">Win</TableCell>
+                    <TableCell align="center">Score</TableCell>
+                    <TableCell align="center">First</TableCell>
+                  </>
+                )}
                 <TableCell align="right">Points</TableCell>
               </TableRow>
             </TableHead>
@@ -75,26 +82,68 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                   })
                   .map((p) => (
                     <TableRow key={p.id}>
-                      <TableCell>
-                        {p.user === user?.id ? (
-                          <strong>You</strong>
-                        ) : p.name.length > 10 ? (
-                          p.name.slice(0, 8) + "..."
-                        ) : (
-                          p.name
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <Flag code={p.winner} />
-                      </TableCell>
-                      <TableCell>
-                        {p.score_left}-{p.score_right}
-                      </TableCell>
-                      <TableCell>
-                        <Flag code={p.first_scorer ?? "??"} />
-                      </TableCell>
+                      <Tooltip title={<NameTag name={p.name} pfp_url={p.pfp_url} team={p.team} />} placement="left">
+                        <TableCell>
+                          {p.user === user?.id ? (
+                            <strong>You</strong>
+                          ) : p.name.length > 10 && !isMobile() ? (
+                            p.name.slice(0, 7) + "..."
+                          ) : (
+                            p.name
+                          )}
+                        </TableCell>
+                      </Tooltip>
+                      {!isMobile() && (
+                        <>
+                          <TableCell align="center">
+                            <Box
+                              sx={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                px: 0.5,
+                                py: 0.5,
+                                borderRadius: "6px",
+                                backgroundColor: p.winner === winner ? "#c8ffc8" : "#ffc8c8",
+                              }}
+                            >
+                              <Flag code={p.winner ?? "??"} />
+                            </Box>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Box
+                              sx={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                px: 0.5,
+                                py: 0.5,
+                                borderRadius: "6px",
+                                backgroundColor:
+                                  p.score_left === match.score_left && p.score_right === match.score_right
+                                    ? "#c8ffc8"
+                                    : "#ffc8c8",
+                              }}
+                            >
+                              {p.score_left}-{p.score_right}
+                            </Box>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Box
+                              sx={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                px: 0.5,
+                                py: 0.5,
+                                borderRadius: "6px",
+                                backgroundColor: p.first_scorer === match.first_scorer ? "#c8ffc8" : "#ffc8c8",
+                              }}
+                            >
+                              <Flag code={p.first_scorer ?? "??"} />
+                            </Box>
+                          </TableCell>
+                        </>
+                      )}
                       <TableCell align="right">
-                        {p.double && (
+                        {p.double && !isMobile() && (
                           <Box
                             sx={{
                               float: "left",
@@ -111,7 +160,10 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                           </Box>
                         )}
                         <span
-                          style={{ display: "inline-block", transform: p.double ? "translateY(+5px)" : "translateY(0)" }}
+                          style={{
+                            display: "inline-block",
+                            transform: p.double && !isMobile() ? "translateY(+5px)" : "translateY(0)",
+                          }}
                         >
                           <strong>{p.points}</strong>
                         </span>

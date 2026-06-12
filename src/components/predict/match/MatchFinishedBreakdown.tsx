@@ -1,5 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary, Divider, Stack, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { isMobile } from "../../utils/MobileUtils";
 
 interface MatchFinishedBreakdownProps {
   totalScore: number;
@@ -31,19 +32,31 @@ export default function MatchFinishedBreakdown({
       <AccordionDetails>
         {winnerCorrect && (
           <Stack direction="row" sx={{ justifyContent: "space-between", width: "100%" }}>
-            <Typography component="span">Correct outcome:</Typography>
+            {isMobile() ? (
+              <Typography component="span">Outcome:</Typography>
+            ) : (
+              <Typography component="span">Correct outcome:</Typography>
+            )}
             <Typography component="span">1 POINT</Typography>
           </Stack>
         )}
         {scoreCorrect && (
           <Stack direction="row" sx={{ justifyContent: "space-between", width: "100%" }}>
-            <Typography component="span">Correct score:</Typography>
+            {isMobile() ? (
+              <Typography component="span">Score:</Typography>
+            ) : (
+              <Typography component="span">Correct score:</Typography>
+            )}
             <Typography component="span">3 POINTS</Typography>
           </Stack>
         )}
         {firstScorerCorrect && (
           <Stack direction="row" sx={{ justifyContent: "space-between", width: "100%" }}>
-            <Typography component="span">Correct first team score:</Typography>
+            {isMobile() ? (
+              <Typography component="span">First scorer:</Typography>
+            ) : (
+              <Typography component="span">Correct first team score:</Typography>
+            )}
             <Typography component="span">1 POINT</Typography>
           </Stack>
         )}
