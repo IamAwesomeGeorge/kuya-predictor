@@ -21,7 +21,7 @@ import { supabase } from "../../../utils/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext, useState } from "react";
-import { Flag } from "../../utils/Flag";
+import { Flag } from "../../flag/Flag";
 import NameTag from "../../account/NameTag";
 import { isMobile } from "../../utils/MobileUtils";
 

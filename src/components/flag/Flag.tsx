@@ -3,9 +3,14 @@ import "flag-icons/css/flag-icons.min.css";
 
 type FlagProps = React.HTMLAttributes<HTMLSpanElement> & {
   code: string;
+  tooltip?: boolean;
 };
 
-export function Flag({ code, ...props }: FlagProps) {
+export function Flag({ code, tooltip, ...props }: FlagProps) {
+  if (code.toLowerCase() === "draw") {
+    console.log("DRAW");
+    // return <span className="fi fi-gb-eng" {...props}></span>;
+  }
   if (!code || code.length !== 2) return "";
   if (code.toLowerCase() === "en") {
     return <span className="fi fi-gb-eng" {...props}></span>;
