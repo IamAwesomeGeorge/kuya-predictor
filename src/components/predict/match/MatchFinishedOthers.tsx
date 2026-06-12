@@ -163,6 +163,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                           style={{
                             display: "inline-block",
                             transform: p.double && !isMobile() ? "translateY(+5px)" : "translateY(0)",
+                            color: p.points === 10 ? "rgb(0, 100, 0)" : "inherit",
                           }}
                         >
                           <strong>{p.points}</strong>

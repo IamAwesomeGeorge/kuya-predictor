@@ -1,14 +1,15 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Confetti from "react-confetti";
 import { useReward } from "react-rewards";
 
 export default function ConfettiButton() {
   const [confetti, setConfetti] = useState<number[]>([]);
+  const nextId = useRef(0);
 
   const handleClick = () => {
     reward();
-    const id = Date.now();
+    const id = nextId.current++;
     setConfetti([...confetti, id]);
   };
 

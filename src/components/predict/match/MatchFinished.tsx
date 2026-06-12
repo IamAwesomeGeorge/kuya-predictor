@@ -192,6 +192,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           <>
             <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
             <MatchFinishedBreakdown
+              id={match.id.toString()}
               totalScore={totalScore}
               winnerCorrect={winnerCorrect}
               scoreCorrect={scoreCorrect}
