@@ -113,7 +113,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
               direction="row"
               sx={{ alignItems: "center", justifyContent: "space-between" }}
             >
-              <MatchPredictScoreDisplay id={"left-" + match.id} value={match.score_left ?? "??"} />
+              <MatchPredictScoreDisplay id={"left-" + match.id} value={guessedScoreLeft ?? "??"} />
               <Typography
                 sx={{
                   fontWeight: 700,
@@ -124,7 +124,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
               >
                 -
               </Typography>
-              <MatchPredictScoreDisplay id={"right-" + match.id} value={match.score_right ?? "??"} />
+              <MatchPredictScoreDisplay id={"right-" + match.id} value={guessedScoreRight ?? "??"} />
             </Stack>
           </>
         ) : (
