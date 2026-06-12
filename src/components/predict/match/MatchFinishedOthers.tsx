@@ -106,7 +106,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                                 backgroundColor: p.winner === winner ? "#c8ffc8" : "#ffc8c8",
                               }}
                             >
-                              <Flag code={p.winner ?? "??"} />
+                              <Flag code={p.winner ?? "??"} tooltip />
                             </Box>
                           </TableCell>
                           <TableCell align="center">
@@ -137,7 +137,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                                 backgroundColor: p.first_scorer === match.first_scorer ? "#c8ffc8" : "#ffc8c8",
                               }}
                             >
-                              <Flag code={p.first_scorer ?? "??"} />
+                              <Flag code={p.first_scorer ?? "??"} tooltip />
                             </Box>
                           </TableCell>
                         </>
