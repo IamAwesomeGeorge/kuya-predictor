@@ -9,8 +9,7 @@ import { isMobile } from "../../utils/MobileUtils";
 import { TeamsContext } from "../../../contexts/TeamsContext";
 import MatchPredictScoreDisplay from "./MatchPredictScoreDisplay";
 import MatchFinishedBreakdown from "./MatchFinishedBreakdown";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../../../utils/supabase";
+import MatchFinishedOthers from "./MatchFinishedOthers";
 
 interface MatchFinishedProps {
   match: MatchInfo;
@@ -31,19 +30,11 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
   const isFinished = hasMatchFinished(match.date_time);
   const waitingForResult = match.score_left === null || match.score_right === null;
 
+  const guessedWinner = current?.winner ?? "???";
   const guessedScoreLeft = current?.score_left ?? "??";
   const guessedScoreRight = current?.score_right ?? "??";
   const guessedFirstScorer = current?.first_scorer ?? "???";
   const doubleUsed = current?.double ?? false;
-
-  const guessWinnerText =
-    guessedScoreLeft !== "??" && guessedScoreRight !== "??"
-      ? guessedScoreLeft > guessedScoreRight
-        ? match.team_left
-        : guessedScoreLeft < guessedScoreRight
-          ? match.team_right
-          : "DRAW"
-      : "???";
 
   const trueWinnerText =
     match.score_left !== undefined && match.score_right !== undefined
@@ -54,19 +45,11 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           : "DRAW"
       : "???";
 
-  const winnerCorrect = guessWinnerText === trueWinnerText && guessWinnerText !== "???";
+  const winnerCorrect = guessedWinner === trueWinnerText && guessedWinner !== "???";
   const scoreCorrect = guessedScoreLeft === match.score_left && guessedScoreRight === match.score_right;
   const firstScorerCorrect = guessedFirstScorer === match.first_scorer && guessedFirstScorer !== "???";
   const finalScore = (winnerCorrect ? 1 : 0) + (scoreCorrect ? 3 : 0) + (firstScorerCorrect ? 1 : 0);
   const totalScore = doubleUsed ? finalScore * 2 : finalScore;
-
-  const { data: otherPredictions } = useQuery({
-    queryKey: ["predictions", "view", match.id],
-    queryFn: async () => {
-      const { data } = await supabase.from("predictions_matches_view").select().eq("stage", "GROUP").eq("id", user?.id);
-      return data as PredictMatchView[];
-    },
-  });
 
   return (
     <Grid size={{ xs: 12, md: 6 }} key={match.id}>
@@ -108,7 +91,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           <strong>Your Prediction:</strong>
         </Typography>
         <Typography sx={{ fontSize: 18 }}>
-          <strong>{findTeamName(teams, guessWinnerText)}</strong> to win
+          <strong>{findTeamName(teams, guessedWinner)}</strong> to win
         </Typography>
 
         {/* Score row */}
@@ -206,13 +189,17 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
         )}
 
         {!waitingForResult && (
-          <MatchFinishedBreakdown
-            totalScore={totalScore}
-            winnerCorrect={winnerCorrect}
-            scoreCorrect={scoreCorrect}
-            firstScorerCorrect={firstScorerCorrect}
-            doubleUsed={doubleUsed}
-          />
+          <>
+            <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
+            <MatchFinishedBreakdown
+              totalScore={totalScore}
+              winnerCorrect={winnerCorrect}
+              scoreCorrect={scoreCorrect}
+              firstScorerCorrect={firstScorerCorrect}
+              doubleUsed={doubleUsed}
+            />
+            <MatchFinishedOthers match={match} winner={trueWinnerText} />
+          </>
         )}
       </Box>
     </Grid>

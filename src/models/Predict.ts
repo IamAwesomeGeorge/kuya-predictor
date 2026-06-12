@@ -1,3 +1,5 @@
+import type { Team } from "./User";
+
 export interface PredictBase {
   id?: number;
   updated_at: string;
@@ -31,8 +33,13 @@ export interface PredictMatch extends PredictBase {
 }
 
 export interface PredictMatchView extends PredictMatch {
+  name: string;
+  pfp_url?: string;
+  team: Team;
   stage: string;
   stage_info: string;
+  points?: number;
+  winner: string;
 }
 
 export interface PredictKnockout extends PredictBase {
