@@ -4,7 +4,6 @@ for kuya klan
 
 todo:
 
-- Team score
 - Close group feature
 - Make scores add up
 - Show current predictions
