@@ -22,7 +22,7 @@ export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
   });
 
   return (
-    <Card sx={{ width: 275, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <Card sx={{ width: 250, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Group Stage Prediction
