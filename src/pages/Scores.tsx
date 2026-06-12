@@ -1,10 +1,9 @@
 import PageHeader from "../components/header/PageHeader";
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Box } from "@mui/material";
+import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 import type { UserScoreInfo } from "../models/Results";
-import Avatar from "../components/account/Avatar";
 import { supabase } from "../utils/supabase";
 import { useQuery } from "@tanstack/react-query";
-import TeamTag from "../components/account/TeamTag";
+import NameTag from "../components/account/NameTag";
 
 export default function Scores() {
   const { data, isFetched } = useQuery({
@@ -78,11 +77,7 @@ export default function Scores() {
                 >
                   <TableCell>{row.position}.</TableCell>
                   <TableCell>
-                    <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
-                      <Avatar text={row.name} url={row.pfp_url} />
-                      <span>{row.name}</span>
-                      <TeamTag team={row.team} />
-                    </Box>
+                    <NameTag name={row.name} pfp_url={row.pfp_url} team={row.team} />
                   </TableCell>
                   <TableCell align="right">{row.groups}</TableCell>
                   <TableCell align="right">{row.knockoutPre}</TableCell>
