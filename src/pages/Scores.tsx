@@ -4,6 +4,7 @@ import type { UserScoreInfo } from "../models/Results";
 import { supabase } from "../utils/supabase";
 import { useQuery } from "@tanstack/react-query";
 import NameTag from "../components/account/NameTag";
+import { CountUpNumber } from "../components/fun/CountUpNumber";
 
 export default function Scores() {
   const { data, isFetched } = useQuery({
@@ -79,12 +80,22 @@ export default function Scores() {
                   <TableCell>
                     <NameTag name={row.name} pfp_url={row.pfp_url} team={row.team} />
                   </TableCell>
-                  <TableCell align="right">{row.matches}</TableCell>
-                  <TableCell align="right">{row.groups}</TableCell>
-                  <TableCell align="right">{row.knockoutPre}</TableCell>
-                  <TableCell align="right">{row.knockout}</TableCell>
                   <TableCell align="right">
-                    <strong>{row.total}</strong>
+                    <CountUpNumber id={`matches-${row.name}`} end={row.matches} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <CountUpNumber id={`groups-${row.name}`} end={row.groups} delay={0.5} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <CountUpNumber id={`knockoutPre-${row.name}`} end={row.knockoutPre} delay={1} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <CountUpNumber id={`knockout-${row.name}`} end={row.knockout} delay={1.5} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <strong>
+                      <CountUpNumber id={`total-${row.name}`} end={row.total} delay={2} />
+                    </strong>
                   </TableCell>
                 </TableRow>
               ))}
