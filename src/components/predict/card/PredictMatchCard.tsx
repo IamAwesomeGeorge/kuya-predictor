@@ -24,10 +24,10 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   });
 
   return (
-    <Card sx={{ width: 275, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <Card sx={{ width: 250, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <CardContent>
         <Typography variant="h5" component="div">
-          Match Prediction
+          Every Match Prediction
         </Typography>
         <Typography variant="body2">Predict outcomes of every match.</Typography>
         <Accordion sx={{ mt: 2 }}>

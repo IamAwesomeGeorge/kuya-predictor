@@ -11,7 +11,7 @@ import {
   Stack,
 } from "@mui/material";
 import type { GroupStageStandings } from "../../models/Results";
-import { Flag } from "../utils/Flag";
+import { Flag } from "../flag/Flag";
 
 interface StandingsTableProps {
   tableName: string;

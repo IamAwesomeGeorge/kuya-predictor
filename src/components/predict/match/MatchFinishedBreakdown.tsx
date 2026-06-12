@@ -1,8 +1,10 @@
 import { Accordion, AccordionDetails, AccordionSummary, Divider, Stack, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { isMobile } from "../../utils/MobileUtils";
+import ScoreNumber from "../../fun/ScoreNumber";
 
 interface MatchFinishedBreakdownProps {
+  id: string;
   totalScore: number;
   winnerCorrect: boolean;
   scoreCorrect: boolean;
@@ -11,6 +13,7 @@ interface MatchFinishedBreakdownProps {
 }
 
 export default function MatchFinishedBreakdown({
+  id,
   totalScore,
   winnerCorrect,
   scoreCorrect,
@@ -22,11 +25,7 @@ export default function MatchFinishedBreakdown({
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`panel1-content`} id={`panel1-header`}>
         <Stack direction="row" sx={{ justifyContent: "space-between", width: "100%" }}>
           <Typography component="span">You got:</Typography>
-          <Typography component="span">
-            <strong>
-              {totalScore} POINT{totalScore !== 1 ? "S" : ""}
-            </strong>
-          </Typography>
+          <ScoreNumber id={`${id}-total-score`} score={totalScore} />
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
@@ -73,7 +72,7 @@ export default function MatchFinishedBreakdown({
           <Typography component="span">
             <strong>Total:</strong>
           </Typography>
-          <Typography component="span">
+          <Typography component="span" sx={{ color: totalScore === 10 ? "rgb(0, 100, 0)" : "inherit" }}>
             <strong>
               {totalScore} POINT{totalScore !== 1 ? "S" : ""}
             </strong>

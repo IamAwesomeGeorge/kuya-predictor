@@ -21,7 +21,7 @@ import { supabase } from "../../../utils/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext, useState } from "react";
-import { Flag } from "../../utils/Flag";
+import { Flag } from "../../flag/Flag";
 import NameTag from "../../account/NameTag";
 import { isMobile } from "../../utils/MobileUtils";
 
@@ -106,7 +106,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                                 backgroundColor: p.winner === winner ? "#c8ffc8" : "#ffc8c8",
                               }}
                             >
-                              <Flag code={p.winner ?? "??"} />
+                              <Flag code={p.winner ?? "??"} tooltip />
                             </Box>
                           </TableCell>
                           <TableCell align="center">
@@ -137,7 +137,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                                 backgroundColor: p.first_scorer === match.first_scorer ? "#c8ffc8" : "#ffc8c8",
                               }}
                             >
-                              <Flag code={p.first_scorer ?? "??"} />
+                              <Flag code={p.first_scorer ?? "??"} tooltip />
                             </Box>
                           </TableCell>
                         </>
@@ -163,6 +163,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                           style={{
                             display: "inline-block",
                             transform: p.double && !isMobile() ? "translateY(+5px)" : "translateY(0)",
+                            color: p.points === 10 ? "rgb(0, 100, 0)" : "inherit",
                           }}
                         >
                           <strong>{p.points}</strong>

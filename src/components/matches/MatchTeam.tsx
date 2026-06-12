@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { Flag } from "../utils/Flag";
+import { Flag } from "../flag/Flag";
 import { useTeamName } from "../utils/TeamsUtils";
 
 interface MatchTeamProps {

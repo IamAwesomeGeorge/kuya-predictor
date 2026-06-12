@@ -1,5 +1,5 @@
 import { Stack, Typography, Grid, Card, Button, IconButton } from "@mui/material";
-import { Flag } from "../../utils/Flag";
+import { Flag } from "../../flag/Flag";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useContext, useState } from "react";

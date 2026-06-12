@@ -21,12 +21,14 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
   });
 
   return (
-    <Card sx={{ width: 275, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <Card sx={{ width: 250, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <CardContent>
         <Typography variant="h5" component="div">
-          Knockout Stage Prediction
+          All The Way Prediction
         </Typography>
-        <Typography variant="body2">Predict the knockout bracket based on your group predictions.</Typography>
+        <Typography variant="body2">
+          Go all the way to the end! Predict the knockout bracket based on your group predictions.
+        </Typography>
         <Accordion sx={{ mt: 2 }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`panel1-content`} id={`panel1-header`}>
             <Typography component="span">Points breakdown</Typography>
