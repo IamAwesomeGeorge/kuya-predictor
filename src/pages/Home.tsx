@@ -1,6 +1,7 @@
 import "../App.css";
 import pkg from "../../package.json";
 import AccountRefresher from "../components/account/AccountRefresher";
+import ConfettiButton from "../components/fun/ConfettiButton";
 
 function Home() {
   return (
@@ -14,15 +15,16 @@ function Home() {
             <br />
             Made by Iam_George
           </p>
+          <br />
+          <br />
+          <br />
+          <ConfettiButton />
         </div>
       </section>
 
-      <div className="ticks"></div>
-
       <section id="warning">
-        <h2>Warning</h2>
         <p>
-          This is a work in progress. Please report any bugs you find.
+          Please report any bugs you find.
           <br />
           <strong>Security is not a priority! so pls don't break the site.</strong>
         </p>
