@@ -7,6 +7,7 @@ import type { MatchInfo } from "../../../models/Infos";
 import MatchGroupBase from "./MatchGroupBase";
 import { UserContext } from "../../../contexts/UserContext";
 import type { PredictMatchView } from "../../../models/Predict";
+import { isMobile } from "../../utils/MobileUtils";
 
 export default function MatchGroupTabs() {
   const [mode, setMode] = useState(0);
@@ -75,7 +76,12 @@ export default function MatchGroupTabs() {
       {data && predictions && (
         <>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs variant="scrollable" scrollButtons="auto" value={mode} onChange={handleTabChange}>
+            <Tabs
+              variant={isMobile() ? "scrollable" : "standard"}
+              scrollButtons="auto"
+              value={mode}
+              onChange={handleTabChange}
+            >
               <Tab label="A" sx={{ color: groupsComplete["A"] ? "#c8ffc8" : "#ffc8c8" }} />
               <Tab label="B" sx={{ color: groupsComplete["B"] ? "#c8ffc8" : "#ffc8c8" }} />
               <Tab label="C" sx={{ color: groupsComplete["C"] ? "#c8ffc8" : "#ffc8c8" }} />
