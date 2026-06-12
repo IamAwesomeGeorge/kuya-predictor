@@ -50,10 +50,10 @@ export default function Scores() {
               <TableRow>
                 <TableCell></TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell align="right">Groups</TableCell>
-                <TableCell align="right">Knockout Pre</TableCell>
-                <TableCell align="right">Knockout</TableCell>
                 <TableCell align="right">Matches</TableCell>
+                <TableCell align="right">Groups</TableCell>
+                <TableCell align="right">All the Way</TableCell>
+                <TableCell align="right">Knockout</TableCell>
                 <TableCell align="right">
                   <strong>Total</strong>
                 </TableCell>
@@ -79,10 +79,10 @@ export default function Scores() {
                   <TableCell>
                     <NameTag name={row.name} pfp_url={row.pfp_url} team={row.team} />
                   </TableCell>
+                  <TableCell align="right">{row.matches}</TableCell>
                   <TableCell align="right">{row.groups}</TableCell>
                   <TableCell align="right">{row.knockoutPre}</TableCell>
                   <TableCell align="right">{row.knockout}</TableCell>
-                  <TableCell align="right">{row.matches}</TableCell>
                   <TableCell align="right">
                     <strong>{row.total}</strong>
                   </TableCell>

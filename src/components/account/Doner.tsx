@@ -61,10 +61,10 @@ export default function Doner() {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
+                <TableCell align="right">Matches</TableCell>
                 <TableCell align="right">Group</TableCell>
                 <TableCell align="right">Knockout Pre</TableCell>
                 <TableCell align="right">Knockout</TableCell>
-                <TableCell align="right">Matches</TableCell>
               </TableRow>
             </TableHead>
 
@@ -81,15 +81,15 @@ export default function Doner() {
                       </Box>
                     </TableCell>
                     <TableCell align="right">
+                      {<DoneSymbol done={data.dones[row.id]?.[4]} />}
+                      {data.matchesDoneNumbers[row.id]}/{data.matchesDoneNumbers[100]}
+                    </TableCell>
+                    <TableCell align="right">
                       {<DoneSymbol done={data.dones[row.id]?.[0]} />}
                       {<DoneSymbol done={data.dones[row.id]?.[1]} />}
                     </TableCell>
                     <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[2]} />}</TableCell>
                     <TableCell align="right">{<DoneSymbol done={data.dones[row.id]?.[3]} />}</TableCell>
-                    <TableCell align="right">
-                      {<DoneSymbol done={data.dones[row.id]?.[4]} />}
-                      {data.matchesDoneNumbers[row.id]}/{data.matchesDoneNumbers[100]}
-                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
