@@ -13,7 +13,7 @@ export default function ScoreNumber({ id, score }: ScoreNumberProps) {
   const { reward } = useReward(id + "-reward", "confetti");
 
   useEffect(() => {
-    if (score === 10 && !celebration) {
+    if ((score === 10 || score === 5) && !celebration) {
       const timer = setTimeout(() => {
         setCelebration(true);
         reward();
