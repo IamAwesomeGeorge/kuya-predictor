@@ -38,7 +38,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
     queryKey: ["predictions", "view", match.id],
     enabled: expanded,
     queryFn: async () => {
-      const { data } = await supabase.from("predictions_matches_view1").select().eq("stage", "GROUP").eq("match", match.id);
+      const { data } = await supabase.from("predictions_matches_view").select().eq("stage", "GROUP").eq("match", match.id);
       return (data as PredictMatchView[]).map((p) => ({
         ...p,
         points:
