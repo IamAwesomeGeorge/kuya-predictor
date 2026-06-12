@@ -1,11 +1,13 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import Confetti from "react-confetti";
+import { useReward } from "react-rewards";
 
 export default function ConfettiButton() {
   const [confetti, setConfetti] = useState<number[]>([]);
 
   const handleClick = () => {
+    reward();
     const id = Date.now();
     setConfetti([...confetti, id]);
   };
@@ -13,6 +15,8 @@ export default function ConfettiButton() {
   const handleComplete = (id: number) => {
     setConfetti(confetti.filter((c) => c !== id));
   };
+
+  const { reward } = useReward("rewardId", "confetti");
 
   return (
     <>
@@ -25,7 +29,9 @@ export default function ConfettiButton() {
           onConfettiComplete={() => handleComplete(id)}
         />
       ))}
-      <Button onClick={handleClick}>Press Me!</Button>
+      <Button onClick={handleClick}>
+        Pr<span id="rewardId">e</span>ss Me!
+      </Button>
     </>
   );
 }
