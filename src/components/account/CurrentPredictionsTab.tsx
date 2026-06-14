@@ -7,7 +7,7 @@ import GroupMainTabs from "../predict/group/GroupMainTabs";
 import KnockoutTabs from "../predict/knockout/KnockoutTabs";
 
 export default function CurrentPredictionsTab() {
-  const [mode, setMode] = useState(1);
+  const [mode, setMode] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setMode(newValue);
