@@ -72,7 +72,7 @@ export default function MatchFinishedBreakdown({
           <Typography component="span">
             <strong>Total:</strong>
           </Typography>
-          <Typography component="span" sx={{ color: totalScore === 10 ? "rgb(0, 100, 0)" : "inherit" }}>
+          <Typography component="span" sx={{ color: (totalScore === 10 || totalScore === 5) ? "rgb(0, 100, 0)" : "inherit" }}>
             <strong>
               {totalScore} POINT{totalScore !== 1 ? "S" : ""}
             </strong>
