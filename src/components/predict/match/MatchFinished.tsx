@@ -2,7 +2,7 @@ import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { PredictMatchView } from "../../../models/Predict";
 import { findTeamName } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
-import { formatMatchDateShort, hasMatchFinished } from "../../utils/TimeUtils";
+import { formatMatchDateShort, hasMatchFinished, hasMatchStarted } from "../../utils/TimeUtils";
 import { useContext } from "react";
 import MatchTeam from "../../matches/MatchTeam";
 import { isMobile } from "../../utils/MobileUtils";
@@ -28,6 +28,7 @@ interface MatchFinishedProps {
 export default function MatchFinished({ match, current }: MatchFinishedProps) {
   const { teams } = useContext(TeamsContext);
 
+  const isStarted = hasMatchStarted(match.date_time);
   const isFinished = hasMatchFinished(match.date_time);
   const waitingForResult = match.score_left === null || match.score_right === null;
 

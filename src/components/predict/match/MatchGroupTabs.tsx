@@ -9,7 +9,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import type { PredictMatchView } from "../../../models/Predict";
 import { isMobile } from "../../utils/MobileUtils";
 
-export default function MatchGroupTabs() {
+export default function MatchGroupTabs({ preview }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);
   const { user } = useContext(UserContext);
 
@@ -98,7 +98,11 @@ export default function MatchGroupTabs() {
           </Box>
           {Object.entries(groupsIndexMap).map(([index, group]) => (
             <TabPanel key={index} value={mode} index={parseInt(index)}>
-              <MatchGroupBase matches={findMatchesFromGroup(group)} currents={findPredictionsFromGroup(group)} />
+              <MatchGroupBase
+                preview={preview}
+                matches={findMatchesFromGroup(group)}
+                currents={findPredictionsFromGroup(group)}
+              />
             </TabPanel>
           ))}
         </>
