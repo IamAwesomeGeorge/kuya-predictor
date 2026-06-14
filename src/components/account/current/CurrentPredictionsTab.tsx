@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { TabPanel } from "../../utils/TabPanel";
 import Doner from "../Doner";
@@ -15,15 +15,13 @@ export default function CurrentPredictionsTab() {
 
   return (
     <>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Matches" sx={{ color: "white" }} />
-          <Tab label="Group Stage" sx={{ color: "red" }} />
-          <Tab label="All The Way" sx={{ color: "red" }} />
-          <Tab label="Knockout Stage" disabled sx={{ color: "red" }} />
-          {doner && <Tab label="Done" sx={{ color: "white" }} />}
-        </Tabs>
-      </Box>
+      <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
+        <Tab label="Matches" sx={{ color: "white" }} />
+        <Tab label="Group Stage" sx={{ color: "red" }} />
+        <Tab label="All The Way" sx={{ color: "red" }} />
+        <Tab label="Knockout Stage" disabled sx={{ color: "red" }} />
+        {doner && <Tab label="Done" sx={{ color: "white" }} />}
+      </Tabs>
       <TabPanel value={mode} index={0}>
         <MatchMainTabs preview />
       </TabPanel>

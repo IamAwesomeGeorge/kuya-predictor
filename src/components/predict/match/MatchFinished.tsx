@@ -53,7 +53,6 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           color: "white",
           borderRadius: 2,
           p: 2,
-          position: "relative",
         }}
       >
         {/* Info row */}
@@ -81,34 +80,57 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
 
         {/* Guess Winner row */}
+        <Box sx={{ position: "relative" }}>
+          {doubleUsed && <X2 sx={{ position: "absolute", top: -5, right: -5, zIndex: 10 }} />}
+          <Typography sx={{ fontSize: 20 }}>
+            <strong>Your Prediction:</strong>
+          </Typography>
+          <Typography sx={{ fontSize: 18 }}>
+            <strong>{findTeamName(teams, guessedWinner)}</strong> to win
+          </Typography>
 
-        {doubleUsed && <X2 sx={{ position: "absolute", top: { xs: 65, md: 55 }, right: 10, zIndex: 10 }} />}
-        <Typography sx={{ fontSize: 20 }}>
-          <strong>Your Prediction:</strong>
-        </Typography>
-        <Typography sx={{ fontSize: 18 }}>
-          <strong>{findTeamName(teams, guessedWinner)}</strong> to win
-        </Typography>
+          {/* Score row */}
+          {isMobile() ? (
+            <>
+              <Stack
+                id={`match-${match.id}-score-top`}
+                direction="row"
+                sx={{ alignItems: "center", justifyContent: "space-between" }}
+              >
+                {/* Left team */}
+                <MatchTeam teamCode={match.team_left} side="left" />
 
-        {/* Score row */}
-        {isMobile() ? (
-          <>
+                {/* Right team */}
+                <MatchTeam teamCode={match.team_right} side="right" />
+              </Stack>
+              <Stack
+                id={`match-${match.id}-score-bottom`}
+                direction="row"
+                sx={{ alignItems: "center", justifyContent: "space-between" }}
+              >
+                <MatchPredictScoreDisplay id={"left-" + match.id} value={guessedScoreLeft ?? "??"} />
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: 20,
+                    px: 2,
+                    color: "#38bdf8",
+                  }}
+                >
+                  -
+                </Typography>
+                <MatchPredictScoreDisplay id={"right-" + match.id} value={guessedScoreRight ?? "??"} />
+              </Stack>
+            </>
+          ) : (
             <Stack
-              id={`match-${match.id}-score-top`}
+              id={`match-${match.id}-score`}
               direction="row"
               sx={{ alignItems: "center", justifyContent: "space-between" }}
             >
               {/* Left team */}
               <MatchTeam teamCode={match.team_left} side="left" />
 
-              {/* Right team */}
-              <MatchTeam teamCode={match.team_right} side="right" />
-            </Stack>
-            <Stack
-              id={`match-${match.id}-score-bottom`}
-              direction="row"
-              sx={{ alignItems: "center", justifyContent: "space-between" }}
-            >
               <MatchPredictScoreDisplay id={"left-" + match.id} value={guessedScoreLeft ?? "??"} />
               <Typography
                 sx={{
@@ -121,37 +143,15 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
                 -
               </Typography>
               <MatchPredictScoreDisplay id={"right-" + match.id} value={guessedScoreRight ?? "??"} />
+
+              {/* Right team */}
+              <MatchTeam teamCode={match.team_right} side="right" />
             </Stack>
-          </>
-        ) : (
-          <Stack
-            id={`match-${match.id}-score`}
-            direction="row"
-            sx={{ alignItems: "center", justifyContent: "space-between" }}
-          >
-            {/* Left team */}
-            <MatchTeam teamCode={match.team_left} side="left" />
-
-            <MatchPredictScoreDisplay id={"left-" + match.id} value={guessedScoreLeft ?? "??"} />
-            <Typography
-              sx={{
-                fontWeight: 700,
-                fontSize: 20,
-                px: 2,
-                color: "#38bdf8",
-              }}
-            >
-              -
-            </Typography>
-            <MatchPredictScoreDisplay id={"right-" + match.id} value={guessedScoreRight ?? "??"} />
-
-            {/* Right team */}
-            <MatchTeam teamCode={match.team_right} side="right" />
-          </Stack>
-        )}
-        <Typography sx={{ fontSize: 18 }}>
-          <strong>{findTeamName(teams, guessedFirstScorer)}</strong> to score first
-        </Typography>
+          )}
+          <Typography sx={{ fontSize: 18 }}>
+            <strong>{findTeamName(teams, guessedFirstScorer)}</strong> to score first
+          </Typography>
+        </Box>
 
         {isStarted && (
           <>

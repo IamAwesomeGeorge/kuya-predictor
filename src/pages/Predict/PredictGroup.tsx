@@ -49,14 +49,12 @@ export default function PredictGroup() {
   return (
     <>
       <PageHeader title="Predict Group Stage" />
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={mode} onChange={handleTabChange}>
-          <Tab label="Groups A-D" sx={{ color: group1Complete ? "#c8ffc8" : "#ffc8c8" }} />
-          <Tab label="Groups E-H" sx={{ color: group2Complete ? "#c8ffc8" : "#ffc8c8" }} />
-          <Tab label="Groups I-L" sx={{ color: group3Complete ? "#c8ffc8" : "#ffc8c8" }} />
-          <Tab label="3rd Place" sx={{ color: thirdPlaceComplete ? "#c8ffc8" : "#ffc8c8" }} />
-        </Tabs>
-      </Box>
+      <Tabs value={mode} onChange={handleTabChange}>
+        <Tab label="Groups A-D" sx={{ color: group1Complete ? "#c8ffc8" : "#ffc8c8" }} />
+        <Tab label="Groups E-H" sx={{ color: group2Complete ? "#c8ffc8" : "#ffc8c8" }} />
+        <Tab label="Groups I-L" sx={{ color: group3Complete ? "#c8ffc8" : "#ffc8c8" }} />
+        <Tab label="3rd Place" sx={{ color: thirdPlaceComplete ? "#c8ffc8" : "#ffc8c8" }} />
+      </Tabs>
       <TabPanel value={mode} index={0}>
         <GroupRankingBase teamCodes={["A", "B", "C", "D"]} data={predictData} isPending={isPending} />
       </TabPanel>

@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import { useContext, useState } from "react";
 import { TabPanel } from "../../utils/TabPanel";
 import { useQuery } from "@tanstack/react-query";
@@ -75,27 +75,26 @@ export default function MatchGroupTabs({ preview }: { preview?: boolean }) {
     <>
       {data && predictions ? (
         <>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              variant={isMobile() ? "scrollable" : "standard"}
-              scrollButtons="auto"
-              value={mode}
-              onChange={handleTabChange}
-            >
-              <Tab label="A" sx={{ color: groupsComplete["A"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="B" sx={{ color: groupsComplete["B"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="C" sx={{ color: groupsComplete["C"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="D" sx={{ color: groupsComplete["D"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="E" sx={{ color: groupsComplete["E"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="F" sx={{ color: groupsComplete["F"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="G" sx={{ color: groupsComplete["G"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="H" sx={{ color: groupsComplete["H"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="I" sx={{ color: groupsComplete["I"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="J" sx={{ color: groupsComplete["J"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="K" sx={{ color: groupsComplete["K"] ? "#c8ffc8" : "#ffc8c8" }} />
-              <Tab label="L" sx={{ color: groupsComplete["L"] ? "#c8ffc8" : "#ffc8c8" }} />
-            </Tabs>
-          </Box>
+          <Tabs
+            variant={isMobile() ? "scrollable" : "standard"}
+            scrollButtons="auto"
+            value={mode}
+            onChange={handleTabChange}
+          >
+            <Tab label="A" sx={{ color: groupsComplete["A"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="B" sx={{ color: groupsComplete["B"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="C" sx={{ color: groupsComplete["C"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="D" sx={{ color: groupsComplete["D"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="E" sx={{ color: groupsComplete["E"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="F" sx={{ color: groupsComplete["F"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="G" sx={{ color: groupsComplete["G"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="H" sx={{ color: groupsComplete["H"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="I" sx={{ color: groupsComplete["I"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="J" sx={{ color: groupsComplete["J"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="K" sx={{ color: groupsComplete["K"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="L" sx={{ color: groupsComplete["L"] ? "#c8ffc8" : "#ffc8c8" }} />
+          </Tabs>
+
           {Object.entries(groupsIndexMap).map(([index, group]) => (
             <TabPanel key={index} value={mode} index={parseInt(index)}>
               <MatchBase

@@ -71,7 +71,6 @@ export default function PredictKnockoutStart() {
   return (
     <>
       <PageHeader title="Predict Knockout Start" />
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs variant="scrollable" scrollButtons="auto" value={mode} onChange={handleTabChange}>
           <Tab label={isMobile() ? "R32" : "Round of 32"} sx={{ color: isGroupComplete[32] ? "#c8ffc8" : "#ffc8c8" }} />
           <Tab label={isMobile() ? "R16" : "Round of 16"} sx={{ color: isGroupComplete[16] ? "#c8ffc8" : "#ffc8c8" }} />
@@ -79,7 +78,6 @@ export default function PredictKnockoutStart() {
           <Tab label={isMobile() ? "SF" : "Semifinals"} sx={{ color: isGroupComplete[4] ? "#c8ffc8" : "#ffc8c8" }} />
           <Tab label={isMobile() ? "F" : "Final"} sx={{ color: isGroupComplete[2] ? "#c8ffc8" : "#ffc8c8" }} />
         </Tabs>
-      </Box>
       {isPredictKnockoutStartDataPending ? (
         <Box sx={{ p: 2 }}>Loading...</Box>
       ) : (
