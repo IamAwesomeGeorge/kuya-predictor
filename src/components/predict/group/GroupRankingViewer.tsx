@@ -21,9 +21,9 @@ export default function GroupRankingViewer({ teamCodes, data, isPending }: Group
         .select()
         .order("group", { ascending: true })
         .order("points", { ascending: false })
+        .order("gd", { ascending: false })
         .order("gf", { ascending: false })
-        .order("ga", { ascending: true })
-        .order("gd", { ascending: false });
+        .order("ga", { ascending: true });
 
       return data as GroupStageStandings[];
     },

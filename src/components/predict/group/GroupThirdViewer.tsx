@@ -47,9 +47,9 @@ export default function GroupThirdViewer({ currentSelection }: GroupThirdViewerP
         .select()
         .order("group", { ascending: true })
         .order("points", { ascending: false })
+        .order("gd", { ascending: false })
         .order("gf", { ascending: false })
-        .order("ga", { ascending: true })
-        .order("gd", { ascending: false });
+        .order("ga", { ascending: true });
       const standings = data as GroupStageStandings[];
       // Split standings by group, then find the 3rd place team in each
       const thirdPlaces: GroupStageStandings[] = [];

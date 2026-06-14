@@ -20,7 +20,12 @@ interface StandingsTableProps {
 
 export function StandingsTable(props: StandingsTableProps) {
   const { tableName, data } = props;
-  const sorted = [...data].sort((a, b) => b.points - a.points || a.name.localeCompare(b.name));
+  const sorted = data.sort((a, b) => {
+    if (a.points !== b.points) return b.points - a.points;
+    if (a.gf !== b.gf) return b.gf - a.gf;
+    if (a.ga !== b.ga) return a.ga - b.ga;
+    return b.gd - a.gd;
+  });
 
   return (
     <Grid size={{ xs: 12, md: 6 }}>
