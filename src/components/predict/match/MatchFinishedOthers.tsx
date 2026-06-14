@@ -24,6 +24,7 @@ import { useContext, useState } from "react";
 import { Flag } from "../../flag/Flag";
 import NameTag from "../../account/NameTag";
 import { isMobile } from "../../utils/MobileUtils";
+import X2 from "./X2";
 
 interface MatchFinishedOthersProps {
   match: MatchInfo;
@@ -144,20 +145,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                       )}
                       <TableCell align="right">
                         {p.double && !isMobile() && (
-                          <Box
-                            sx={{
-                              float: "left",
-                              display: "inline-flex",
-                              alignItems: "center",
-                              px: 1,
-                              py: 0.5,
-                              mr: 1,
-                              borderRadius: "6px",
-                              backgroundColor: "#000000",
-                            }}
-                          >
-                            <span style={{ color: "#ffffff" }}>X2</span>
-                          </Box>
+                          <X2 sx={{ float: "left", display: "inline-flex", alignItems: "center" }} />
                         )}
                         <span
                           style={{

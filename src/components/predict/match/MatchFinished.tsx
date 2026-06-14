@@ -10,6 +10,7 @@ import { TeamsContext } from "../../../contexts/TeamsContext";
 import MatchPredictScoreDisplay from "./MatchPredictScoreDisplay";
 import MatchFinishedBreakdown from "./MatchFinishedBreakdown";
 import MatchFinishedOthers from "./MatchFinishedOthers";
+import X2 from "./X2";
 
 interface MatchFinishedProps {
   match: MatchInfo;
@@ -59,6 +60,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           color: "white",
           borderRadius: 2,
           p: 2,
+          position: "relative",
         }}
       >
         {/* Info row */}
@@ -87,6 +89,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
 
         {/* Guess Winner row */}
 
+        {doubleUsed && <X2 sx={{ position: "absolute", top: { xs: 65, md: 55 }, right: 10, zIndex: 10 }} />}
         <Typography sx={{ fontSize: 20 }}>
           <strong>Your Prediction:</strong>
         </Typography>
