@@ -11,7 +11,7 @@ import { hasMatchStarted } from "../../utils/TimeUtils";
 import MatchFinished from "./MatchFinished";
 
 interface MatchGroupBaseProps {
-  preview?: boolean;
+  preview: boolean;
   matches?: MatchInfo[];
   currents?: PredictMatchView[];
 }

@@ -5,11 +5,12 @@ import type { JSX } from "react/jsx-runtime";
 import type { PredictKnockout } from "../../../models/Predict";
 
 interface KnockoutBaseProps {
+  preview: boolean;
   knockoutMatchInfo: KnockoutMatchInfo[];
   currentPredictions?: PredictKnockout[];
 }
 
-export default function KnockoutBase({ knockoutMatchInfo, currentPredictions }: KnockoutBaseProps) {
+export default function KnockoutBase({ preview, knockoutMatchInfo, currentPredictions }: KnockoutBaseProps) {
   return (
     <>
       <Grid container spacing={1}>
@@ -19,6 +20,7 @@ export default function KnockoutBase({ knockoutMatchInfo, currentPredictions }: 
             acc.push(
               <KnockoutDuel
                 key={match.id}
+                preview={preview}
                 topId={match.id}
                 topTopTeamLabel={match.left}
                 topTopTeam={match.leftTeam}

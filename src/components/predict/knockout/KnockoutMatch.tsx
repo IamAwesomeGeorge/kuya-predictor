@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface KnockoutMatchProps {
   id: number;
+  preview: boolean;
   topTeamLabel: string;
   bottomTeamLabel: string;
   topTeam?: TeamInfo;
@@ -18,6 +19,7 @@ interface KnockoutMatchProps {
 
 export default function KnockoutMatch({
   id,
+  preview,
   topTeamLabel,
   bottomTeamLabel,
   topTeam,
@@ -29,7 +31,7 @@ export default function KnockoutMatch({
   const queryClient = useQueryClient();
 
   const handleSelectionChange = (code: string) => {
-    if (selection !== code) {
+    if (selection !== code && !preview) {
       setSelection(code);
       sendKnockoutStart(code);
     }

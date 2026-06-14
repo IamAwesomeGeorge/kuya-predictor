@@ -4,11 +4,12 @@ import type { PredictKnockout } from "../../../models/Predict";
 import KnockoutMatch from "./KnockoutMatch";
 
 interface KnockoutFinalsProps {
+  preview: boolean;
   knockoutMatchInfo: KnockoutMatchInfo[];
   currentPredictions?: PredictKnockout[];
 }
 
-export default function KnockoutFinals({ knockoutMatchInfo, currentPredictions }: KnockoutFinalsProps) {
+export default function KnockoutFinals({ preview, knockoutMatchInfo, currentPredictions }: KnockoutFinalsProps) {
   const loserMatch = knockoutMatchInfo.find((match) => match.id === 103);
   const winnerMatch = knockoutMatchInfo.find((match) => match.id === 104);
 
@@ -19,6 +20,7 @@ export default function KnockoutFinals({ knockoutMatchInfo, currentPredictions }
         <Grid container spacing={1}>
           <KnockoutMatch
             id={loserMatch.id}
+            preview={preview}
             topTeamLabel={loserMatch.left}
             bottomTeamLabel={loserMatch.right}
             topTeam={loserMatch.leftTeam}
@@ -28,6 +30,7 @@ export default function KnockoutFinals({ knockoutMatchInfo, currentPredictions }
 
           <KnockoutMatch
             id={winnerMatch.id}
+            preview={preview}
             topTeamLabel={winnerMatch.left}
             bottomTeamLabel={winnerMatch.right}
             topTeam={winnerMatch.leftTeam}

@@ -5,7 +5,7 @@ import MatchGroupTabs from "./MatchGroupTabs";
 import MatchKnockTabs from "./MatchKnockTabs";
 import MatchLatest from "./MatchLatest";
 
-export default function MatchMainTabs({ preview }: { preview?: boolean }) {
+export default function MatchMainTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {

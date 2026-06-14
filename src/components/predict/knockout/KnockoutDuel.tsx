@@ -5,6 +5,7 @@ import KnockoutLine from "./KnockoutLine";
 import type { PredictKnockout } from "../../../models/Predict";
 
 interface KnockoutDuelProps {
+  preview: boolean;
   topId: number;
   topTopTeamLabel: string;
   topBottomTeamLabel: string;
@@ -19,6 +20,7 @@ interface KnockoutDuelProps {
 }
 
 export default function KnockoutDuel({
+  preview,
   topId,
   topTopTeamLabel,
   topBottomTeamLabel,
@@ -36,6 +38,7 @@ export default function KnockoutDuel({
       <Stack spacing={0} sx={{ width: "100%" }}>
         <KnockoutMatch
           id={topId}
+          preview={preview}
           topTeamLabel={topTopTeamLabel}
           bottomTeamLabel={topBottomTeamLabel}
           topTeam={topTopTeam}
@@ -45,6 +48,7 @@ export default function KnockoutDuel({
         <KnockoutLine />
         <KnockoutMatch
           id={bottomId}
+          preview={preview}
           topTeamLabel={bottomTopTeamLabel}
           bottomTeamLabel={bottomBottomTeamLabel}
           topTeam={bottomTopTeam}

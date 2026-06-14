@@ -6,7 +6,7 @@ import MatchBase from "./MatchBase";
 import { UserContext } from "../../../contexts/UserContext";
 import type { PredictMatchView } from "../../../models/Predict";
 
-export default function MatchLatest({ preview }: { preview?: boolean }) {
+export default function MatchLatest({ preview }: { preview: boolean }) {
   const { user } = useContext(UserContext);
 
   const { data } = useQuery({

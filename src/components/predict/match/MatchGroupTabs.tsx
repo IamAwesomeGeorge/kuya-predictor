@@ -9,7 +9,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import type { PredictMatchView } from "../../../models/Predict";
 import { isMobile } from "../../utils/MobileUtils";
 
-export default function MatchGroupTabs({ preview }: { preview?: boolean }) {
+export default function MatchGroupTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);
   const { user } = useContext(UserContext);
 

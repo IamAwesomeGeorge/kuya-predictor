@@ -12,9 +12,8 @@ import {
 } from "@mui/material";
 import { Flag } from "../../flag/Flag";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { supabase } from "../../../utils/supabase";
-import { UserContext } from "../../../contexts/UserContext";
 import { TeamsContext } from "../../../contexts/TeamsContext";
 import { useQuery } from "@tanstack/react-query";
 import type { PredictData } from "../../../models/Predict";

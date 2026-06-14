@@ -9,7 +9,7 @@ import GroupThirdChooser from "./GroupThirdChooser";
 import { supabase } from "../../../utils/supabase";
 import GroupThirdViewer from "./GroupThirdViewer";
 
-export default function GroupMainTabs({ preview }: { preview?: boolean }) {
+export default function GroupMainTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);
   const { user } = useContext(UserContext);
 

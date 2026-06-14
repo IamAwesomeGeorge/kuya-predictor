@@ -6,7 +6,7 @@ interface GroupRankingBaseProps {
   teamCodes: string[];
   data?: PredictGroup[];
   isPending: boolean;
-  preview?: boolean;
+  preview: boolean;
 }
 
 export default function GroupRankingBase({ teamCodes, data, isPending, preview }: GroupRankingBaseProps) {
