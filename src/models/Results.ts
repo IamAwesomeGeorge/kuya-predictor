@@ -14,5 +14,8 @@ export interface GroupStageStandings extends TeamInfo {
   won: number;
   drawn: number;
   lost: number;
+  gf: number;
+  ga: number;
+  gd: number;
   points: number;
 }

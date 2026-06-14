@@ -11,11 +11,12 @@ import { hasMatchStarted } from "../../utils/TimeUtils";
 import MatchFinished from "./MatchFinished";
 
 interface MatchGroupBaseProps {
+  preview: boolean;
   matches?: MatchInfo[];
   currents?: PredictMatchView[];
 }
 
-export default function MatchGroupBase({ matches, currents }: MatchGroupBaseProps) {
+export default function MatchBase({ preview, matches, currents }: MatchGroupBaseProps) {
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
   const doubleCode = currents?.find((c) => c.double)?.match ?? null;
@@ -55,17 +56,11 @@ export default function MatchGroupBase({ matches, currents }: MatchGroupBaseProp
 
   return (
     <>
-      {useTeamsReady() && matches && (
+      {useTeamsReady() && matches ? (
         <Grid container spacing={1}>
           {matches.map((match) => {
-            return hasMatchStarted(match.date_time) ? (
-              <MatchFinished
-                key={match.id}
-                match={match}
-                current={findCurrentPredict(match.id)}
-                handlePredictChange={handlePredictChange}
-                isLoading={isSendingNewPrediction}
-              />
+            return hasMatchStarted(match.date_time) || preview ? (
+              <MatchFinished key={match.id} match={match} current={findCurrentPredict(match.id)} />
             ) : (
               <MatchPredict
                 key={match.id}
@@ -78,6 +73,8 @@ export default function MatchGroupBase({ matches, currents }: MatchGroupBaseProp
             );
           })}
         </Grid>
+      ) : (
+        <p>Loading matches...</p>
       )}
     </>
   );

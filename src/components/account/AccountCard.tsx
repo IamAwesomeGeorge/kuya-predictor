@@ -2,6 +2,9 @@ import { Button, Card, Typography } from "@mui/material";
 import MuiAvatar from "./Avatar";
 import type { UserLoggedIn } from "../../models/User";
 import TeamTag from "./TeamTag";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../../utils/supabase";
+import type { UserScoreInfo } from "../../models/Results";
 
 interface AccountCardProps {
   user: UserLoggedIn;
@@ -10,6 +13,18 @@ interface AccountCardProps {
 
 export default function AccountCard(props: AccountCardProps) {
   const { user, handleLogOut } = props;
+
+  const { data: totalPoints } = useQuery({
+    queryKey: ["user", "score", user.id],
+    queryFn: async () => {
+      const { data } = await supabase.from("user_scores").select().eq("id", user.id);
+      // Calculate total points
+      const userScore = data?.[0] as UserScoreInfo | undefined;
+      const total = userScore ? userScore.groups + userScore.knockoutPre + userScore.knockout + userScore.matches : 0;
+      return total;
+    },
+  });
+
   return (
     <Card key={user.id} style={{ margin: "0.5em", padding: "1em" }}>
       <div
@@ -23,12 +38,12 @@ export default function AccountCard(props: AccountCardProps) {
         <MuiAvatar text={user.name} url={user.pfp_url} />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <TeamTag team={user.team} />
-          <Typography data-testid="account-name" align="left" sx={{ fontWeight: "bold" }}>
-            {user.name}
-          </Typography>
-          <Typography data-testid="account-username" align="left">
-            {user.username}
-          </Typography>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <Typography align="left">
+              <strong>{user.name}</strong> - {totalPoints} points
+            </Typography>
+            <Typography align="left">{user.username}</Typography>
+          </div>
         </div>
 
         {/* <TeamTag team={user.team} /> */}
