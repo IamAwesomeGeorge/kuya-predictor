@@ -33,6 +33,9 @@ export function StandingsTable(props: StandingsTableProps) {
               <TableCell align="right">W</TableCell>
               <TableCell align="right">D</TableCell>
               <TableCell align="right">L</TableCell>
+              <TableCell align="right">GF</TableCell>
+              <TableCell align="right">GA</TableCell>
+              <TableCell align="right">GD</TableCell>
               <TableCell align="right">Pts</TableCell>
             </TableRow>
           </TableHead>
@@ -45,14 +48,17 @@ export function StandingsTable(props: StandingsTableProps) {
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>
                       {index + 1}.
                     </Typography>
-                    <Flag code={row.code} />
-                    <Typography variant="body2">{row.name}</Typography>
+                    <Flag tooltip code={row.code} />
+                    <Typography variant="body2">{row.name.length > 8 ? row.name.slice(0, 5) + "..." : row.name}</Typography>
                   </Stack>
                 </TableCell>
                 <TableCell align="right">{row.played}</TableCell>
                 <TableCell align="right">{row.won}</TableCell>
                 <TableCell align="right">{row.drawn}</TableCell>
                 <TableCell align="right">{row.lost}</TableCell>
+                <TableCell align="right">{row.gf}</TableCell>
+                <TableCell align="right">{row.ga}</TableCell>
+                <TableCell align="right">{row.gd}</TableCell>
                 <TableCell align="right">
                   <strong>{row.points}</strong>
                 </TableCell>

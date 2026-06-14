@@ -12,7 +12,10 @@ export default function Standings() {
         .from("group_stage_standings")
         .select()
         .order("group", { ascending: true })
-        .order("points", { ascending: false });
+        .order("points", { ascending: false })
+        .order("gf", { ascending: false })
+        .order("ga", { ascending: true })
+        .order("gd", { ascending: false });
 
       return data as GroupStageStandings[];
     },
