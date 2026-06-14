@@ -7,6 +7,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import type { PredictData, PredictGroup } from "../../../models/Predict";
 import GroupThirdChooser from "./GroupThirdChooser";
 import { supabase } from "../../../utils/supabase";
+import GroupThirdViewer from "./GroupThirdViewer";
 
 export default function GroupMainTabs({ preview }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);
@@ -64,12 +65,10 @@ export default function GroupMainTabs({ preview }: { preview?: boolean }) {
         <GroupRankingBase teamCodes={["I", "J", "K", "L"]} data={predictData} isPending={isPending} preview={preview} />
       </TabPanel>
       <TabPanel value={mode} index={3}>
-        {groupComplete ? (
-          <GroupThirdChooser
-            key={currentSelection?.updated_at ?? "empty"}
-            currentSelection={currentSelection}
-            isCurrentSelectionPending={isCurrentSelectionPending}
-          />
+        {preview ? (
+          <GroupThirdViewer currentSelection={currentSelection} />
+        ) : groupComplete ? (
+          <GroupThirdChooser currentSelection={currentSelection} isCurrentSelectionPending={isCurrentSelectionPending} />
         ) : (
           <Box sx={{ padding: 2 }}>Please complete the group rankings before predicting the third place teams.</Box>
         )}

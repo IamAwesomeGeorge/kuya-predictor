@@ -65,7 +65,7 @@ export default function GroupRankingChooser({
   const isSelectionComplete = Object.values(selection).every((c) => c !== null);
 
   return (
-    <Grid key={group} size={{ xs: 12, md: 32 }}>
+    <Grid key={group} size={{ xs: 12, md: 6 }}>
       <Card key={group} sx={{ position: "relative" }}>
         <Typography
           variant="h6"

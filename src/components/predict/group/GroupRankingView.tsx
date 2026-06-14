@@ -122,65 +122,61 @@ export default function GroupRankingView({ group, currentPredictRanking, groupSt
   };
 
   return (
-    <>
-      <Grid size={{ xs: 3, md: 6 }}>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>GROUP {group}</TableCell>
-                <TableCell align="left" sx={{ whiteSpace: "nowrap" }}>
-                  <TableSortLabel
-                    active={orderBy === "guessPos"}
-                    direction={orderBy === "guessPos" ? order : "asc"}
-                    onClick={() => handleSort("guessPos")}
-                  >
-                    Your Guess
-                  </TableSortLabel>
+    <Grid size={{ xs: 12, md: 6 }}>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>GROUP {group}</TableCell>
+              <TableCell align="left" sx={{ whiteSpace: "nowrap" }}>
+                <TableSortLabel
+                  active={orderBy === "guessPos"}
+                  direction={orderBy === "guessPos" ? order : "asc"}
+                  onClick={() => handleSort("guessPos")}
+                >
+                  Your Guess
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align="left" sx={{ whiteSpace: "nowrap" }}>
+                <TableSortLabel
+                  active={orderBy === "realPos"}
+                  direction={orderBy === "realPos" ? order : "asc"}
+                  onClick={() => handleSort("realPos")}
+                >
+                  Current
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align="left" sx={{ whiteSpace: "nowrap" }}>
+                <TableSortLabel
+                  active={orderBy === "correct"}
+                  direction={orderBy === "correct" ? order : "asc"}
+                  onClick={() => handleSort("correct")}
+                >
+                  Correct?
+                </TableSortLabel>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {sortedTeamData.map((row) => (
+              <TableRow key={row.name} sx={{ bgcolor: row.correct ? "rgb(200, 255, 200, 0.5)" : "transparent" }}>
+                <TableCell>
+                  <Stack direction="row" spacing={1}>
+                    <Flag tooltip code={row.code} />
+                    <Typography variant="body2">{row.name.length > 8 ? row.name.slice(0, 5) + "..." : row.name}</Typography>
+                  </Stack>
                 </TableCell>
-                <TableCell align="left" sx={{ whiteSpace: "nowrap" }}>
-                  <TableSortLabel
-                    active={orderBy === "realPos"}
-                    direction={orderBy === "realPos" ? order : "asc"}
-                    onClick={() => handleSort("realPos")}
-                  >
-                    Current
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="left" sx={{ whiteSpace: "nowrap" }}>
-                  <TableSortLabel
-                    active={orderBy === "correct"}
-                    direction={orderBy === "correct" ? order : "asc"}
-                    onClick={() => handleSort("correct")}
-                  >
-                    Correct?
-                  </TableSortLabel>
+                <TableCell align="left">{numberIconMap[row.guessPos ?? 0]}</TableCell>
+                <TableCell align="left">{numberIconMap[row.realPos ?? 0]}</TableCell>
+                <TableCell align="left">
+                  {row.correct ? <CheckIcon color="success" /> : <ClearIcon color="error" />}
                 </TableCell>
               </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {sortedTeamData.map((row) => (
-                <TableRow key={row.name} sx={{ bgcolor: row.correct ? "rgb(200, 255, 200, 0.5)" : "transparent" }}>
-                  <TableCell>
-                    <Stack direction="row" spacing={1}>
-                      <Flag tooltip code={row.code} />
-                      <Typography variant="body2">
-                        {row.name.length > 8 ? row.name.slice(0, 5) + "..." : row.name}
-                      </Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell align="left">{numberIconMap[row.guessPos ?? 0]}</TableCell>
-                  <TableCell align="left">{numberIconMap[row.realPos ?? 0]}</TableCell>
-                  <TableCell align="left">
-                    {row.correct ? <CheckIcon color="success" /> : <ClearIcon color="error" />}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
-    </>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Grid>
   );
 }
