@@ -15,14 +15,6 @@ import X2 from "./X2";
 interface MatchFinishedProps {
   match: MatchInfo;
   current?: PredictMatchView;
-  handlePredictChange: (
-    matchId: number,
-    score_left: number,
-    score_right: number,
-    first_scorer: string | null,
-    double: boolean,
-  ) => void;
-  isLoading: boolean;
 }
 
 export default function MatchFinished({ match, current }: MatchFinishedProps) {
@@ -161,35 +153,39 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           <strong>{findTeamName(teams, guessedFirstScorer)}</strong> to score first
         </Typography>
 
-        {/* True Winner row */}
-        <Typography sx={{ fontSize: 20, mt: 2 }}>
-          <strong>Final Results:</strong>
-        </Typography>
-        {isFinished ? (
+        {isStarted && (
           <>
-            {waitingForResult ? (
-              <Stack id={`match-${match.id}-details`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
-                <Typography sx={{ fontWeight: 600, fontSize: 14 }}>Waiting for result...</Typography>
-              </Stack>
+            {/* True Winner row */}
+            <Typography sx={{ fontSize: 20, mt: 2 }}>
+              <strong>Final Results:</strong>
+            </Typography>
+            {isFinished ? (
+              <>
+                {waitingForResult ? (
+                  <Stack id={`match-${match.id}-details`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
+                    <Typography sx={{ fontWeight: 600, fontSize: 14 }}>Waiting for result...</Typography>
+                  </Stack>
+                ) : (
+                  <Stack id={`match-${match.id}-details`} direction="row" spacing={6} sx={{ justifyContent: "center" }}>
+                    <Typography sx={{ fontSize: 14, color: winnerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                      <strong>{findTeamName(teams, trueWinnerText)}</strong> won
+                    </Typography>
+                    <Typography sx={{ fontSize: 14, color: scoreCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                      FT:{" "}
+                      <strong>
+                        {match.score_left ?? "??"}-{match.score_right ?? "??"}
+                      </strong>
+                    </Typography>
+                    <Typography sx={{ fontSize: 14, color: firstScorerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                      <strong>{findTeamName(teams, match.first_scorer ?? "?")}</strong> scored first
+                    </Typography>
+                  </Stack>
+                )}
+              </>
             ) : (
-              <Stack id={`match-${match.id}-details`} direction="row" spacing={6} sx={{ justifyContent: "center" }}>
-                <Typography sx={{ fontSize: 14, color: winnerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
-                  <strong>{findTeamName(teams, trueWinnerText)}</strong> won
-                </Typography>
-                <Typography sx={{ fontSize: 14, color: scoreCorrect ? "#c8ffc8" : "#ffc8c8" }}>
-                  FT:{" "}
-                  <strong>
-                    {match.score_left ?? "??"}-{match.score_right ?? "??"}
-                  </strong>
-                </Typography>
-                <Typography sx={{ fontSize: 14, color: firstScorerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
-                  <strong>{findTeamName(teams, match.first_scorer ?? "?")}</strong> scored first
-                </Typography>
-              </Stack>
+              <Typography sx={{ fontWeight: 600, fontSize: 14 }}>Match currently ongoing...</Typography>
             )}
           </>
-        ) : (
-          <Typography sx={{ fontWeight: 600, fontSize: 14 }}>Match currently ongoing...</Typography>
         )}
 
         {!waitingForResult && (

@@ -16,7 +16,7 @@ interface MatchGroupBaseProps {
   currents?: PredictMatchView[];
 }
 
-export default function MatchGroupBase({ preview, matches, currents }: MatchGroupBaseProps) {
+export default function MatchBase({ preview, matches, currents }: MatchGroupBaseProps) {
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
   const doubleCode = currents?.find((c) => c.double)?.match ?? null;
@@ -56,17 +56,11 @@ export default function MatchGroupBase({ preview, matches, currents }: MatchGrou
 
   return (
     <>
-      {useTeamsReady() && matches && (
+      {useTeamsReady() && matches ? (
         <Grid container spacing={1}>
           {matches.map((match) => {
             return hasMatchStarted(match.date_time) || preview ? (
-              <MatchFinished
-                key={match.id}
-                match={match}
-                current={findCurrentPredict(match.id)}
-                handlePredictChange={handlePredictChange}
-                isLoading={isSendingNewPrediction}
-              />
+              <MatchFinished key={match.id} match={match} current={findCurrentPredict(match.id)} />
             ) : (
               <MatchPredict
                 key={match.id}
@@ -79,6 +73,8 @@ export default function MatchGroupBase({ preview, matches, currents }: MatchGrou
             );
           })}
         </Grid>
+      ) : (
+        <p>Loading matches...</p>
       )}
     </>
   );

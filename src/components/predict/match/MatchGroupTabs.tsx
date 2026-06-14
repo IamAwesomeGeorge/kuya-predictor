@@ -4,7 +4,7 @@ import { TabPanel } from "../../utils/TabPanel";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import type { MatchInfo } from "../../../models/Infos";
-import MatchGroupBase from "./MatchGroupBase";
+import MatchBase from "./MatchBase";
 import { UserContext } from "../../../contexts/UserContext";
 import type { PredictMatchView } from "../../../models/Predict";
 import { isMobile } from "../../utils/MobileUtils";
@@ -73,7 +73,7 @@ export default function MatchGroupTabs({ preview }: { preview?: boolean }) {
 
   return (
     <>
-      {data && predictions && (
+      {data && predictions ? (
         <>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
@@ -98,7 +98,7 @@ export default function MatchGroupTabs({ preview }: { preview?: boolean }) {
           </Box>
           {Object.entries(groupsIndexMap).map(([index, group]) => (
             <TabPanel key={index} value={mode} index={parseInt(index)}>
-              <MatchGroupBase
+              <MatchBase
                 preview={preview}
                 matches={findMatchesFromGroup(group)}
                 currents={findPredictionsFromGroup(group)}
@@ -106,6 +106,8 @@ export default function MatchGroupTabs({ preview }: { preview?: boolean }) {
             </TabPanel>
           ))}
         </>
+      ) : (
+        <p>Loading matches...</p>
       )}
     </>
   );

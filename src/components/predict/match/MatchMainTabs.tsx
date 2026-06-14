@@ -3,6 +3,7 @@ import { useState } from "react";
 import { TabPanel } from "../../utils/TabPanel";
 import MatchGroupTabs from "./MatchGroupTabs";
 import MatchKnockTabs from "./MatchKnockTabs";
+import MatchLatest from "./MatchLatest";
 
 export default function MatchMainTabs({ preview }: { preview?: boolean }) {
   const [mode, setMode] = useState(preview ? 0 : 1);
@@ -21,7 +22,7 @@ export default function MatchMainTabs({ preview }: { preview?: boolean }) {
         </Tabs>
       </Box>
       <TabPanel value={mode} index={0}>
-        <MatchGroupTabs preview />
+        <MatchLatest preview={preview} />
       </TabPanel>
       <TabPanel value={mode} index={1}>
         <MatchGroupTabs preview={preview} />
