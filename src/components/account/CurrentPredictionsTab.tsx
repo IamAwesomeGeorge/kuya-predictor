@@ -1,8 +1,9 @@
 import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
-import { TabPanel } from "../../utils/TabPanel";
-import Doner from "../Doner";
-import MatchMainTabs from "../../predict/match/MatchMainTabs";
+import { TabPanel } from "../utils/TabPanel";
+import Doner from "./Doner";
+import MatchMainTabs from "../predict/match/MatchMainTabs";
+import GroupMainTabs from "../predict/group/GroupMainTabs";
 
 export default function CurrentPredictionsTab() {
   const [mode, setMode] = useState(0);
@@ -17,7 +18,7 @@ export default function CurrentPredictionsTab() {
     <>
       <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
         <Tab label="Matches" sx={{ color: "white" }} />
-        <Tab label="Group Stage" sx={{ color: "red" }} />
+        <Tab label="Group Stage" sx={{ color: "white" }} />
         <Tab label="All The Way" sx={{ color: "red" }} />
         <Tab label="Knockout Stage" disabled sx={{ color: "red" }} />
         {doner && <Tab label="Done" sx={{ color: "white" }} />}
@@ -25,12 +26,13 @@ export default function CurrentPredictionsTab() {
       <TabPanel value={mode} index={0}>
         <MatchMainTabs preview />
       </TabPanel>
-
-      <TabPanel value={mode} index={1}></TabPanel>
+      <TabPanel value={mode} index={1}>
+        <GroupMainTabs preview />
+      </TabPanel>
       <TabPanel value={mode} index={2}></TabPanel>
       <TabPanel value={mode} index={3}></TabPanel>
 
-      {import.meta.env.VITE_DEV === "true" && (
+      {doner && (
         <TabPanel value={mode} index={4}>
           <Doner />
         </TabPanel>

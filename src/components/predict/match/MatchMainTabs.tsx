@@ -6,7 +6,7 @@ import MatchKnockTabs from "./MatchKnockTabs";
 import MatchLatest from "./MatchLatest";
 
 export default function MatchMainTabs({ preview }: { preview?: boolean }) {
-  const [mode, setMode] = useState(preview ? 0 : 1);
+  const [mode, setMode] = useState(0);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setMode(newValue);

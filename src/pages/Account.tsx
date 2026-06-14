@@ -5,7 +5,7 @@ import AccountCard from "../components/account/AccountCard";
 import PageHeader from "../components/header/PageHeader";
 import AccountRefresher from "../components/account/AccountRefresher";
 import { logOutUser } from "../components/utils/LogInUtils";
-import CurrentPredictionsTab from "../components/account/current/CurrentPredictionsTab";
+import CurrentPredictionsTab from "../components/account/CurrentPredictionsTab";
 
 export default function Account() {
   const { user, setUser } = useContext(UserContext);
