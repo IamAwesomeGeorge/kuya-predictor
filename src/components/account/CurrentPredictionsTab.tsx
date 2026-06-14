@@ -6,7 +6,7 @@ import MatchMainTabs from "../predict/match/MatchMainTabs";
 import GroupMainTabs from "../predict/group/GroupMainTabs";
 
 export default function CurrentPredictionsTab() {
-  const [mode, setMode] = useState(0);
+  const [mode, setMode] = useState(1);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setMode(newValue);

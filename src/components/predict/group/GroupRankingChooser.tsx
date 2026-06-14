@@ -1,14 +1,10 @@
 import { Stack, Typography, Grid, Card, Button, IconButton } from "@mui/material";
 import { Flag } from "../../flag/Flag";
-import LooksOneIcon from "@mui/icons-material/LooksOne";
-import LooksTwoIcon from "@mui/icons-material/LooksTwo";
-import Looks3Icon from "@mui/icons-material/Looks3";
-import Looks4Icon from "@mui/icons-material/Looks4";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import type { JSX } from "react/jsx-runtime";
 import type { PredictGroupPre } from "../../../models/Predict";
 import { useState } from "react";
 import { useTeamsFromGroup } from "../../utils/TeamsUtils";
+import { EMPTY_SELECTION, numberIconMap } from "./Helpers";
 
 interface GroupRankingChooserProps {
   group: string;
@@ -17,13 +13,6 @@ interface GroupRankingChooserProps {
   handlePredictChange: (group: string, selection: Record<number, string | null>) => void;
   setShowWarning: (show: boolean) => void;
 }
-
-const EMPTY_SELECTION: Record<number, string | null> = {
-  1: null,
-  2: null,
-  3: null,
-  4: null,
-};
 
 export default function GroupRankingChooser({
   group,
@@ -43,13 +32,6 @@ export default function GroupRankingChooser({
         }
       : EMPTY_SELECTION,
   );
-
-  const numberIconMap: Record<number, JSX.Element> = {
-    1: <LooksOneIcon />,
-    2: <LooksTwoIcon />,
-    3: <Looks3Icon />,
-    4: <Looks4Icon />,
-  };
 
   const resetSelection = () => {
     setSelection(EMPTY_SELECTION);
@@ -83,7 +65,7 @@ export default function GroupRankingChooser({
   const isSelectionComplete = Object.values(selection).every((c) => c !== null);
 
   return (
-    <Grid key={group} size={{ xs: 12, md: 6 }}>
+    <Grid key={group} size={{ xs: 12, md: 32 }}>
       <Card key={group} sx={{ position: "relative" }}>
         <Typography
           variant="h6"

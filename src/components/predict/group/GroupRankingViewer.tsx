@@ -1,11 +1,10 @@
-import { Alert, Box, Grid } from "@mui/material";
-import { useContext, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UserContext } from "../../../contexts/UserContext";
+import { Grid } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import type { PredictGroup } from "../../../models/Predict";
-import GroupRankingChooser from "./GroupRankingChooser";
 import { useTeamsReady } from "../../utils/TeamsUtils";
+import type { GroupStageStandings } from "../../../models/Results";
+import GroupRankingView from "./GroupRankingView";
 
 interface GroupRankingViewerProps {
   teamCodes: string[];
@@ -14,17 +13,19 @@ interface GroupRankingViewerProps {
 }
 
 export default function GroupRankingViewer({ teamCodes, data, isPending }: GroupRankingViewerProps) {
-  const { user } = useContext(UserContext);
-  const [showWarning, setShowWarning] = useState(false);
-  const queryClient = useQueryClient();
+  const { data: groupStandings } = useQuery({
+    queryKey: ["group_standings"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("group_stage_standings")
+        .select()
+        .order("group", { ascending: true })
+        .order("points", { ascending: false })
+        .order("gf", { ascending: false })
+        .order("ga", { ascending: true })
+        .order("gd", { ascending: false });
 
-  const { mutate: sendNewPrediction, isPending: isSendingNewPrediction } = useMutation({
-    mutationFn: async (newPredict: PredictGroup) => {
-      await supabase.from("predictions_group").delete().eq("user", user?.id).eq("group", newPredict.group);
-      await supabase.from("predictions_group").insert(newPredict);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["predict", "group", user?.id] });
+      return data as GroupStageStandings[];
     },
   });
 
@@ -32,50 +33,23 @@ export default function GroupRankingViewer({ teamCodes, data, isPending }: Group
     return data?.find((predict) => predict.group === group);
   };
 
-  const handlePredictChange = (group: string, selection: Record<number, string | null>) => {
-    if (!(selection[1] && selection[2] && selection[3] && selection[4])) {
-      return;
-    }
-
-    const newPredict: PredictGroup = {
-      updated_at: new Date().toISOString(),
-      user: user?.id ?? 0,
-      group,
-      pos_1: selection[1],
-      pos_2: selection[2],
-      pos_3: selection[3],
-      pos_4: selection[4],
-    };
-    sendNewPrediction(newPredict);
+  const getCurrentStandingsForGroup = (group: string) => {
+    return groupStandings?.filter((standing) => standing.group === group);
   };
-
-  const isLoading = isSendingNewPrediction;
 
   return (
     <>
       {useTeamsReady() && !isPending && (
         <Grid container spacing={1}>
           {teamCodes.map((group) => (
-            <GroupRankingChooser
+            <GroupRankingView
               key={group}
               group={group}
-              loading={isLoading}
               currentPredictRanking={getCurrentPredictForGroup(group)}
-              handlePredictChange={handlePredictChange}
-              setShowWarning={setShowWarning}
+              groupStandings={getCurrentStandingsForGroup(group)}
             />
           ))}
         </Grid>
-      )}
-
-      {showWarning && (
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Alert severity="warning" sx={{ mt: 2 }}>
-            Ensure your <strong>third place and knockout</strong> selections are still <strong>valid</strong> after editing.
-            <br />
-            Invalid selections will result in <strong>0 points</strong> across all group predictions.
-          </Alert>
-        </Box>
       )}
     </>
   );
