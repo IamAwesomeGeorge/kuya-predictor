@@ -22,9 +22,9 @@ export function StandingsTable(props: StandingsTableProps) {
   const { tableName, data } = props;
   const sorted = data.sort((a, b) => {
     if (a.points !== b.points) return b.points - a.points;
+    if (a.gd !== b.gd) return b.gd - a.gd;
     if (a.gf !== b.gf) return b.gf - a.gf;
-    if (a.ga !== b.ga) return a.ga - b.ga;
-    return b.gd - a.gd;
+    return a.ga - b.ga;
   });
 
   return (
