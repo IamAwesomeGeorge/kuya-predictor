@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import type { GroupStageStandings } from "../../models/Results";
 import { Flag } from "../flag/Flag";
+import { sortStandings } from "../utils/TeamsUtils";
 
 interface StandingsTableProps {
   tableName: string;
@@ -20,12 +21,7 @@ interface StandingsTableProps {
 
 export function StandingsTable(props: StandingsTableProps) {
   const { tableName, data } = props;
-  const sorted = data.sort((a, b) => {
-    if (a.points !== b.points) return b.points - a.points;
-    if (a.gd !== b.gd) return b.gd - a.gd;
-    if (a.gf !== b.gf) return b.gf - a.gf;
-    return a.ga - b.ga;
-  });
+  const sorted = data.sort(sortStandings);
 
   return (
     <Grid size={{ xs: 12, md: 6 }}>
