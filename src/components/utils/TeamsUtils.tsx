@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { TeamsContext } from "../../contexts/TeamsContext";
 import type { TeamInfo } from "../../models/Infos";
+import type { GroupStageStandings } from "../../models/Results";
 
 export function useTeamsReady() {
   const { teams } = useContext(TeamsContext);
@@ -29,4 +30,11 @@ export function findTeamName(teams: TeamInfo[], teamCode: string) {
 export function useTeamsFromGroup(group: string) {
   const { teams } = useContext(TeamsContext);
   return teams.filter((team) => team.group === group).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function sortStandings(a: GroupStageStandings, b: GroupStageStandings) {
+  if (a.points !== b.points) return b.points - a.points;
+  if (a.gd !== b.gd) return b.gd - a.gd;
+  if (a.gf !== b.gf) return b.gf - a.gf;
+  return a.ga - b.ga;
 }

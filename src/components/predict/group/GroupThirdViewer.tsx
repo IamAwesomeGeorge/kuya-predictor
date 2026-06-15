@@ -9,6 +9,7 @@ import {
   TableCell,
   TableBody,
   Card,
+  Tooltip,
 } from "@mui/material";
 import { Flag } from "../../flag/Flag";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -20,12 +21,14 @@ import type { PredictData } from "../../../models/Predict";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import type { GroupStageStandings } from "../../../models/Results";
+import { sortStandings } from "../../utils/TeamsUtils";
 
 interface ThirdRow {
   code: string;
   name: string;
   positionInThird: number;
   points: number;
+  pointsInfo: number[];
   guessSelected: boolean;
   isQualifying: boolean;
   correct: boolean;
@@ -59,12 +62,7 @@ export default function GroupThirdViewer({ currentSelection }: GroupThirdViewerP
         thirdPlaces.push(groupStandings[2]);
       });
       // sort by points, gf, ga, gd
-      return thirdPlaces.sort((a, b) => {
-        if (a.points !== b.points) return b.points - a.points;
-        if (a.gf !== b.gf) return b.gf - a.gf;
-        if (a.ga !== b.ga) return a.ga - b.ga;
-        return b.gd - a.gd;
-      });
+      return thirdPlaces.sort(sortStandings);
     },
   });
 
@@ -79,6 +77,7 @@ export default function GroupThirdViewer({ currentSelection }: GroupThirdViewerP
         name: getTeamName(standing.code),
         positionInThird: index + 1,
         points: standing.points,
+        pointsInfo: [standing.gf, standing.ga, standing.gd],
         guessSelected,
         isQualifying,
         correct,
@@ -132,7 +131,11 @@ export default function GroupThirdViewer({ currentSelection }: GroupThirdViewerP
                     <Typography variant="body2">{row.name}</Typography>
                   </Stack>
                 </TableCell>
-                <TableCell align="left">{row.points}</TableCell>
+                <TableCell align="left">
+                  <Tooltip title={`GF: ${row.pointsInfo[0]}, GA: ${row.pointsInfo[1]}, GD: ${row.pointsInfo[2]}`}>
+                    <span>{row.points}</span>
+                  </Tooltip>
+                </TableCell>
                 <TableCell align="left">{row.guessSelected && <CheckCircleIcon />}</TableCell>
                 <TableCell align="left">{row.isQualifying && <CheckCircleIcon />}</TableCell>
                 <TableCell align="left">
