@@ -27,11 +27,12 @@ import { isMobile } from "../../utils/MobileUtils";
 import X2 from "./X2";
 
 interface MatchFinishedOthersProps {
+  noResults: boolean;
   match: MatchInfo;
   winner: string;
 }
 
-export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthersProps) {
+export default function MatchFinishedOthers({ noResults, match, winner }: MatchFinishedOthersProps) {
   const { user } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
 
@@ -54,7 +55,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
   return (
     <Accordion sx={{ mt: 2 }} expanded={expanded} onChange={(_, isExpanded) => setExpanded(isExpanded)}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`panel1-content`} id={`panel1-header`}>
-        <Typography component="span">Others got:</Typography>
+        <Typography component="span">Others {noResults ? "guessed" : "got"}:</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <TableContainer component={Paper}>
@@ -69,7 +70,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                     <TableCell align="center">First</TableCell>
                   </>
                 )}
-                <TableCell align="right">Points</TableCell>
+                <TableCell align="right">{noResults ? "2X?" : "Points"}</TableCell>
               </TableRow>
             </TableHead>
             {data ? (
@@ -104,7 +105,7 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                                 px: 0.5,
                                 py: 0.5,
                                 borderRadius: "6px",
-                                backgroundColor: p.winner === winner ? "#c8ffc8" : "#ffc8c8",
+                                backgroundColor: noResults ? "#c8c8ff" : p.winner === winner ? "#c8ffc8" : "#ffc8c8",
                               }}
                             >
                               <Flag code={p.winner ?? "??"} tooltip />
@@ -118,8 +119,9 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                                 px: 0.5,
                                 py: 0.5,
                                 borderRadius: "6px",
-                                backgroundColor:
-                                  p.score_left === match.score_left && p.score_right === match.score_right
+                                backgroundColor: noResults
+                                  ? "#c8c8ff"
+                                  : p.score_left === match.score_left && p.score_right === match.score_right
                                     ? "#c8ffc8"
                                     : "#ffc8c8",
                               }}
@@ -135,7 +137,11 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                                 px: 0.5,
                                 py: 0.5,
                                 borderRadius: "6px",
-                                backgroundColor: p.first_scorer === match.first_scorer ? "#c8ffc8" : "#ffc8c8",
+                                backgroundColor: noResults
+                                  ? "#c8c8ff"
+                                  : p.first_scorer === match.first_scorer
+                                    ? "#c8ffc8"
+                                    : "#ffc8c8",
                               }}
                             >
                               <Flag code={p.first_scorer ?? "??"} tooltip />
@@ -147,15 +153,17 @@ export default function MatchFinishedOthers({ match, winner }: MatchFinishedOthe
                         {p.double && !isMobile() && (
                           <X2 sx={{ float: "left", display: "inline-flex", alignItems: "center" }} />
                         )}
-                        <span
-                          style={{
-                            display: "inline-block",
-                            transform: p.double && !isMobile() ? "translateY(+5px)" : "translateY(0)",
-                            color: p.points === 10 || p.points === 5 ? "rgb(0, 100, 0)" : "inherit",
-                          }}
-                        >
-                          <strong>{p.points}</strong>
-                        </span>
+                        {!noResults && (
+                          <span
+                            style={{
+                              display: "inline-block",
+                              transform: p.double && !isMobile() ? "translateY(+5px)" : "translateY(0)",
+                              color: p.points === 10 || p.points === 5 ? "rgb(0, 100, 0)" : "inherit",
+                            }}
+                          >
+                            <strong>{p.points}</strong>
+                          </span>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}
