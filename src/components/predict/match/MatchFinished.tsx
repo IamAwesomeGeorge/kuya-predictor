@@ -188,18 +188,20 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           </>
         )}
 
-        {!waitingForResult && (
+        {isStarted && (
           <>
             <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
-            <MatchFinishedBreakdown
-              id={match.id.toString()}
-              totalScore={totalScore}
-              winnerCorrect={winnerCorrect}
-              scoreCorrect={scoreCorrect}
-              firstScorerCorrect={firstScorerCorrect}
-              doubleUsed={doubleUsed}
-            />
-            <MatchFinishedOthers match={match} winner={trueWinnerText} />
+            {!waitingForResult && (
+              <MatchFinishedBreakdown
+                id={match.id.toString()}
+                totalScore={totalScore}
+                winnerCorrect={winnerCorrect}
+                scoreCorrect={scoreCorrect}
+                firstScorerCorrect={firstScorerCorrect}
+                doubleUsed={doubleUsed}
+              />
+            )}
+            <MatchFinishedOthers noResults={waitingForResult} match={match} winner={trueWinnerText} />
           </>
         )}
       </Box>
