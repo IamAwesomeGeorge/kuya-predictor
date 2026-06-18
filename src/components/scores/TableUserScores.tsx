@@ -59,7 +59,7 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
     }
     setAni(true);
     setOrderBy(key);
-    setOrder("asc");
+    setOrder(key === "position" || key === "name" ? "asc" : "desc");
   };
 
   return (
@@ -86,7 +86,7 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
             <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
               <TableSortLabel
                 active={orderBy === "matches"}
-                direction={orderBy === "matches" ? order : "asc"}
+                direction={orderBy === "matches" ? order : "desc"}
                 onClick={() => handleSort("matches")}
               >
                 Matches
@@ -95,7 +95,7 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
             <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
               <TableSortLabel
                 active={orderBy === "groups"}
-                direction={orderBy === "groups" ? order : "asc"}
+                direction={orderBy === "groups" ? order : "desc"}
                 onClick={() => handleSort("groups")}
               >
                 Groups
@@ -104,7 +104,7 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
             <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
               <TableSortLabel
                 active={orderBy === "knockoutPre"}
-                direction={orderBy === "knockoutPre" ? order : "asc"}
+                direction={orderBy === "knockoutPre" ? order : "desc"}
                 onClick={() => handleSort("knockoutPre")}
               >
                 All the Way
@@ -113,7 +113,7 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
             <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
               <TableSortLabel
                 active={orderBy === "knockout"}
-                direction={orderBy === "knockout" ? order : "asc"}
+                direction={orderBy === "knockout" ? order : "desc"}
                 onClick={() => handleSort("knockout")}
               >
                 Knockout
@@ -122,7 +122,7 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
             <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
               <TableSortLabel
                 active={orderBy === "total"}
-                direction={orderBy === "total" ? order : "asc"}
+                direction={orderBy === "total" ? order : "desc"}
                 onClick={() => handleSort("total")}
               >
                 <strong>Total</strong>
