@@ -1,40 +1,138 @@
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
+import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, TableSortLabel } from "@mui/material";
 import type { UserScoreInfo } from "../../models/Results";
 import NameTag from "../account/NameTag";
 import { CountUpNumber } from "../fun/CountUpNumber";
+import { useState, useMemo } from "react";
+
+type SortKey = "position" | "name" | "matches" | "groups" | "knockoutPre" | "knockout" | "total";
+
+interface UserRow extends UserScoreInfo {
+  position: number;
+}
+
+const sortValue = (key: SortKey, row: UserRow) => row[key];
 
 export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
-  const scoresWithPositions = data?.reduce<Array<UserScoreInfo & { position: number }>>((accumulator, row, index) => {
-    const previousRow = accumulator[accumulator.length - 1];
-    const position = !previousRow || row.total !== previousRow.total ? index + 1 : previousRow.position;
+  const [ani, setAni] = useState(false);
+  const [orderBy, setOrderBy] = useState<SortKey>("position");
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
 
-    accumulator.push({
-      ...row,
-      position,
-    });
+  const scoresWithPositions = useMemo(
+    () =>
+      data?.reduce<UserRow[]>((accumulator, row, index) => {
+        const previousRow = accumulator[accumulator.length - 1];
+        const position = !previousRow || row.total !== previousRow.total ? index + 1 : previousRow.position;
 
-    return accumulator;
-  }, []);
+        accumulator.push({
+          ...row,
+          position,
+        });
+
+        return accumulator;
+      }, []),
+    [data],
+  );
+
+  const sortedScores = useMemo(
+    () =>
+      [...scoresWithPositions].sort((a, b) => {
+        const left = sortValue(orderBy, a);
+        const right = sortValue(orderBy, b);
+
+        if (left === right) {
+          return a.position - b.position || a.name.localeCompare(b.name);
+        }
+
+        if (typeof left === "string" && typeof right === "string") {
+          return order === "asc" ? left.localeCompare(right) : right.localeCompare(left);
+        }
+
+        return order === "asc" ? (left as number) - (right as number) : (right as number) - (left as number);
+      }),
+    [scoresWithPositions, order, orderBy],
+  );
+
+  const handleSort = (key: SortKey) => {
+    if (orderBy === key) {
+      setOrder((currentOrder) => (currentOrder === "asc" ? "desc" : "asc"));
+      return;
+    }
+    setAni(true);
+    setOrderBy(key);
+    setOrder("asc");
+  };
 
   return (
     <TableContainer component={Paper} sx={{ mt: 1 }}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Matches</TableCell>
-            <TableCell align="right">Groups</TableCell>
-            <TableCell align="right">All the Way</TableCell>
-            <TableCell align="right">Knockout</TableCell>
-            <TableCell align="right">
-              <strong>Total</strong>
+            <TableCell sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "position"}
+                direction={orderBy === "position" ? order : "asc"}
+                onClick={() => handleSort("position")}
+              ></TableSortLabel>
+            </TableCell>
+            <TableCell sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "name"}
+                direction={orderBy === "name" ? order : "asc"}
+                onClick={() => handleSort("name")}
+              >
+                Name
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "matches"}
+                direction={orderBy === "matches" ? order : "asc"}
+                onClick={() => handleSort("matches")}
+              >
+                Matches
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "groups"}
+                direction={orderBy === "groups" ? order : "asc"}
+                onClick={() => handleSort("groups")}
+              >
+                Groups
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "knockoutPre"}
+                direction={orderBy === "knockoutPre" ? order : "asc"}
+                onClick={() => handleSort("knockoutPre")}
+              >
+                All the Way
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "knockout"}
+                direction={orderBy === "knockout" ? order : "asc"}
+                onClick={() => handleSort("knockout")}
+              >
+                Knockout
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "total"}
+                direction={orderBy === "total" ? order : "asc"}
+                onClick={() => handleSort("total")}
+              >
+                <strong>Total</strong>
+              </TableSortLabel>
             </TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
-          {scoresWithPositions?.map((row) => (
+          {sortedScores?.map((row) => (
             <TableRow
               key={row.name}
               sx={{
@@ -53,20 +151,30 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
                 <NameTag name={row.name} pfp_url={row.pfp_url} team={row.team} />
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`matches-${row.name}`} end={row.matches} />
+                <CountUpNumber id={`matches-${row.name}`} end={row.matches} duration={ani ? 0 : 2} />
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`groups-${row.name}`} end={row.groups} delay={0.5} />
+                <CountUpNumber id={`groups-${row.name}`} end={row.groups} delay={ani ? 0 : 0.5} duration={ani ? 0 : 2} />
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`knockoutPre-${row.name}`} end={row.knockoutPre} delay={1} />
+                <CountUpNumber
+                  id={`knockoutPre-${row.name}`}
+                  end={row.knockoutPre}
+                  delay={ani ? 0 : 1}
+                  duration={ani ? 0 : 2}
+                />
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`knockout-${row.name}`} end={row.knockout} delay={1.5} />
+                <CountUpNumber id={`knockout-${row.name}`} end={row.knockout} delay={ani ? 0 : 1.5} duration={ani ? 0 : 2} />
               </TableCell>
               <TableCell align="right">
                 <strong>
-                  <CountUpNumber id={`total-${row.name}`} end={row.total} delay={2} />
+                  <CountUpNumber
+                    id={`total-${row.name}`}
+                    end={row.total}
+                    delay={ani ? 0 : ani ? 0 : 2}
+                    duration={ani ? 0 : 2}
+                  />
                 </strong>
               </TableCell>
             </TableRow>
