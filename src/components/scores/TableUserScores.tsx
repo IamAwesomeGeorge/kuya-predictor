@@ -1,9 +1,27 @@
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
+import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, TableSortLabel } from "@mui/material";
 import type { UserScoreInfo } from "../../models/Results";
 import NameTag from "../account/NameTag";
 import { CountUpNumber } from "../fun/CountUpNumber";
+import { useState } from "react";
+
+type SortKey = "pos" | "name" | "matches" | "groups" | "way" | "knockout" | "total";
+
+interface UserRow {
+  pos: number;
+  name: string;
+  matches: number;
+  groups: number;
+  way: number;
+  knockout: number;
+  total: number;
+}
+
+const sortValue = (key: SortKey, row: UserRow) => row[key];
 
 export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
+  const [orderBy, setOrderBy] = useState<SortKey>("pos");
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
+
   const scoresWithPositions = data?.reduce<Array<UserScoreInfo & { position: number }>>((accumulator, row, index) => {
     const previousRow = accumulator[accumulator.length - 1];
     const position = !previousRow || row.total !== previousRow.total ? index + 1 : previousRow.position;
@@ -16,19 +34,81 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
     return accumulator;
   }, []);
 
+  const handleSort = (key: SortKey) => {
+    if (orderBy === key) {
+      setOrder((currentOrder) => (currentOrder === "asc" ? "desc" : "asc"));
+      return;
+    }
+
+    setOrderBy(key);
+    setOrder("asc");
+  };
+
   return (
     <TableContainer component={Paper} sx={{ mt: 1 }}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Matches</TableCell>
-            <TableCell align="right">Groups</TableCell>
-            <TableCell align="right">All the Way</TableCell>
-            <TableCell align="right">Knockout</TableCell>
-            <TableCell align="right">
-              <strong>Total</strong>
+            <TableCell sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "pos"}
+                direction={orderBy === "pos" ? order : "asc"}
+                onClick={() => handleSort("pos")}
+              ></TableSortLabel>
+            </TableCell>
+            <TableCell sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "name"}
+                direction={orderBy === "name" ? order : "asc"}
+                onClick={() => handleSort("name")}
+              >
+                Name
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "matches"}
+                direction={orderBy === "matches" ? order : "asc"}
+                onClick={() => handleSort("matches")}
+              >
+                Matches
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "groups"}
+                direction={orderBy === "groups" ? order : "asc"}
+                onClick={() => handleSort("groups")}
+              >
+                Groups
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "way"}
+                direction={orderBy === "way" ? order : "asc"}
+                onClick={() => handleSort("way")}
+              >
+                All the Way
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "knockout"}
+                direction={orderBy === "knockout" ? order : "asc"}
+                onClick={() => handleSort("knockout")}
+              >
+                Knockout
+              </TableSortLabel>
+            </TableCell>
+            <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+              <TableSortLabel
+                active={orderBy === "total"}
+                direction={orderBy === "total" ? order : "asc"}
+                onClick={() => handleSort("total")}
+              >
+                <strong>Total</strong>
+              </TableSortLabel>
             </TableCell>
           </TableRow>
         </TableHead>
