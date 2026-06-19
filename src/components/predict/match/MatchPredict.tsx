@@ -61,6 +61,12 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           ? match.team_right
           : "DRAW"
       : "???";
+  const gdText =
+    scoreLeft !== null && scoreRight !== null
+      ? scoreLeft - scoreRight > 0
+        ? scoreLeft - scoreRight
+        : scoreRight - scoreLeft
+      : 0;
 
   return (
     <Grid size={{ xs: 12, md: 6 }} key={match.id}>
@@ -97,8 +103,10 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
 
         {/* Winner row */}
-        <Stack id={`match-${match.id}-details`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
-          <Typography sx={{ fontWeight: 600, fontSize: 18 }}>{findTeamName(teams, winnerText)} to win</Typography>
+        <Stack id={`match-${match.id}-winner`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
+          <Typography sx={{ fontSize: 18 }}>
+            <strong>{findTeamName(teams, winnerText)}</strong> to win
+          </Typography>
         </Stack>
 
         {/* Score row */}
@@ -160,6 +168,12 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             <MatchTeam teamCode={match.team_right} side="right" />
           </Stack>
         )}
+        {/* GD row */}
+        <Stack id={`match-${match.id}-gd`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
+          <Typography sx={{ fontSize: 18 }}>
+            Goal Difference: <strong>{gdText}</strong>
+          </Typography>
+        </Stack>
 
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
 
