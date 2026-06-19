@@ -25,6 +25,7 @@ import { Flag } from "../../flag/Flag";
 import NameTag from "../../account/NameTag";
 import { isMobile } from "../../utils/MobileUtils";
 import X2 from "./X2";
+import { isTopPoints } from "../../utils/TeamsUtils";
 
 interface MatchFinishedOthersProps {
   noResults: boolean;
@@ -175,7 +176,7 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
                             style={{
                               display: "inline-block",
                               transform: p.double && !isMobile() ? "translateY(+5px)" : "translateY(0)",
-                              color: p.points === 10 || p.points === 5 ? "rgb(0, 100, 0)" : "inherit",
+                              color: isTopPoints(p.points, p.double) ? "rgb(0, 100, 0)" : "inherit",
                             }}
                           >
                             <strong>{p.points}</strong>

@@ -2,6 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Divider, Stack, Typograp
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { isMobile } from "../../utils/MobileUtils";
 import ScoreNumber from "../../fun/ScoreNumber";
+import { isTopPoints } from "../../utils/TeamsUtils";
 
 interface MatchFinishedBreakdownProps {
   id: string;
@@ -27,7 +28,7 @@ export default function MatchFinishedBreakdown({
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`panel1-content`} id={`panel1-header`}>
         <Stack direction="row" sx={{ justifyContent: "space-between", width: "100%" }}>
           <Typography component="span">You got:</Typography>
-          <ScoreNumber id={`${id}-total-score`} score={totalScore} />
+          <ScoreNumber id={`${id}-total-score`} score={totalScore} double={doubleUsed} />
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
@@ -84,7 +85,7 @@ export default function MatchFinishedBreakdown({
           <Typography component="span">
             <strong>Total:</strong>
           </Typography>
-          <Typography component="span" sx={{ color: totalScore === 10 || totalScore === 5 ? "rgb(0, 100, 0)" : "inherit" }}>
+          <Typography component="span" sx={{ color: isTopPoints(totalScore, doubleUsed) ? "rgb(0, 100, 0)" : "inherit" }}>
             <strong>
               {totalScore} POINT{totalScore !== 1 ? "S" : ""}
             </strong>
