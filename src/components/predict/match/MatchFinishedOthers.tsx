@@ -190,7 +190,7 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
               <TableBody>
                 {[...Array(10)].map((_, i) => (
                   <TableRow key={i}>
-                    {[...Array(5)].map((_, j) => (
+                    {[...Array(6)].map((_, j) => (
                       <TableCell key={i + j}>
                         <Skeleton />
                       </TableCell>
