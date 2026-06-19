@@ -212,7 +212,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
                 doubleUsed={doubleUsed}
               />
             )}
-            <MatchFinishedOthers noResults={waitingForResult} match={match} winner={trueWinnerText} />
+            <MatchFinishedOthers noResults={waitingForResult} match={match} winner={trueWinnerText} gd={goalDifference} />
           </>
         )}
       </Box>

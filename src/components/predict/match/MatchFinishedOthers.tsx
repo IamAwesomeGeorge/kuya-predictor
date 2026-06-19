@@ -30,9 +30,10 @@ interface MatchFinishedOthersProps {
   noResults: boolean;
   match: MatchInfo;
   winner: string;
+  gd: number;
 }
 
-export default function MatchFinishedOthers({ noResults, match, winner }: MatchFinishedOthersProps) {
+export default function MatchFinishedOthers({ noResults, match, winner, gd }: MatchFinishedOthersProps) {
   const { user } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
 
@@ -46,6 +47,7 @@ export default function MatchFinishedOthers({ noResults, match, winner }: MatchF
         points:
           ((p.winner === winner ? 1 : 0) +
             (p.score_left === match.score_left && p.score_right === match.score_right ? 3 : 0) +
+            (p.gd === gd ? 1 : 0) +
             (p.first_scorer === match.first_scorer ? 1 : 0)) *
           (p.double ? 2 : 1),
       })) as PredictMatchView[];
@@ -67,6 +69,7 @@ export default function MatchFinishedOthers({ noResults, match, winner }: MatchF
                   <>
                     <TableCell align="center">Win</TableCell>
                     <TableCell align="center">Score</TableCell>
+                    <TableCell align="center">GD</TableCell>
                     <TableCell align="center">First</TableCell>
                   </>
                 )}
@@ -127,6 +130,20 @@ export default function MatchFinishedOthers({ noResults, match, winner }: MatchF
                               }}
                             >
                               {p.score_left}-{p.score_right}
+                            </Box>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Box
+                              sx={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                px: 0.5,
+                                py: 0.5,
+                                borderRadius: "6px",
+                                backgroundColor: noResults ? "#c8c8ff" : p.gd === gd ? "#c8ffc8" : "#ffc8c8",
+                              }}
+                            >
+                              {p.gd}
                             </Box>
                           </TableCell>
                           <TableCell align="center">
