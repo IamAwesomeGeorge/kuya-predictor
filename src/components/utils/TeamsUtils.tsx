@@ -36,7 +36,8 @@ export function sortStandings(a: GroupStageStandings, b: GroupStageStandings) {
   if (a.points !== b.points) return b.points - a.points;
   if (a.gd !== b.gd) return b.gd - a.gd;
   if (a.gf !== b.gf) return b.gf - a.gf;
-  return a.ga - b.ga;
+  if (a.ga !== b.ga) return a.ga - b.ga;
+  return a.gw - b.gw;
 }
 
 export function isTopPoints(points: number | undefined, double: boolean) {
