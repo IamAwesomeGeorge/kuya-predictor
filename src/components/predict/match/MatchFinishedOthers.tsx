@@ -92,8 +92,8 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
                         <TableCell>
                           {p.user === user?.id ? (
                             <strong>You</strong>
-                          ) : p.name.length > 10 && !isMobile() ? (
-                            p.name.slice(0, 7) + "..."
+                          ) : p.name.length > 7 && !isMobile() ? (
+                            p.name.slice(0, 5) + "..."
                           ) : (
                             p.name
                           )}
