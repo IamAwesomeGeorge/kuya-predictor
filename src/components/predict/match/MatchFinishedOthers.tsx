@@ -25,14 +25,16 @@ import { Flag } from "../../flag/Flag";
 import NameTag from "../../account/NameTag";
 import { isMobile } from "../../utils/MobileUtils";
 import X2 from "./X2";
+import { isTopPoints } from "../../utils/TeamsUtils";
 
 interface MatchFinishedOthersProps {
   noResults: boolean;
   match: MatchInfo;
   winner: string;
+  gd: number;
 }
 
-export default function MatchFinishedOthers({ noResults, match, winner }: MatchFinishedOthersProps) {
+export default function MatchFinishedOthers({ noResults, match, winner, gd }: MatchFinishedOthersProps) {
   const { user } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
 
@@ -46,6 +48,7 @@ export default function MatchFinishedOthers({ noResults, match, winner }: MatchF
         points:
           ((p.winner === winner ? 1 : 0) +
             (p.score_left === match.score_left && p.score_right === match.score_right ? 3 : 0) +
+            (p.gd === gd ? 1 : 0) +
             (p.first_scorer === match.first_scorer ? 1 : 0)) *
           (p.double ? 2 : 1),
       })) as PredictMatchView[];
@@ -67,6 +70,7 @@ export default function MatchFinishedOthers({ noResults, match, winner }: MatchF
                   <>
                     <TableCell align="center">Win</TableCell>
                     <TableCell align="center">Score</TableCell>
+                    <TableCell align="center">GD</TableCell>
                     <TableCell align="center">First</TableCell>
                   </>
                 )}
@@ -88,8 +92,8 @@ export default function MatchFinishedOthers({ noResults, match, winner }: MatchF
                         <TableCell>
                           {p.user === user?.id ? (
                             <strong>You</strong>
-                          ) : p.name.length > 10 && !isMobile() ? (
-                            p.name.slice(0, 7) + "..."
+                          ) : p.name.length > 7 && !isMobile() ? (
+                            p.name.slice(0, 5) + "..."
                           ) : (
                             p.name
                           )}
@@ -137,6 +141,20 @@ export default function MatchFinishedOthers({ noResults, match, winner }: MatchF
                                 px: 0.5,
                                 py: 0.5,
                                 borderRadius: "6px",
+                                backgroundColor: noResults ? "#c8c8ff" : p.gd === gd ? "#c8ffc8" : "#ffc8c8",
+                              }}
+                            >
+                              {p.gd}
+                            </Box>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Box
+                              sx={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                px: 0.5,
+                                py: 0.5,
+                                borderRadius: "6px",
                                 backgroundColor: noResults
                                   ? "#c8c8ff"
                                   : p.first_scorer === match.first_scorer
@@ -158,7 +176,7 @@ export default function MatchFinishedOthers({ noResults, match, winner }: MatchF
                             style={{
                               display: "inline-block",
                               transform: p.double && !isMobile() ? "translateY(+5px)" : "translateY(0)",
-                              color: p.points === 10 || p.points === 5 ? "rgb(0, 100, 0)" : "inherit",
+                              color: isTopPoints(p.points, p.double) ? "rgb(0, 100, 0)" : "inherit",
                             }}
                           >
                             <strong>{p.points}</strong>
@@ -172,7 +190,7 @@ export default function MatchFinishedOthers({ noResults, match, winner }: MatchF
               <TableBody>
                 {[...Array(10)].map((_, i) => (
                   <TableRow key={i}>
-                    {[...Array(5)].map((_, j) => (
+                    {[...Array(6)].map((_, j) => (
                       <TableCell key={i + j}>
                         <Skeleton />
                       </TableCell>

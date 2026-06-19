@@ -2,25 +2,27 @@ import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CountUpNumber } from "./CountUpNumber";
 import { useReward } from "react-rewards";
+import { isTopPoints } from "../utils/TeamsUtils";
 
 interface ScoreNumberProps {
   id: string;
   score: number;
+  double: boolean;
 }
 
-export default function ScoreNumber({ id, score }: ScoreNumberProps) {
+export default function ScoreNumber({ id, score, double }: ScoreNumberProps) {
   const [celebration, setCelebration] = useState(false);
   const { reward } = useReward(id + "-reward", "confetti");
 
   useEffect(() => {
-    if ((score === 10 || score === 5) && !celebration) {
+    if (isTopPoints(score, double) && !celebration) {
       const timer = setTimeout(() => {
         setCelebration(true);
         reward();
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [reward, score, celebration]);
+  }, [reward, score, double, celebration]);
 
   return (
     <Typography

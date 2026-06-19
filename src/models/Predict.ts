@@ -39,6 +39,7 @@ export interface PredictMatchView extends PredictMatch {
   stage: string;
   stage_info: string;
   points?: number;
+  gd: number;
   winner: string;
 }
 
