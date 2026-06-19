@@ -27,6 +27,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
   const guessedWinner = current?.winner ?? "???";
   const guessedScoreLeft = current?.score_left ?? "??";
   const guessedScoreRight = current?.score_right ?? "??";
+  const guessedGD = current?.gd ?? "??";
   const guessedFirstScorer = current?.first_scorer ?? "???";
   const doubleUsed = current?.double ?? false;
 
@@ -38,11 +39,14 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           ? match.team_right
           : "DRAW"
       : "???";
+  const goalDifference =
+    match.score_left !== undefined && match.score_right !== undefined ? match.score_left - match.score_right : 0;
 
   const winnerCorrect = guessedWinner === trueWinnerText && guessedWinner !== "???";
   const scoreCorrect = guessedScoreLeft === match.score_left && guessedScoreRight === match.score_right;
+  const gdCorrect = guessedGD !== "??" ? goalDifference === guessedGD : false;
   const firstScorerCorrect = guessedFirstScorer === match.first_scorer && guessedFirstScorer !== "???";
-  const finalScore = (winnerCorrect ? 1 : 0) + (scoreCorrect ? 3 : 0) + (firstScorerCorrect ? 1 : 0);
+  const finalScore = (winnerCorrect ? 1 : 0) + (scoreCorrect ? 3 : 0) + (gdCorrect ? 1 : 0) + (firstScorerCorrect ? 1 : 0);
   const totalScore = doubleUsed ? finalScore * 2 : finalScore;
 
   return (
@@ -149,6 +153,9 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
             </Stack>
           )}
           <Typography sx={{ fontSize: 18 }}>
+            <strong>{guessedGD}</strong> goal difference
+          </Typography>
+          <Typography sx={{ fontSize: 18 }}>
             <strong>{findTeamName(teams, guessedFirstScorer)}</strong> to score first
           </Typography>
         </Box>
@@ -176,6 +183,9 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
                         {match.score_left ?? "??"}-{match.score_right ?? "??"}
                       </strong>
                     </Typography>
+                    <Typography sx={{ fontSize: 14, color: gdCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                      GD: <strong>{goalDifference}</strong>
+                    </Typography>
                     <Typography sx={{ fontSize: 14, color: firstScorerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
                       <strong>{findTeamName(teams, match.first_scorer ?? "?")}</strong> scored first
                     </Typography>
@@ -197,6 +207,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
                 totalScore={totalScore}
                 winnerCorrect={winnerCorrect}
                 scoreCorrect={scoreCorrect}
+                goalDifferenceCorrect={gdCorrect}
                 firstScorerCorrect={firstScorerCorrect}
                 doubleUsed={doubleUsed}
               />

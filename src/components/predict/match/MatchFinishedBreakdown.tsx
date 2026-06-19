@@ -9,6 +9,7 @@ interface MatchFinishedBreakdownProps {
   winnerCorrect: boolean;
   scoreCorrect: boolean;
   firstScorerCorrect: boolean;
+  goalDifferenceCorrect: boolean;
   doubleUsed: boolean;
 }
 
@@ -17,6 +18,7 @@ export default function MatchFinishedBreakdown({
   totalScore,
   winnerCorrect,
   scoreCorrect,
+  goalDifferenceCorrect,
   firstScorerCorrect,
   doubleUsed,
 }: MatchFinishedBreakdownProps) {
@@ -49,6 +51,16 @@ export default function MatchFinishedBreakdown({
             <Typography component="span">3 POINTS</Typography>
           </Stack>
         )}
+        {goalDifferenceCorrect && (
+          <Stack direction="row" sx={{ justifyContent: "space-between", width: "100%" }}>
+            {isMobile() ? (
+              <Typography component="span">Goal difference:</Typography>
+            ) : (
+              <Typography component="span">Correct goal difference:</Typography>
+            )}
+            <Typography component="span">1 POINT</Typography>
+          </Stack>
+        )}
         {firstScorerCorrect && (
           <Stack direction="row" sx={{ justifyContent: "space-between", width: "100%" }}>
             {isMobile() ? (
@@ -72,7 +84,7 @@ export default function MatchFinishedBreakdown({
           <Typography component="span">
             <strong>Total:</strong>
           </Typography>
-          <Typography component="span" sx={{ color: (totalScore === 10 || totalScore === 5) ? "rgb(0, 100, 0)" : "inherit" }}>
+          <Typography component="span" sx={{ color: totalScore === 10 || totalScore === 5 ? "rgb(0, 100, 0)" : "inherit" }}>
             <strong>
               {totalScore} POINT{totalScore !== 1 ? "S" : ""}
             </strong>
