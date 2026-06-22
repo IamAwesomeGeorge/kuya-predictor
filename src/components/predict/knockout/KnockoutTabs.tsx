@@ -1,62 +1,30 @@
-import { Box, Tab, Tabs } from "@mui/material";
-import { useContext, useState } from "react";
+import { Tab, Tabs } from "@mui/material";
+import { useState } from "react";
 import { TabPanel } from "../../utils/TabPanel";
-import { BracketBuilderStart } from "../../predict/knockout/BracketBuilder";
-import type { PredictData, PredictGroup, PredictKnockout } from "../../../models/Predict";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../../../utils/supabase";
-import { TeamsContext } from "../../../contexts/TeamsContext";
-import { UserContext } from "../../../contexts/UserContext";
+import type { PredictKnockout } from "../../../models/Predict";
 import KnockoutBase from "../../predict/knockout/KnockoutBase";
 import type { Stage } from "../../../models/Infos";
 import KnockoutFinals from "../../predict/knockout/KnockoutFinals";
 import { isMobile } from "../../utils/MobileUtils";
+import type { KnockoutMatchInfo } from "../../../models/Knockout";
 
-export default function KnockoutTabs({ preview = false }: { preview?: boolean }) {
-  const { user } = useContext(UserContext);
-  const { teams } = useContext(TeamsContext);
+interface KnockoutTabsProps {
+  preview: boolean;
+  bracket: KnockoutMatchInfo[];
+  predictions?: PredictKnockout[];
+}
+
+export default function KnockoutTabs({ preview, bracket, predictions }: KnockoutTabsProps) {
   const [mode, setMode] = useState(0);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setMode(newValue);
   };
 
-  const { data: predictData } = useQuery({
-    queryKey: ["predict", "group", user?.id],
-    enabled: !!user?.id && teams.length > 0,
-    queryFn: async () => {
-      const { data } = await supabase.from("predictions_group").select().eq("user", user?.id);
-      return (data ?? [])
-        .filter((item): item is PredictGroup => item !== null && item !== undefined)
-        .sort((a, b) => a.group.localeCompare(b.group));
-    },
-  });
-
-  const { data: predictThirdData } = useQuery({
-    queryKey: ["predict", "third", user?.id],
-    queryFn: async () => {
-      const { data } = await supabase.from("predictions_group_third").select().eq("user", user?.id);
-      if (data && data.length > 0) {
-        return data[0] as PredictData;
-      }
-      return null;
-    },
-  });
-
-  const { data: predictKnockoutStartData, isPending: isPredictKnockoutStartDataPending } = useQuery({
-    queryKey: ["predict", "knockout", "start", user?.id],
-    queryFn: async () => {
-      const { data } = await supabase.from("predictions_knockout_start").select().eq("user", user?.id);
-      return data as PredictKnockout[];
-    },
-  });
-
-  const bracket = BracketBuilderStart(teams, predictData || [], predictKnockoutStartData || [], predictThirdData);
-
   const checkIfStageComplete = (stage: Stage) => {
     // Chekc if each match in the stage has a prediction
     const matchesInStage = bracket.filter((match) => match.stage === stage);
-    return matchesInStage.every((match) => predictKnockoutStartData?.some((predict) => predict.matchId === match.id));
+    return matchesInStage.every((match) => predictions?.some((predict) => predict.matchId === match.id));
   };
 
   const isGroupComplete = {
@@ -76,47 +44,42 @@ export default function KnockoutTabs({ preview = false }: { preview?: boolean })
         <Tab label={isMobile() ? "SF" : "Semifinals"} sx={{ color: isGroupComplete[4] ? "#c8ffc8" : "#ffc8c8" }} />
         <Tab label={isMobile() ? "F" : "Final"} sx={{ color: isGroupComplete[2] ? "#c8ffc8" : "#ffc8c8" }} />
       </Tabs>
-      {isPredictKnockoutStartDataPending ? (
-        <Box sx={{ p: 2 }}>Loading...</Box>
-      ) : (
-        <>
-          <TabPanel value={mode} index={0}>
-            <KnockoutBase
-              preview={preview}
-              knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_32")}
-              currentPredictions={predictKnockoutStartData}
-            />
-          </TabPanel>
-          <TabPanel value={mode} index={1}>
-            <KnockoutBase
-              preview={preview}
-              knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_16")}
-              currentPredictions={predictKnockoutStartData}
-            />
-          </TabPanel>
-          <TabPanel value={mode} index={2}>
-            <KnockoutBase
-              preview={preview}
-              knockoutMatchInfo={bracket.filter((match) => match.stage === "QUARTERFINAL")}
-              currentPredictions={predictKnockoutStartData}
-            />
-          </TabPanel>
-          <TabPanel value={mode} index={3}>
-            <KnockoutBase
-              preview={preview}
-              knockoutMatchInfo={bracket.filter((match) => match.stage === "SEMIFINAL")}
-              currentPredictions={predictKnockoutStartData}
-            />
-          </TabPanel>
-          <TabPanel value={mode} index={4}>
-            <KnockoutFinals
-              preview={preview}
-              knockoutMatchInfo={bracket.filter((match) => match.stage === "FINAL")}
-              currentPredictions={predictKnockoutStartData}
-            />
-          </TabPanel>
-        </>
-      )}
+
+      <TabPanel value={mode} index={0}>
+        <KnockoutBase
+          preview={preview}
+          knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_32")}
+          currentPredictions={predictions}
+        />
+      </TabPanel>
+      <TabPanel value={mode} index={1}>
+        <KnockoutBase
+          preview={preview}
+          knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_16")}
+          currentPredictions={predictions}
+        />
+      </TabPanel>
+      <TabPanel value={mode} index={2}>
+        <KnockoutBase
+          preview={preview}
+          knockoutMatchInfo={bracket.filter((match) => match.stage === "QUARTERFINAL")}
+          currentPredictions={predictions}
+        />
+      </TabPanel>
+      <TabPanel value={mode} index={3}>
+        <KnockoutBase
+          preview={preview}
+          knockoutMatchInfo={bracket.filter((match) => match.stage === "SEMIFINAL")}
+          currentPredictions={predictions}
+        />
+      </TabPanel>
+      <TabPanel value={mode} index={4}>
+        <KnockoutFinals
+          preview={preview}
+          knockoutMatchInfo={bracket.filter((match) => match.stage === "FINAL")}
+          currentPredictions={predictions}
+        />
+      </TabPanel>
     </>
   );
 }

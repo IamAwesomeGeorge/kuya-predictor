@@ -25,7 +25,7 @@ export default function PredictKnockoutCard({ navigateTo }: PredictCardProps) {
   const { data: done, isFetched } = useQuery({
     queryKey: ["check", "knockout", user?.id],
     queryFn: async () => {
-      return false;
+      return true;
     },
   });
 

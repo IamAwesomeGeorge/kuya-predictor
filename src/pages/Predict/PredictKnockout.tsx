@@ -1,11 +1,11 @@
 import PageHeader from "../../components/header/PageHeader";
-import KnockoutTabs from "../../components/predict/knockout/KnockoutTabs";
+import AllTheWay from "../../components/predict/knockout/AllTheWay";
 
 export default function PredictKnockout() {
   return (
     <>
       <PageHeader title="Predict Knockout Stage" />
-      <KnockoutTabs />
+      <AllTheWay />
     </>
   );
 }
