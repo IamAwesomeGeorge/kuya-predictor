@@ -40,6 +40,8 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
               <br />
               <strong>3 points</strong> for getting the correct score.
               <br />
+              <strong>1 point</strong> for getting the correct score difference.
+              <br />
               <strong>1 point</strong> for getting the correct team to score first.
               <br />
               An option to <strong>double</strong> the points per group.

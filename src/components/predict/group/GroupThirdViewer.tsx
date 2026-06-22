@@ -149,7 +149,7 @@ export default function GroupThirdViewer({ currentSelection }: GroupThirdViewerP
 
       <Card sx={{ mt: 2, p: 2, bgcolor: "#f5f5f5" }}>
         <Typography variant="body2" sx={{ fontWeight: 600 }}>
-          Teams Selected, but not in 3rd Place:
+          Teams selected but not in 3rd Place:
         </Typography>
         {teamsSelectedNotInThirdPlace.length === 0 ? (
           <Typography variant="body2" sx={{ mt: 1 }}>
