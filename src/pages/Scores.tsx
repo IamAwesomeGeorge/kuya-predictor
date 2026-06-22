@@ -9,6 +9,7 @@ export default function Scores() {
   const { data } = useQuery({
     queryKey: ["users", "scores"],
     queryFn: async () => {
+      //Todo: kockout points
       const { data } = await supabase.from("user_scores").select();
       // Calculate total points
       const updatedData =

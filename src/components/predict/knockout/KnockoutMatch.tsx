@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface KnockoutMatchProps {
   id: number;
   preview: boolean;
+  knockoutMode: "allTheWay" | "knockout";
   topTeamLabel: string;
   bottomTeamLabel: string;
   topTeam?: TeamInfo;
@@ -20,6 +21,7 @@ interface KnockoutMatchProps {
 export default function KnockoutMatch({
   id,
   preview,
+  knockoutMode,
   topTeamLabel,
   bottomTeamLabel,
   topTeam,
@@ -39,17 +41,18 @@ export default function KnockoutMatch({
 
   const { mutate: sendKnockoutStart, isPending } = useMutation({
     mutationFn: async (teamSelected: string) => {
-      await supabase.from("predictions_knockout_start").delete().eq("user", user?.id).eq("matchId", id);
+      const table = knockoutMode === "allTheWay" ? "predictions_knockout_start" : "predictions_knockout";
+      await supabase.from(table).delete().eq("user", user?.id).eq("matchId", id);
       const prediction: PredictKnockout = {
         updated_at: new Date().toISOString(),
         user: user?.id || 0,
         matchId: id,
         winner: teamSelected,
       };
-      await supabase.from("predictions_knockout_start").insert(prediction);
+      await supabase.from(table).insert(prediction);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["predict", "knockout", "start", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["predict", knockoutMode, user?.id] });
     },
   });
 

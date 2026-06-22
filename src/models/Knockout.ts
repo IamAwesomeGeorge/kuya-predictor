@@ -11,3 +11,8 @@ export interface KnockoutMatchInfo extends KnockoutMatch {
   leftTeam?: TeamInfo;
   rightTeam?: TeamInfo;
 }
+
+export interface FinalTeams {
+  pos: string;
+  team?: string;
+}

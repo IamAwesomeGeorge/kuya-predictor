@@ -6,6 +6,7 @@ import type { PredictKnockout } from "../../../models/Predict";
 
 interface KnockoutDuelProps {
   preview: boolean;
+  knockoutMode: "allTheWay" | "knockout";
   topId: number;
   topTopTeamLabel: string;
   topBottomTeamLabel: string;
@@ -21,6 +22,7 @@ interface KnockoutDuelProps {
 
 export default function KnockoutDuel({
   preview,
+  knockoutMode,
   topId,
   topTopTeamLabel,
   topBottomTeamLabel,
@@ -39,6 +41,7 @@ export default function KnockoutDuel({
         <KnockoutMatch
           id={topId}
           preview={preview}
+          knockoutMode={knockoutMode}
           topTeamLabel={topTopTeamLabel}
           bottomTeamLabel={topBottomTeamLabel}
           topTeam={topTopTeam}
@@ -49,6 +52,7 @@ export default function KnockoutDuel({
         <KnockoutMatch
           id={bottomId}
           preview={preview}
+          knockoutMode={knockoutMode}
           topTeamLabel={bottomTopTeamLabel}
           bottomTeamLabel={bottomBottomTeamLabel}
           topTeam={bottomTopTeam}

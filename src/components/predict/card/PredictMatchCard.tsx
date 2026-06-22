@@ -10,7 +10,7 @@ import PredictCardButtons from "./PredictCardButtons";
 export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
 
-  const { data: done, isFetched } = useQuery({
+  const { data: done } = useQuery({
     queryKey: ["check", "match", user?.id],
     queryFn: async () => {
       const { data } = await supabase.from("matches").select().eq("stage", "GROUP").order("date_time", { ascending: true });
@@ -40,6 +40,8 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
               <br />
               <strong>3 points</strong> for getting the correct score.
               <br />
+              <strong>1 point</strong> for getting the correct score difference.
+              <br />
               <strong>1 point</strong> for getting the correct team to score first.
               <br />
               An option to <strong>double</strong> the points per group.
@@ -51,7 +53,7 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
           </AccordionDetails>
         </Accordion>
       </CardContent>
-      <PredictCardButtons navigateTo={navigateTo} done={done} isFetched={isFetched} />
+      <PredictCardButtons navigateTo={navigateTo} done={done} />
     </Card>
   );
 }

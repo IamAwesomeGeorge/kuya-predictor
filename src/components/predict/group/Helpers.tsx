@@ -14,8 +14,8 @@ export const EMPTY_SELECTION: Record<number, string | null> = {
 
 export const numberIconMap: Record<number, JSX.Element> = {
   0: <HelpCenterIcon />,
-  1: <LooksOneIcon />,
-  2: <LooksTwoIcon />,
-  3: <Looks3Icon />,
-  4: <Looks4Icon />,
+  1: <LooksOneIcon sx={{ color: "#BB271B" }} />,
+  2: <LooksTwoIcon sx={{ color: "#F29D37" }} />,
+  3: <Looks3Icon sx={{ color: "#2A6418" }} />,
+  4: <Looks4Icon sx={{ color: "#5D0DC4" }} />,
 };

@@ -5,10 +5,9 @@ interface PredictCardButtonsProps {
   navigateTo: () => void;
   closed?: boolean;
   done?: boolean;
-  isFetched: boolean;
 }
 
-export default function PredictCardButtons({ navigateTo, closed, done, isFetched }: PredictCardButtonsProps) {
+export default function PredictCardButtons({ navigateTo, closed, done }: PredictCardButtonsProps) {
   return (
     <CardActions sx={{ display: "flex", justifyContent: "space-between", mt: "auto" }}>
       {closed ? (
@@ -20,7 +19,7 @@ export default function PredictCardButtons({ navigateTo, closed, done, isFetched
           {done ? "Edit" : "Start"}
         </Button>
       )}
-      {isFetched ? (
+      {done !== undefined ? (
         <DoneSymbol done={done} />
       ) : (
         <Skeleton variant="rounded" width={65} height={35} sx={{ py: 0, px: 1, fontSize: 12 }} />

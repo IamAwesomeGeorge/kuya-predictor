@@ -1,5 +1,5 @@
 import type { TeamInfo } from "../../../models/Infos";
-import type { KnockoutMatch, KnockoutMatchInfo } from "../../../models/Knockout";
+import type { FinalTeams, KnockoutMatch, KnockoutMatchInfo } from "../../../models/Knockout";
 import type { PredictData, PredictGroup, PredictKnockout } from "../../../models/Predict";
 import { findTeamInfo } from "../../utils/TeamsUtils";
 import { thirdPlaceFinder } from "./ThirdPlaceHelper";
@@ -50,7 +50,17 @@ const matches: KnockoutMatch[] = [
   { id: 104, stage: "FINAL", left: "M101", right: "M102" },
 ];
 
-export function BracketBuilderStart(
+export function BracketKnockoutBuilderStart(teams: TeamInfo[], finalTeams: FinalTeams[], current: PredictKnockout[]) {
+  const matchInfo: KnockoutMatchInfo[] = [];
+  matches.forEach((match) => {
+    const leftTeam = findFinalTeam(match.left, teams, finalTeams, current);
+    const rightTeam = findFinalTeam(match.right, teams, finalTeams, current);
+    matchInfo.push({ ...match, leftTeam, rightTeam });
+  });
+  return fix3Label(matchInfo);
+}
+
+export function BracketATWBuilderStart(
   teams: TeamInfo[],
   predicts: PredictGroup[],
   current: PredictKnockout[],
@@ -69,6 +79,27 @@ export function BracketBuilderStart(
     matchInfo.push({ ...match, leftTeam, rightTeam });
   });
   return fix3Label(matchInfo);
+}
+
+function findFinalTeam(position: string, teams: TeamInfo[], finalTeams: FinalTeams[], current: PredictKnockout[]) {
+  if (position[0] === "M" && position[4] === "L") {
+    const setup = position === "M101L" ? [97, 98, 101] : [99, 100, 102];
+    const top = current.find((m) => m.matchId === setup[0])?.winner;
+    const bottom = current.find((m) => m.matchId === setup[1])?.winner;
+    const picked = current.find((m) => m.matchId === setup[2])?.winner;
+    const looserPicked = picked === top ? bottom : top;
+    return findTeam(teams, looserPicked);
+  } else if (position[0] === "M") {
+    const matchNumber = parseInt(position.slice(1));
+    const matchGuessed = current.find((m) => m.matchId === matchNumber);
+    return findTeam(teams, matchGuessed?.winner);
+  } else {
+    if (position === "1E") {
+      console.log(position, "finalTeams", finalTeams);
+    }
+    const teamCode = finalTeams.find((t) => t.pos === position)?.team;
+    return findTeam(teams, teamCode);
+  }
 }
 
 function findPredictedTeam(

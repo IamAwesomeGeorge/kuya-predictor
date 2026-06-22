@@ -11,7 +11,8 @@ import Predict from "../pages/Predict/Predict";
 import Matches from "../pages/Matches";
 import PredictGroup from "../pages/Predict/PredictGroup";
 import PredictMatch from "../pages/Predict/PredictMatch";
-import PredictKnockoutStart from "../pages/Predict/PredictKnockoutStart";
+import PredictAllTheWay from "../pages/Predict/PredictAllTheWay";
+import PredictKnockout from "../pages/Predict/PredictKnockout";
 
 export const rootRoute = createRootRoute({
   component: () => (
@@ -37,17 +38,16 @@ const routes = [
   { path: "/standings", component: Standings },
 
   { path: "/predict", component: Predict },
-
+  { path: "/predict/match", component: PredictMatch },
   // stop routes if closed
   ...(closed
     ? []
     : [
         { path: "/predict/group", component: PredictGroup },
-        { path: "/predict/knockout-start", component: PredictKnockoutStart },
+        { path: "/predict/all-the-way", component: PredictAllTheWay },
       ]),
+  { path: "/predict/knockout", component: PredictKnockout },
 
-  // { path: "/predict/knockout", component: PredictKnockoutStart },
-  { path: "/predict/match", component: PredictMatch },
   { path: "/scores", component: Scores },
 
   { path: "/login", component: Login },

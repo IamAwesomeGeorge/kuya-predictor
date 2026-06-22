@@ -7,12 +7,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import PredictCardButtons from "./PredictCardButtons";
 
-export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProps) {
+export default function PredictAllTheWayCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
 
   const closed = import.meta.env.VITE_CLOSE_GROUP === "true";
 
-  const { data: done, isFetched } = useQuery({
+  const { data: done } = useQuery({
     queryKey: ["check", "knockoutStart", user?.id],
     queryFn: async () => {
       const { data } = await supabase.from("predictions_knockout_start").select().eq("user", user?.id);
@@ -35,7 +35,7 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="body2">
-              <strong>5 points</strong> for each match outcome correct with correct teams playing in that match.
+              <strong>5 points</strong> for each match winner guessed correct.
             </Typography>
             <br />
             <Typography variant="body2">
@@ -44,7 +44,7 @@ export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProp
           </AccordionDetails>
         </Accordion>
       </CardContent>
-      <PredictCardButtons navigateTo={navigateTo} closed={closed} done={done} isFetched={isFetched} />
+      <PredictCardButtons navigateTo={navigateTo} closed={closed} done={done} />
     </Card>
   );
 }
