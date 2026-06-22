@@ -35,7 +35,7 @@ export default function PredictAllTheWayCard({ navigateTo }: PredictCardProps) {
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="body2">
-              <strong>5 points</strong> for each match outcome correct with correct teams playing in that match.
+              <strong>5 points</strong> for each match winner guessed correct.
             </Typography>
             <br />
             <Typography variant="body2">

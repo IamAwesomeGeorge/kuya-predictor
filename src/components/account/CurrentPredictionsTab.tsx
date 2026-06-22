@@ -22,7 +22,7 @@ export default function CurrentPredictionsTab() {
         <Tab label="Matches" sx={{ color: "white" }} />
         <Tab label="Group Stage" sx={{ color: "white" }} />
         <Tab label="All The Way" sx={{ color: "white" }} />
-        <Tab label="Knockout Stage" disabled sx={{ color: "white" }} />
+        <Tab label="Knockout Stage" sx={{ color: "white" }} />
         {doner && <Tab label="Done" sx={{ color: "white" }} />}
       </Tabs>
       <TabPanel value={mode} index={0}>

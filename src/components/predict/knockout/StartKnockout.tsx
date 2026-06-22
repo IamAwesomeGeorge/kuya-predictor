@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useContext } from "react";
 import { BracketKnockoutBuilderStart } from "./BracketBuilder";
-import type { PredictData, PredictGroup, PredictKnockout } from "../../../models/Predict";
+import type { PredictKnockout } from "../../../models/Predict";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import { TeamsContext } from "../../../contexts/TeamsContext";

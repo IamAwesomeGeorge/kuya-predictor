@@ -53,7 +53,7 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
           </AccordionDetails>
         </Accordion>
       </CardContent>
-      <PredictCardButtons navigateTo={navigateTo} done={done} isFetched={isFetched} />
+      <PredictCardButtons navigateTo={navigateTo} done={done} />
     </Card>
   );
 }
