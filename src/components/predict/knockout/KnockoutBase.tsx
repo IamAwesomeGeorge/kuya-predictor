@@ -6,11 +6,12 @@ import type { PredictKnockout } from "../../../models/Predict";
 
 interface KnockoutBaseProps {
   preview: boolean;
+  knockoutMode: "allTheWay" | "knockout";
   knockoutMatchInfo: KnockoutMatchInfo[];
   currentPredictions?: PredictKnockout[];
 }
 
-export default function KnockoutBase({ preview, knockoutMatchInfo, currentPredictions }: KnockoutBaseProps) {
+export default function KnockoutBase({ preview, knockoutMode, knockoutMatchInfo, currentPredictions }: KnockoutBaseProps) {
   return (
     <>
       <Grid container spacing={1}>
@@ -21,6 +22,7 @@ export default function KnockoutBase({ preview, knockoutMatchInfo, currentPredic
               <KnockoutDuel
                 key={match.id}
                 preview={preview}
+                knockoutMode={knockoutMode}
                 topId={match.id}
                 topTopTeamLabel={match.left}
                 topTopTeam={match.leftTeam}

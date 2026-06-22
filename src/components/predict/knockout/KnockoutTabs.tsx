@@ -10,11 +10,12 @@ import type { KnockoutMatchInfo } from "../../../models/Knockout";
 
 interface KnockoutTabsProps {
   preview: boolean;
+  knockoutMode: "allTheWay" | "knockout";
   bracket: KnockoutMatchInfo[];
   predictions?: PredictKnockout[];
 }
 
-export default function KnockoutTabs({ preview, bracket, predictions }: KnockoutTabsProps) {
+export default function KnockoutTabs({ preview, knockoutMode, bracket, predictions }: KnockoutTabsProps) {
   const [mode, setMode] = useState(0);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -48,6 +49,7 @@ export default function KnockoutTabs({ preview, bracket, predictions }: Knockout
       <TabPanel value={mode} index={0}>
         <KnockoutBase
           preview={preview}
+          knockoutMode={knockoutMode}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_32")}
           currentPredictions={predictions}
         />
@@ -55,6 +57,7 @@ export default function KnockoutTabs({ preview, bracket, predictions }: Knockout
       <TabPanel value={mode} index={1}>
         <KnockoutBase
           preview={preview}
+          knockoutMode={knockoutMode}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_16")}
           currentPredictions={predictions}
         />
@@ -62,6 +65,7 @@ export default function KnockoutTabs({ preview, bracket, predictions }: Knockout
       <TabPanel value={mode} index={2}>
         <KnockoutBase
           preview={preview}
+          knockoutMode={knockoutMode}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "QUARTERFINAL")}
           currentPredictions={predictions}
         />
@@ -69,6 +73,7 @@ export default function KnockoutTabs({ preview, bracket, predictions }: Knockout
       <TabPanel value={mode} index={3}>
         <KnockoutBase
           preview={preview}
+          knockoutMode={knockoutMode}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "SEMIFINAL")}
           currentPredictions={predictions}
         />
@@ -76,6 +81,7 @@ export default function KnockoutTabs({ preview, bracket, predictions }: Knockout
       <TabPanel value={mode} index={4}>
         <KnockoutFinals
           preview={preview}
+          knockoutMode={knockoutMode}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "FINAL")}
           currentPredictions={predictions}
         />

@@ -5,11 +5,17 @@ import KnockoutMatch from "./KnockoutMatch";
 
 interface KnockoutFinalsProps {
   preview: boolean;
+  knockoutMode: "allTheWay" | "knockout";
   knockoutMatchInfo: KnockoutMatchInfo[];
   currentPredictions?: PredictKnockout[];
 }
 
-export default function KnockoutFinals({ preview, knockoutMatchInfo, currentPredictions }: KnockoutFinalsProps) {
+export default function KnockoutFinals({
+  preview,
+  knockoutMode,
+  knockoutMatchInfo,
+  currentPredictions,
+}: KnockoutFinalsProps) {
   const loserMatch = knockoutMatchInfo.find((match) => match.id === 103);
   const winnerMatch = knockoutMatchInfo.find((match) => match.id === 104);
 
@@ -21,6 +27,7 @@ export default function KnockoutFinals({ preview, knockoutMatchInfo, currentPred
           <KnockoutMatch
             id={loserMatch.id}
             preview={preview}
+            knockoutMode={knockoutMode}
             topTeamLabel={loserMatch.left}
             bottomTeamLabel={loserMatch.right}
             topTeam={loserMatch.leftTeam}
@@ -31,6 +38,7 @@ export default function KnockoutFinals({ preview, knockoutMatchInfo, currentPred
           <KnockoutMatch
             id={winnerMatch.id}
             preview={preview}
+            knockoutMode={knockoutMode}
             topTeamLabel={winnerMatch.left}
             bottomTeamLabel={winnerMatch.right}
             topTeam={winnerMatch.leftTeam}

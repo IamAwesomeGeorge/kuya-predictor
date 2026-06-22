@@ -45,7 +45,7 @@ export default function StartKnockout({ preview = false }: { preview?: boolean }
   const bracket = BracketKnockoutBuilderStart(teams, predictData || [], predictKnockoutStartData || [], predictThirdData);
 
   return predictKnockoutStartData ? (
-    <KnockoutTabs preview={preview} bracket={[]} predictions={[]} />
+    <KnockoutTabs preview={preview} knockoutMode="knockout" bracket={bracket} predictions={predictKnockoutStartData} />
   ) : (
     <Box sx={{ p: 2 }}>Loading...</Box>
   );
