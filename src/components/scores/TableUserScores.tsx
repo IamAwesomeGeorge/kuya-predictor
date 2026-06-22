@@ -107,7 +107,7 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
                 direction={orderBy === "knockoutPre" ? order : "desc"}
                 onClick={() => handleSort("knockoutPre")}
               >
-                All the Way
+                All The Way
               </TableSortLabel>
             </TableCell>
             <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>

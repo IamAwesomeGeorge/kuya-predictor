@@ -1,10 +1,10 @@
 import PageHeader from "../../components/header/PageHeader";
 import KnockoutTabs from "../../components/predict/knockout/KnockoutTabs";
 
-export default function PredictKnockoutStart() {
+export default function PredictKnockout() {
   return (
     <>
-      <PageHeader title="Predict All The Way" />
+      <PageHeader title="Predict Knockout Stage" />
       <KnockoutTabs />
     </>
   );
