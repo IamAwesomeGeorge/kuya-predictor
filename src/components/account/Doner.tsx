@@ -63,7 +63,7 @@ export default function Doner() {
                 <TableCell>Name</TableCell>
                 <TableCell align="right">Matches</TableCell>
                 <TableCell align="right">Group</TableCell>
-                <TableCell align="right">Knockout Pre</TableCell>
+                <TableCell align="right">All The Way</TableCell>
                 <TableCell align="right">Knockout</TableCell>
               </TableRow>
             </TableHead>
