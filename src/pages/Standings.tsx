@@ -1,4 +1,4 @@
-import {  Tab, Tabs } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import PageHeader from "../components/header/PageHeader";
 import GroupStandings from "../components/standings/GroupStandings";
 import { useState } from "react";
@@ -16,6 +16,7 @@ export default function Standings() {
       <PageHeader title="Current Standings" />
       <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
         <Tab label="Group Stage" sx={{ color: "white" }} />
+        {/* todo: Implement Knockout Stage */}
         <Tab label="Knockout Stage" disabled sx={{ color: "white" }} />
       </Tabs>
       <TabPanel value={mode} index={0}>
