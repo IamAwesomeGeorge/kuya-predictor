@@ -49,7 +49,8 @@ export default function KnockoutMatch({
       await supabase.from("predictions_knockout_start").insert(prediction);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["predict", "knockout", "start", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["predict", "allTheWay", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["predict", "knockout", user?.id] });
     },
   });
 

@@ -50,7 +50,28 @@ const matches: KnockoutMatch[] = [
   { id: 104, stage: "FINAL", left: "M101", right: "M102" },
 ];
 
-export function BracketBuilderStart(
+export function BracketKnockoutBuilderStart(
+  teams: TeamInfo[],
+  predicts: PredictGroup[],
+  current: PredictKnockout[],
+  thirds?: PredictData | null,
+) {
+  const thirdTeams = thirds?.data
+    .map((code) => findTeamInfo(teams, code))
+    .filter((team): team is NonNullable<typeof team> => team !== undefined)
+    .sort((a, b) => a.group.localeCompare(b.group));
+  const thirdPlaceTeams = thirdTeams ? thirdPlaceFinder(thirdTeams) : [];
+
+  const matchInfo: KnockoutMatchInfo[] = [];
+  matches.forEach((match) => {
+    const leftTeam = findPredictedTeam(match.left, teams, predicts, thirdPlaceTeams, current);
+    const rightTeam = findPredictedTeam(match.right, teams, predicts, thirdPlaceTeams, current);
+    matchInfo.push({ ...match, leftTeam, rightTeam });
+  });
+  return fix3Label(matchInfo);
+}
+
+export function BracketATWBuilderStart(
   teams: TeamInfo[],
   predicts: PredictGroup[],
   current: PredictKnockout[],

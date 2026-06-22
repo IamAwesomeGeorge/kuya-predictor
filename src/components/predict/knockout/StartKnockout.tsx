@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useContext } from "react";
-import { BracketBuilderStart } from "./BracketBuilder";
+import { BracketKnockoutBuilderStart } from "./BracketBuilder";
 import type { PredictData, PredictGroup, PredictKnockout } from "../../../models/Predict";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
@@ -8,7 +8,7 @@ import { TeamsContext } from "../../../contexts/TeamsContext";
 import { UserContext } from "../../../contexts/UserContext";
 import KnockoutTabs from "./KnockoutTabs";
 
-export default function AllTheWay({ preview = false }: { preview?: boolean }) {
+export default function StartKnockout({ preview = false }: { preview?: boolean }) {
   const { user } = useContext(UserContext);
   const { teams } = useContext(TeamsContext);
 
@@ -35,17 +35,17 @@ export default function AllTheWay({ preview = false }: { preview?: boolean }) {
   });
 
   const { data: predictKnockoutStartData } = useQuery({
-    queryKey: ["predict", "knockout", "start", user?.id],
+    queryKey: ["predict", "knockout", user?.id],
     queryFn: async () => {
-      const { data } = await supabase.from("predictions_knockout_start").select().eq("user", user?.id);
+      const { data } = await supabase.from("predictions_knockout").select().eq("user", user?.id);
       return data as PredictKnockout[];
     },
   });
 
-  const bracket = BracketBuilderStart(teams, predictData || [], predictKnockoutStartData || [], predictThirdData);
+  const bracket = BracketKnockoutBuilderStart(teams, predictData || [], predictKnockoutStartData || [], predictThirdData);
 
   return predictKnockoutStartData ? (
-    <KnockoutTabs preview={preview} bracket={bracket} predictions={predictKnockoutStartData} />
+    <KnockoutTabs preview={preview} bracket={[]} predictions={[]} />
   ) : (
     <Box sx={{ p: 2 }}>Loading...</Box>
   );
