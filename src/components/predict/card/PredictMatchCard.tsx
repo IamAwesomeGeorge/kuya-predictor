@@ -10,7 +10,7 @@ import PredictCardButtons from "./PredictCardButtons";
 export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
 
-  const { data: done, isFetched } = useQuery({
+  const { data: done } = useQuery({
     queryKey: ["check", "match", user?.id],
     queryFn: async () => {
       const { data } = await supabase.from("matches").select().eq("stage", "GROUP").order("date_time", { ascending: true });

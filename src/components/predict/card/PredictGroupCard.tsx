@@ -12,7 +12,7 @@ export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
 
   const closed = import.meta.env.VITE_CLOSE_GROUP === "true";
 
-  const { data: done, isFetched } = useQuery({
+  const { data: done } = useQuery({
     queryKey: ["check", "group", user?.id],
     queryFn: async () => {
       const { data } = await supabase.from("predictions_group").select().eq("user", user?.id);
@@ -45,7 +45,7 @@ export default function PredictGroupCard({ navigateTo }: PredictCardProps) {
           </AccordionDetails>
         </Accordion>
       </CardContent>
-      <PredictCardButtons navigateTo={navigateTo} closed={closed} done={done} isFetched={isFetched} />
+      <PredictCardButtons navigateTo={navigateTo} closed={closed} done={done} />
     </Card>
   );
 }

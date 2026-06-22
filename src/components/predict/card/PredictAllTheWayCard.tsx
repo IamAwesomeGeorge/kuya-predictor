@@ -12,7 +12,7 @@ export default function PredictAllTheWayCard({ navigateTo }: PredictCardProps) {
 
   const closed = import.meta.env.VITE_CLOSE_GROUP === "true";
 
-  const { data: done, isFetched } = useQuery({
+  const { data: done } = useQuery({
     queryKey: ["check", "knockoutStart", user?.id],
     queryFn: async () => {
       const { data } = await supabase.from("predictions_knockout_start").select().eq("user", user?.id);
@@ -44,7 +44,7 @@ export default function PredictAllTheWayCard({ navigateTo }: PredictCardProps) {
           </AccordionDetails>
         </Accordion>
       </CardContent>
-      <PredictCardButtons navigateTo={navigateTo} closed={closed} done={done} isFetched={isFetched} />
+      <PredictCardButtons navigateTo={navigateTo} closed={closed} done={done} />
     </Card>
   );
 }
