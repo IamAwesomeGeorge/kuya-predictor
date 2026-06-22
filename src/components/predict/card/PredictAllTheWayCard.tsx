@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import PredictCardButtons from "./PredictCardButtons";
 
-export default function PredictKnockoutStartCard({ navigateTo }: PredictCardProps) {
+export default function PredictAllTheWayCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
 
   const closed = import.meta.env.VITE_CLOSE_GROUP === "true";
