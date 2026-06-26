@@ -2,10 +2,12 @@ import { Grid } from "@mui/material";
 import type { KnockoutMatchInfo } from "../../../models/Knockout";
 import type { PredictKnockout } from "../../../models/Predict";
 import KnockoutMatch from "./KnockoutMatch";
+import type { MatchInfo } from "../../../models/Infos";
 
 interface KnockoutFinalsProps {
   preview: boolean;
   knockoutMode: "allTheWay" | "knockout";
+  matches: MatchInfo[];
   knockoutMatchInfo: KnockoutMatchInfo[];
   currentPredictions?: PredictKnockout[];
 }
@@ -13,6 +15,7 @@ interface KnockoutFinalsProps {
 export default function KnockoutFinals({
   preview,
   knockoutMode,
+  matches,
   knockoutMatchInfo,
   currentPredictions,
 }: KnockoutFinalsProps) {
@@ -28,6 +31,7 @@ export default function KnockoutFinals({
             id={loserMatch.id}
             preview={preview}
             knockoutMode={knockoutMode}
+            matches={matches}
             topTeamLabel={loserMatch.left}
             bottomTeamLabel={loserMatch.right}
             topTeam={loserMatch.leftTeam}
@@ -39,6 +43,7 @@ export default function KnockoutFinals({
             id={winnerMatch.id}
             preview={preview}
             knockoutMode={knockoutMode}
+            matches={matches}
             topTeamLabel={winnerMatch.left}
             bottomTeamLabel={winnerMatch.right}
             topTeam={winnerMatch.leftTeam}

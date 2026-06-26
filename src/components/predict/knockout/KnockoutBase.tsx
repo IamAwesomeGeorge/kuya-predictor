@@ -3,15 +3,23 @@ import KnockoutDuel from "./KnockoutDuel";
 import type { KnockoutMatchInfo } from "../../../models/Knockout";
 import type { JSX } from "react/jsx-runtime";
 import type { PredictKnockout } from "../../../models/Predict";
+import type { MatchInfo } from "../../../models/Infos";
 
 interface KnockoutBaseProps {
   preview: boolean;
   knockoutMode: "allTheWay" | "knockout";
+  matches: MatchInfo[];
   knockoutMatchInfo: KnockoutMatchInfo[];
   currentPredictions?: PredictKnockout[];
 }
 
-export default function KnockoutBase({ preview, knockoutMode, knockoutMatchInfo, currentPredictions }: KnockoutBaseProps) {
+export default function KnockoutBase({
+  preview,
+  knockoutMode,
+  matches,
+  knockoutMatchInfo,
+  currentPredictions,
+}: KnockoutBaseProps) {
   return (
     <>
       <Grid container spacing={1}>
@@ -23,6 +31,7 @@ export default function KnockoutBase({ preview, knockoutMode, knockoutMatchInfo,
                 key={match.id}
                 preview={preview}
                 knockoutMode={knockoutMode}
+                matches={matches}
                 topId={match.id}
                 topTopTeamLabel={match.left}
                 topTopTeam={match.leftTeam}

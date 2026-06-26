@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TabPanel } from "../../utils/TabPanel";
 import type { PredictKnockout } from "../../../models/Predict";
 import KnockoutBase from "../../predict/knockout/KnockoutBase";
-import type { Stage } from "../../../models/Infos";
+import type { MatchInfo, Stage } from "../../../models/Infos";
 import KnockoutFinals from "../../predict/knockout/KnockoutFinals";
 import { isMobile } from "../../utils/MobileUtils";
 import type { KnockoutMatchInfo } from "../../../models/Knockout";
@@ -11,11 +11,12 @@ import type { KnockoutMatchInfo } from "../../../models/Knockout";
 interface KnockoutTabsProps {
   preview: boolean;
   knockoutMode: "allTheWay" | "knockout";
+  matches: MatchInfo[];
   bracket: KnockoutMatchInfo[];
   predictions?: PredictKnockout[];
 }
 
-export default function KnockoutTabs({ preview, knockoutMode, bracket, predictions }: KnockoutTabsProps) {
+export default function KnockoutTabs({ preview, knockoutMode, matches, bracket, predictions }: KnockoutTabsProps) {
   const [mode, setMode] = useState(0);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -50,6 +51,7 @@ export default function KnockoutTabs({ preview, knockoutMode, bracket, predictio
         <KnockoutBase
           preview={preview}
           knockoutMode={knockoutMode}
+          matches={matches}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_32")}
           currentPredictions={predictions}
         />
@@ -58,6 +60,7 @@ export default function KnockoutTabs({ preview, knockoutMode, bracket, predictio
         <KnockoutBase
           preview={preview}
           knockoutMode={knockoutMode}
+          matches={matches}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "ROUND_OF_16")}
           currentPredictions={predictions}
         />
@@ -66,6 +69,7 @@ export default function KnockoutTabs({ preview, knockoutMode, bracket, predictio
         <KnockoutBase
           preview={preview}
           knockoutMode={knockoutMode}
+          matches={matches}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "QUARTERFINAL")}
           currentPredictions={predictions}
         />
@@ -74,6 +78,7 @@ export default function KnockoutTabs({ preview, knockoutMode, bracket, predictio
         <KnockoutBase
           preview={preview}
           knockoutMode={knockoutMode}
+          matches={matches}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "SEMIFINAL")}
           currentPredictions={predictions}
         />
@@ -82,6 +87,7 @@ export default function KnockoutTabs({ preview, knockoutMode, bracket, predictio
         <KnockoutFinals
           preview={preview}
           knockoutMode={knockoutMode}
+          matches={matches}
           knockoutMatchInfo={bracket.filter((match) => match.stage === "FINAL")}
           currentPredictions={predictions}
         />

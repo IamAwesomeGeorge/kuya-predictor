@@ -1,15 +1,17 @@
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, Tooltip, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import type { TeamInfo } from "../../../models/Infos";
+import type { MatchInfo, TeamInfo } from "../../../models/Infos";
 import KnockoutButton from "./KnockoutButton";
 import type { PredictKnockout } from "../../../models/Predict";
 import { supabase } from "../../../utils/supabase";
 import { UserContext } from "../../../contexts/UserContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { hasMatchFinished } from "../../utils/TimeUtils";
 
 interface KnockoutMatchProps {
   id: number;
   preview: boolean;
+  matches: MatchInfo[];
   knockoutMode: "allTheWay" | "knockout";
   topTeamLabel: string;
   bottomTeamLabel: string;
@@ -21,6 +23,7 @@ interface KnockoutMatchProps {
 export default function KnockoutMatch({
   id,
   preview,
+  matches,
   knockoutMode,
   topTeamLabel,
   bottomTeamLabel,
@@ -56,10 +59,13 @@ export default function KnockoutMatch({
     },
   });
 
-  const loading = isPending || !topTeam || !bottomTeam;
-
   // If id is 103, set label to "3RD PLACE", if id is 104, set label to "FINAL", else set label to "M" + id
   const label = id === 103 ? "3RD PLACE" : id === 104 ? "FINAL" : "M" + id;
+
+  const matchInfo = matches.find((match) => match.id === id);
+  const isStarted = matchInfo ? hasMatchFinished(matchInfo.date_time) : false;
+
+  const loading = isPending || !topTeam || !bottomTeam || isStarted;
 
   return (
     <Card key={"M" + id} sx={{ position: "relative" }}>
@@ -84,7 +90,7 @@ export default function KnockoutMatch({
             lineHeight: 1,
           }}
         >
-          {label}
+          {label} {isStarted && "(Started)"}
         </Typography>
       </Box>
       <KnockoutButton
