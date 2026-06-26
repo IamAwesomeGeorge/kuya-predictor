@@ -37,7 +37,9 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
         ? match.team_left
         : match.score_left < match.score_right
           ? match.team_right
-          : "DRAW"
+          : match.tie_break
+            ? match.tie_break
+            : "DRAW"
       : "???";
   const goalDifference =
     match.score_left !== undefined && match.score_right !== undefined ? match.score_left - match.score_right : 0;
