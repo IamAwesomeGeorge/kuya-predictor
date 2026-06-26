@@ -22,12 +22,14 @@ export default function Doner() {
       const { data: predictionsGroup } = await supabase.from("predictions_group").select();
       const { data: thirdPlaceData } = await supabase.from("predictions_group_third").select("data, user");
       const { data: predictionsKnockoutStart } = await supabase.from("predictions_knockout_start").select();
+      const { data: predictionsKnockout } = await supabase.from("predictions_knockout").select();
       const { data: matchesData } = await supabase
         .from("matches")
         .select()
-        .eq("stage", "GROUP")
+        .neq("team_left", "ZZ")
+        .neq("team_right", "ZZ")
         .order("date_time", { ascending: true });
-      const { data: predictionsData } = await supabase.from("predictions_matches_view").select().eq("stage", "GROUP");
+      const { data: predictionsData } = await supabase.from("predictions_matches_view").select();
 
       const dones = {} as Record<string, boolean[]>;
       const matchesDoneNumbers = {} as Record<string, number>;
@@ -41,7 +43,8 @@ export default function Doner() {
         const predictionsKnockoutStartUser = predictionsKnockoutStart?.filter((p) => p.user === user.id);
         const knockoutPreDone = predictionsKnockoutStartUser?.length === 32;
 
-        const knockoutDone = false;
+        const predictionsKnockoutUser = predictionsKnockout?.filter((p) => p.user === user.id);
+        const knockoutDone = predictionsKnockoutUser?.length === 32;
 
         const predictionsDataUser = predictionsData?.filter((p) => p.user === user.id);
         const matchesDone = (matchesData?.length || 72) === predictionsDataUser?.length;
