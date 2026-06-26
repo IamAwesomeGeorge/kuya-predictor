@@ -40,15 +40,18 @@ export default function MatchBase({ preview, matches, currents }: MatchGroupBase
     matchId: number,
     score_left: number,
     score_right: number,
+    tie_break: string | null,
     first_scorer: string | null,
     double: boolean,
   ) => {
+    const tieCheck = score_left === score_right ? tie_break : null;
     const newPredict: PredictMatch = {
       updated_at: new Date().toISOString(),
       user: user?.id ?? 0,
       match: matchId,
       score_left: score_left,
       score_right: score_right,
+      tie_break: tieCheck,
       first_scorer: first_scorer,
       double: double,
     };

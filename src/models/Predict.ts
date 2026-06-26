@@ -28,6 +28,7 @@ export interface PredictMatch extends PredictBase {
   match: number;
   score_left: number;
   score_right: number;
+  tie_break: string | null;
   first_scorer: string | null;
   double: boolean;
 }

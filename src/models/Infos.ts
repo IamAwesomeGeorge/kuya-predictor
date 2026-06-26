@@ -17,4 +17,5 @@ export interface MatchInfo {
   score_left?: number;
   score_right?: number;
   first_scorer?: string;
+  tie_break?: string;
 }

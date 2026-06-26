@@ -24,5 +24,7 @@ One of the aims of the app is to create competition between friends. A scores pa
 ![scores example](/public/examples/scores.png)
 
 todo:
+
+- Updated All the Way and Knockout Stage view to show if you have gained the points or not
 - Add a view to see other's predictions on All the Way and Knockout Stage.
 - All the Way and Knockout Stage points now show in Scores
