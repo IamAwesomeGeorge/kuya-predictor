@@ -8,11 +8,7 @@ export default function KnockoutMatches() {
   const { data, isFetched } = useQuery({
     queryKey: ["matches", "knockout"],
     queryFn: async () => {
-      const { data } = await supabase
-        .from("matches")
-        .select()
-        .not("stage", "eq", "GROUP")
-        .order("date_time", { ascending: true });
+      const { data } = await supabase.from("matches").select().neq("stage", "GROUP").order("date_time", { ascending: true });
       return data as MatchInfo[];
     },
   });

@@ -16,11 +16,7 @@ export default function MatchKnockoutTabs({ preview = false }: { preview?: boole
   const { data } = useQuery({
     queryKey: ["matches", "knockout"],
     queryFn: async () => {
-      const { data } = await supabase
-        .from("matches")
-        .select()
-        .not("stage", "eq", "GROUP")
-        .order("date_time", { ascending: true });
+      const { data } = await supabase.from("matches").select().neq("stage", "GROUP").order("date_time", { ascending: true });
       return data as MatchInfo[];
     },
   });
@@ -28,11 +24,7 @@ export default function MatchKnockoutTabs({ preview = false }: { preview?: boole
   const { data: predictions } = useQuery({
     queryKey: ["predictions", "matches", "view", "knockout", user?.id],
     queryFn: async () => {
-      const { data } = await supabase
-        .from("predictions_matches_view")
-        .select()
-        .not("stage", "eq", "GROUP")
-        .eq("user", user?.id);
+      const { data } = await supabase.from("predictions_matches_view").select().neq("stage", "GROUP").eq("user", user?.id);
       return data as PredictMatchView[];
     },
   });

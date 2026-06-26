@@ -10,12 +10,24 @@ import PredictCardButtons from "./PredictCardButtons";
 export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
 
+  const now = new Date().toISOString();
+
   const { data: done } = useQuery({
     queryKey: ["check", "match", user?.id],
     queryFn: async () => {
       //todo: check if user has done all the ones so far...
-      const { data } = await supabase.from("matches").select().order("date_time", { ascending: true });
-      const { data: predictionsData } = await supabase.from("predictions_matches_view").select().eq("user", user?.id);
+      const { data } = await supabase
+        .from("matches")
+        .select()
+        .neq("team_left", "ZZ")
+        .neq("team_right", "ZZ")
+        .gt("date_time", now);
+      const { data: predictionsData } = await supabase
+        .from("predictions_matches_view")
+        .select()
+        .eq("user", user?.id)
+        .gt("date_time", now);
+      console.log("matches", data, predictionsData);
       return data?.length === predictionsData?.length;
     },
   });

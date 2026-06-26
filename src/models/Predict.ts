@@ -36,6 +36,7 @@ export interface PredictMatchView extends PredictMatch {
   name: string;
   pfp_url?: string;
   team: Team;
+  date_time: string;
   stage: string;
   stage_info: string;
   points?: number;
