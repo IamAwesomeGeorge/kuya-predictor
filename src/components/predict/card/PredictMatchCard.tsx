@@ -13,12 +13,9 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { data: done } = useQuery({
     queryKey: ["check", "match", user?.id],
     queryFn: async () => {
-      const { data } = await supabase.from("matches").select().eq("stage", "GROUP").order("date_time", { ascending: true });
-      const { data: predictionsData } = await supabase
-        .from("predictions_matches_view")
-        .select()
-        .eq("stage", "GROUP")
-        .eq("user", user?.id);
+      //todo: check if user has done all the ones so far...
+      const { data } = await supabase.from("matches").select().order("date_time", { ascending: true });
+      const { data: predictionsData } = await supabase.from("predictions_matches_view").select().eq("user", user?.id);
       return data?.length === predictionsData?.length;
     },
   });
