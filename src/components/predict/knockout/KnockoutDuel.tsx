@@ -1,5 +1,5 @@
 import { Grid, Stack } from "@mui/material";
-import type { TeamInfo } from "../../../models/Infos";
+import type { MatchInfo, TeamInfo } from "../../../models/Infos";
 import KnockoutMatch from "./KnockoutMatch";
 import KnockoutLine from "./KnockoutLine";
 import type { PredictKnockout } from "../../../models/Predict";
@@ -7,6 +7,7 @@ import type { PredictKnockout } from "../../../models/Predict";
 interface KnockoutDuelProps {
   preview: boolean;
   knockoutMode: "allTheWay" | "knockout";
+  matches: MatchInfo[];
   topId: number;
   topTopTeamLabel: string;
   topBottomTeamLabel: string;
@@ -23,6 +24,7 @@ interface KnockoutDuelProps {
 export default function KnockoutDuel({
   preview,
   knockoutMode,
+  matches,
   topId,
   topTopTeamLabel,
   topBottomTeamLabel,
@@ -42,6 +44,7 @@ export default function KnockoutDuel({
           id={topId}
           preview={preview}
           knockoutMode={knockoutMode}
+          matches={matches}
           topTeamLabel={topTopTeamLabel}
           bottomTeamLabel={topBottomTeamLabel}
           topTeam={topTopTeam}
@@ -53,6 +56,7 @@ export default function KnockoutDuel({
           id={bottomId}
           preview={preview}
           knockoutMode={knockoutMode}
+          matches={matches}
           topTeamLabel={bottomTopTeamLabel}
           bottomTeamLabel={bottomBottomTeamLabel}
           topTeam={bottomTopTeam}

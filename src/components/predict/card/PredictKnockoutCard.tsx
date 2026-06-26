@@ -39,8 +39,7 @@ export default function PredictKnockoutCard({ navigateTo }: PredictCardProps) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        animation: done ? `${pulseYellow} 1.5s ease-in-out infinite` : undefined,
-        // Todo: make this paulse when its time
+        animation: done ? undefined : `${pulseYellow} 1.5s ease-in-out infinite`,
       }}
     >
       <CardContent>

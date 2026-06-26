@@ -1,18 +1,25 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { useTeamName } from "../../utils/TeamsUtils";
-import { Flag } from "../../flag/Flag";
+import { useTeamName } from "../../../utils/TeamsUtils";
+import { Flag } from "../../../flag/Flag";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 interface MatchPredictFirstButtonProps {
+  isDummy: boolean;
   teamCode: string;
   firstScorer: string | null;
   setFirstScorer: (teamCode: string | null) => void;
 }
 
-export default function MatchPredictFirstButton({ teamCode, firstScorer, setFirstScorer }: MatchPredictFirstButtonProps) {
+export default function MatchPredictFirstButton({
+  isDummy,
+  teamCode,
+  firstScorer,
+  setFirstScorer,
+}: MatchPredictFirstButtonProps) {
   const isFirstScore = firstScorer === teamCode;
   return (
     <Button
+      disabled={isDummy}
       variant={isFirstScore ? "contained" : "outlined"}
       fullWidth
       onClick={() => setFirstScorer(teamCode)}

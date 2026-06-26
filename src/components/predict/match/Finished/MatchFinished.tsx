@@ -1,16 +1,16 @@
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
-import type { PredictMatchView } from "../../../models/Predict";
-import { findTeamName } from "../../utils/TeamsUtils";
-import type { MatchInfo } from "../../../models/Infos";
-import { formatMatchDateShort, hasMatchFinished, hasMatchStarted } from "../../utils/TimeUtils";
+import type { PredictMatchView } from "../../../../models/Predict";
+import { findTeamName, stageGroupText } from "../../../utils/TeamsUtils";
+import type { MatchInfo } from "../../../../models/Infos";
+import { formatMatchDateShort, hasMatchFinished, hasMatchStarted } from "../../../utils/TimeUtils";
 import { useContext } from "react";
-import MatchTeam from "../../matches/MatchTeam";
-import { isMobile } from "../../utils/MobileUtils";
-import { TeamsContext } from "../../../contexts/TeamsContext";
-import MatchPredictScoreDisplay from "./MatchPredictScoreDisplay";
+import MatchTeam from "../../../matches/MatchTeam";
+import { isMobile } from "../../../utils/MobileUtils";
+import { TeamsContext } from "../../../../contexts/TeamsContext";
+import MatchPredictScoreDisplay from "../Predict/MatchPredictScoreDisplay";
 import MatchFinishedBreakdown from "./MatchFinishedBreakdown";
 import MatchFinishedOthers from "./MatchFinishedOthers";
-import X2 from "./X2";
+import X2 from "../X2";
 
 interface MatchFinishedProps {
   match: MatchInfo;
@@ -37,7 +37,9 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
         ? match.team_left
         : match.score_left < match.score_right
           ? match.team_right
-          : "DRAW"
+          : match.tie_break
+            ? match.tie_break
+            : "DRAW"
       : "???";
   const goalDifference =
     match.score_left !== undefined && match.score_right !== undefined ? match.score_left - match.score_right : 0;
@@ -69,7 +71,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           </Typography>
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            {match.stage} {match.stage_info}
+            {stageGroupText(match)}
           </Typography>
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
@@ -198,7 +200,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           </>
         )}
 
-        {isStarted && (
+        {((isStarted && !isMobile()) || isFinished) && (
           <>
             <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
             {!waitingForResult && (

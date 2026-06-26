@@ -1,14 +1,15 @@
-import { OutlinedInput } from "@mui/material";
+import { OutlinedInput, Tooltip } from "@mui/material";
 import { useState } from "react";
-import { isMobile } from "../../utils/MobileUtils";
+import { isMobile } from "../../../utils/MobileUtils";
 
 interface MatchPredictScoreProps {
   id: string;
+  isDummy: boolean;
   value: number | null;
   setValue: (value: number | null) => void;
 }
 
-export default function MatchPredictScore({ id, value, setValue }: MatchPredictScoreProps) {
+export default function MatchPredictScore({ id, isDummy, value, setValue }: MatchPredictScoreProps) {
   const [invalid, setInvalid] = useState(false);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
@@ -34,17 +35,20 @@ export default function MatchPredictScore({ id, value, setValue }: MatchPredictS
   };
 
   return (
-    <OutlinedInput
-      id={id}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      error={invalid}
-      inputProps={{ style: { textAlign: "center" } }}
-      sx={{
-        color: "white",
-        width: isMobile() ? "30%" : "10%",
-      }}
-    />
+    <Tooltip title={isDummy ? "Match teams not set yet" : undefined}>
+      <OutlinedInput
+        id={id}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        error={invalid}
+        inputProps={{ style: { textAlign: "center" } }}
+        disabled={isDummy}
+        sx={{
+          color: "white",
+          width: isMobile() ? "30%" : "10%",
+        }}
+      />
+    </Tooltip>
   );
 }

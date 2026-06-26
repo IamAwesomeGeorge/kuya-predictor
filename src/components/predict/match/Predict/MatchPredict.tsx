@@ -1,14 +1,33 @@
 import { Box, Button, Checkbox, Divider, Grid, Stack, Tooltip, Typography } from "@mui/material";
-import type { PredictMatchView } from "../../../models/Predict";
-import { findTeamName } from "../../utils/TeamsUtils";
-import type { MatchInfo } from "../../../models/Infos";
-import { formatMatchDateShort } from "../../utils/TimeUtils";
+import type { PredictMatchView } from "../../../../models/Predict";
+import { findTeamName, stageGroupText } from "../../../utils/TeamsUtils";
+import type { MatchInfo } from "../../../../models/Infos";
+import { formatMatchDateShort } from "../../../utils/TimeUtils";
 import { useContext, useEffect, useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
 import MatchPredictFirstButton from "./MatchPredictFirstButton";
-import { isMobile } from "../../utils/MobileUtils";
-import { TeamsContext } from "../../../contexts/TeamsContext";
-import MatchTeam from "../../matches/MatchTeam";
+import { isMobile } from "../../../utils/MobileUtils";
+import { TeamsContext } from "../../../../contexts/TeamsContext";
+import MatchTeam from "../../../matches/MatchTeam";
+import { keyframes } from "@mui/material/styles";
+import NotDone from "../NotDone";
+import MatchPredictTieButton from "./MatchPredictTieButton";
+
+//todo: remove paulse
+const pulseRed = keyframes`
+  0% {
+    background-color: #253049;
+  }
+  25% {
+    background-color: #492525;
+  }
+  75% {
+    background-color: #492525;
+  }
+  100% {
+    background-color: #253049;
+  }
+`;
 
 interface MatchPredictProps {
   match: MatchInfo;
@@ -17,6 +36,7 @@ interface MatchPredictProps {
     matchId: number,
     score_left: number,
     score_right: number,
+    tie_break: string | null,
     first_scorer: string | null,
     double: boolean,
   ) => void;
@@ -28,19 +48,32 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
   const { teams } = useContext(TeamsContext);
   const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
   const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
+  const [tieBreak, setTieBreak] = useState<string | null>(current ? current.tie_break : null);
   const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
   const [double, setDouble] = useState(doubleCode === match.id);
+
+  const isDummy = match.team_left === "ZZ" || match.team_right === "ZZ";
+  const isGroup = match.stage === "GROUP";
+  const isTie = scoreLeft !== null && scoreRight !== null && scoreLeft === scoreRight && !isGroup;
+  const isTieNotDecided = isTie && tieBreak == null;
 
   useEffect(() => {
     //eslint-disable-next-line react-hooks/set-state-in-effect
     setDouble(doubleCode === match.id);
   }, [doubleCode, match.id]);
 
+  const needsToBeDone =
+    (current?.score_left === undefined || current?.score_right === undefined || current?.first_scorer === undefined) &&
+    match.team_left !== "ZZ" &&
+    match.team_right !== "ZZ";
+
   const stopSave =
     isLoading ||
+    isDummy ||
     scoreLeft === null ||
     scoreRight === null ||
     firstScorer === null ||
+    isTieNotDecided ||
     (scoreLeft === current?.score_left &&
       scoreRight === current?.score_right &&
       firstScorer === current?.first_scorer &&
@@ -59,7 +92,9 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
         ? match.team_left
         : scoreLeft < scoreRight
           ? match.team_right
-          : "DRAW"
+          : isTie && tieBreak
+            ? tieBreak
+            : "DRAW"
       : "???";
   const gdText =
     scoreLeft !== null && scoreRight !== null
@@ -76,6 +111,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           color: "white",
           borderRadius: 2,
           p: 2,
+          animation: needsToBeDone ? `${pulseRed} 1.5s ease-in-out infinite` : undefined,
         }}
       >
         {/* Info row */}
@@ -88,7 +124,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           </Typography>
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            {match.stage} {match.stage_info}
+            {stageGroupText(match)}
           </Typography>
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
@@ -103,11 +139,20 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
 
         {/* Winner row */}
-        <Stack id={`match-${match.id}-winner`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
-          <Typography sx={{ fontSize: 18 }}>
-            <strong>{findTeamName(teams, winnerText)}</strong> to win
-          </Typography>
-        </Stack>
+        <Box sx={{ position: "relative" }}>
+          {needsToBeDone && <NotDone sx={{ position: "absolute", top: -5, right: -5, zIndex: 10 }} />}
+          <Stack id={`match-${match.id}-winner`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
+            <Typography sx={{ fontSize: 18 }}>
+              {isTieNotDecided ? (
+                <strong>SELECT TEAM TO WIN PENALTIES</strong>
+              ) : (
+                <>
+                  <strong>{findTeamName(teams, winnerText)}</strong> to win
+                </>
+              )}
+            </Typography>
+          </Stack>
+        </Box>
 
         {/* Score row */}
         {isMobile() ? (
@@ -118,17 +163,37 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
               sx={{ alignItems: "center", justifyContent: "space-between" }}
             >
               {/* Left team */}
-              <MatchTeam teamCode={match.team_left} side="left" />
+              {isTie ? (
+                <MatchPredictTieButton
+                  isDummy={isDummy}
+                  side="left"
+                  teamCode={match.team_left}
+                  tieBreak={tieBreak}
+                  setTieBreak={setTieBreak}
+                />
+              ) : (
+                <MatchTeam teamCode={match.team_left} side="left" />
+              )}
 
               {/* Right team */}
-              <MatchTeam teamCode={match.team_right} side="right" />
+              {isTie ? (
+                <MatchPredictTieButton
+                  isDummy={isDummy}
+                  side="right"
+                  teamCode={match.team_right}
+                  tieBreak={tieBreak}
+                  setTieBreak={setTieBreak}
+                />
+              ) : (
+                <MatchTeam teamCode={match.team_right} side="right" />
+              )}
             </Stack>
             <Stack
               id={`match-${match.id}-score-bottom`}
               direction="row"
               sx={{ alignItems: "center", justifyContent: "space-between" }}
             >
-              <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
+              <MatchPredictScore id={"left-" + match.id} isDummy={isDummy} value={scoreLeft} setValue={setScoreLeft} />
               <Typography
                 sx={{
                   fontWeight: 700,
@@ -139,7 +204,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
               >
                 -
               </Typography>
-              <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
+              <MatchPredictScore id={"right-" + match.id} isDummy={isDummy} value={scoreRight} setValue={setScoreRight} />
             </Stack>
           </>
         ) : (
@@ -149,9 +214,19 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             sx={{ alignItems: "center", justifyContent: "space-between" }}
           >
             {/* Left team */}
-            <MatchTeam teamCode={match.team_left} side="left" />
+            {isTie ? (
+              <MatchPredictTieButton
+                isDummy={isDummy}
+                side="left"
+                teamCode={match.team_left}
+                tieBreak={tieBreak}
+                setTieBreak={setTieBreak}
+              />
+            ) : (
+              <MatchTeam teamCode={match.team_left} side="left" />
+            )}
 
-            <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
+            <MatchPredictScore id={"left-" + match.id} isDummy={isDummy} value={scoreLeft} setValue={setScoreLeft} />
             <Typography
               sx={{
                 fontWeight: 700,
@@ -162,10 +237,20 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             >
               -
             </Typography>
-            <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
+            <MatchPredictScore id={"right-" + match.id} isDummy={isDummy} value={scoreRight} setValue={setScoreRight} />
 
             {/* Right team */}
-            <MatchTeam teamCode={match.team_right} side="right" />
+            {isTie ? (
+              <MatchPredictTieButton
+                isDummy={isDummy}
+                side="left"
+                teamCode={match.team_right}
+                tieBreak={tieBreak}
+                setTieBreak={setTieBreak}
+              />
+            ) : (
+              <MatchTeam teamCode={match.team_right} side="right" />
+            )}
           </Stack>
         )}
         {/* GD row */}
@@ -182,9 +267,19 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           {/* First team to score */}
           <Box>
             <Typography variant="body2">First team to score</Typography>
-            <MatchPredictFirstButton teamCode={match.team_left} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
+            <MatchPredictFirstButton
+              isDummy={isDummy}
+              teamCode={match.team_left}
+              firstScorer={firstScorer}
+              setFirstScorer={setFirstScorer}
+            />
             <br />
-            <MatchPredictFirstButton teamCode={match.team_right} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
+            <MatchPredictFirstButton
+              isDummy={isDummy}
+              teamCode={match.team_right}
+              firstScorer={firstScorer}
+              setFirstScorer={setFirstScorer}
+            />
           </Box>
           {/* Double Points */}
 
@@ -211,7 +306,9 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
                 <Button
                   variant="contained"
                   disabled={stopSave}
-                  onClick={() => handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, firstScorer, double)}
+                  onClick={() =>
+                    handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, tieBreak, firstScorer, double)
+                  }
                 >
                   {saveLabel}
                 </Button>
@@ -239,7 +336,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
               <Button
                 variant="contained"
                 disabled={stopSave}
-                onClick={() => handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, firstScorer, double)}
+                onClick={() => handlePredictChange(match.id, scoreLeft ?? 0, scoreRight ?? 0, tieBreak, firstScorer, double)}
               >
                 {saveLabel}
               </Button>

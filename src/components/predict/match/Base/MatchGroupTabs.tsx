@@ -1,13 +1,13 @@
 import { Tab, Tabs } from "@mui/material";
 import { useContext, useState } from "react";
-import { TabPanel } from "../../utils/TabPanel";
+import { TabPanel } from "../../../utils/TabPanel";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../../../utils/supabase";
-import type { MatchInfo } from "../../../models/Infos";
+import { supabase } from "../../../../utils/supabase";
+import type { MatchInfo } from "../../../../models/Infos";
 import MatchBase from "./MatchBase";
-import { UserContext } from "../../../contexts/UserContext";
-import type { PredictMatchView } from "../../../models/Predict";
-import { isMobile } from "../../utils/MobileUtils";
+import { UserContext } from "../../../../contexts/UserContext";
+import type { PredictMatchView } from "../../../../models/Predict";
+import { isMobile } from "../../../utils/MobileUtils";
 
 export default function MatchGroupTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);

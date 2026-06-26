@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { isMobile } from "../../utils/MobileUtils";
+import { isMobile } from "../../../utils/MobileUtils";
 
 interface MatchPredictScoreDisplayProps {
   id: string;

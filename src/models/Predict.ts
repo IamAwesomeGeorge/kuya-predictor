@@ -28,6 +28,7 @@ export interface PredictMatch extends PredictBase {
   match: number;
   score_left: number;
   score_right: number;
+  tie_break: string | null;
   first_scorer: string | null;
   double: boolean;
 }
@@ -36,6 +37,7 @@ export interface PredictMatchView extends PredictMatch {
   name: string;
   pfp_url?: string;
   team: Team;
+  date_time: string;
   stage: string;
   stage_info: string;
   points?: number;

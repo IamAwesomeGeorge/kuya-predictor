@@ -1,8 +1,8 @@
 import { Accordion, AccordionDetails, AccordionSummary, Divider, Stack, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { isMobile } from "../../utils/MobileUtils";
-import ScoreNumber from "../../fun/ScoreNumber";
-import { isTopPoints } from "../../utils/TeamsUtils";
+import { isMobile } from "../../../utils/MobileUtils";
+import ScoreNumber from "../../../fun/ScoreNumber";
+import { isTopPoints } from "../../../utils/TeamsUtils";
 
 interface MatchFinishedBreakdownProps {
   id: string;

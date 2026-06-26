@@ -94,9 +94,6 @@ function findFinalTeam(position: string, teams: TeamInfo[], finalTeams: FinalTea
     const matchGuessed = current.find((m) => m.matchId === matchNumber);
     return findTeam(teams, matchGuessed?.winner);
   } else {
-    if (position === "1E") {
-      console.log(position, "finalTeams", finalTeams);
-    }
     const teamCode = finalTeams.find((t) => t.pos === position)?.team;
     return findTeam(teams, teamCode);
   }

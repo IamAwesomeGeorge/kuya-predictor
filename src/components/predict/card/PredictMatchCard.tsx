@@ -6,25 +6,54 @@ import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import PredictCardButtons from "./PredictCardButtons";
+import { keyframes } from "@mui/material/styles";
+
+//todo: remove paulse
+const pulseYellow = keyframes`
+  0% {
+    background-color: #ffffff;
+  }
+  50% {
+    background-color: rgb(255, 255, 200);
+  }
+  100% {
+    background-color: #ffffff;
+  }
+`;
 
 export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
 
+  const now = new Date().toISOString();
+
   const { data: done } = useQuery({
     queryKey: ["check", "match", user?.id],
     queryFn: async () => {
-      const { data } = await supabase.from("matches").select().eq("stage", "GROUP").order("date_time", { ascending: true });
+      const { data } = await supabase
+        .from("matches")
+        .select()
+        .neq("team_left", "ZZ")
+        .neq("team_right", "ZZ")
+        .gt("date_time", now);
       const { data: predictionsData } = await supabase
         .from("predictions_matches_view")
         .select()
-        .eq("stage", "GROUP")
-        .eq("user", user?.id);
+        .eq("user", user?.id)
+        .gt("date_time", now);
       return data?.length === predictionsData?.length;
     },
   });
 
   return (
-    <Card sx={{ width: 250, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <Card
+      sx={{
+        width: 250,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        animation: done ? undefined : `${pulseYellow} 1.5s ease-in-out infinite`,
+      }}
+    >
       <CardContent>
         <Typography variant="h5" component="div">
           Every Match Prediction

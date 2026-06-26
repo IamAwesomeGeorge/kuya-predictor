@@ -4,6 +4,7 @@ import { MatchTime } from "./MatchTime";
 import { formatMatchDateShort, hasMatchFinished } from "../utils/TimeUtils";
 import { MatchScore } from "./MatchScore";
 import MatchTeam from "./MatchTeam";
+import { stageGroupText } from "../utils/TeamsUtils";
 
 interface MatchGridProps {
   match: MatchInfo;
@@ -51,7 +52,7 @@ export function MatchGrid(props: MatchGridProps) {
           )}
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            {match.stage} {match.stage_info}
+            {stageGroupText(match)}
           </Typography>
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>

@@ -15,17 +15,17 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import type { MatchInfo } from "../../../models/Infos";
-import type { PredictMatchView } from "../../../models/Predict";
-import { supabase } from "../../../utils/supabase";
+import type { MatchInfo } from "../../../../models/Infos";
+import type { PredictMatchView } from "../../../../models/Predict";
+import { supabase } from "../../../../utils/supabase";
 import { useQuery } from "@tanstack/react-query";
-import { UserContext } from "../../../contexts/UserContext";
+import { UserContext } from "../../../../contexts/UserContext";
 import { useContext, useState } from "react";
-import { Flag } from "../../flag/Flag";
-import NameTag from "../../account/NameTag";
-import { isMobile } from "../../utils/MobileUtils";
-import X2 from "./X2";
-import { isTopPoints } from "../../utils/TeamsUtils";
+import { Flag } from "../../../flag/Flag";
+import NameTag from "../../../account/NameTag";
+import { isMobile } from "../../../utils/MobileUtils";
+import X2 from "../X2";
+import { isTopPoints } from "../../../utils/TeamsUtils";
 
 interface MatchFinishedOthersProps {
   noResults: boolean;
@@ -42,7 +42,7 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
     queryKey: ["predictions", "view", match.id],
     enabled: expanded,
     queryFn: async () => {
-      const { data } = await supabase.from("predictions_matches_view").select().eq("stage", "GROUP").eq("match", match.id);
+      const { data } = await supabase.from("predictions_matches_view").select().eq("match", match.id);
       return (data as PredictMatchView[]).map((p) => ({
         ...p,
         points:
@@ -169,6 +169,7 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
                       )}
                       <TableCell align="right">
                         {p.double && !isMobile() && (
+                          // todo: fix this bug
                           <X2 sx={{ float: "left", display: "inline-flex", alignItems: "center" }} />
                         )}
                         {!noResults && (

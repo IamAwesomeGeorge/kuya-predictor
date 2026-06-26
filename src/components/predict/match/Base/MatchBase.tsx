@@ -1,14 +1,14 @@
 import { Grid } from "@mui/material";
 import { useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UserContext } from "../../../contexts/UserContext";
-import { supabase } from "../../../utils/supabase";
-import type { PredictMatch, PredictMatchView } from "../../../models/Predict";
-import { useTeamsReady } from "../../utils/TeamsUtils";
-import type { MatchInfo } from "../../../models/Infos";
-import MatchPredict from "./MatchPredict";
-import { hasMatchStarted } from "../../utils/TimeUtils";
-import MatchFinished from "./MatchFinished";
+import { UserContext } from "../../../../contexts/UserContext";
+import { supabase } from "../../../../utils/supabase";
+import type { PredictMatch, PredictMatchView } from "../../../../models/Predict";
+import { useTeamsReady } from "../../../utils/TeamsUtils";
+import type { MatchInfo } from "../../../../models/Infos";
+import MatchPredict from "../Predict/MatchPredict";
+import { hasMatchStarted } from "../../../utils/TimeUtils";
+import MatchFinished from "../Finished/MatchFinished";
 
 interface MatchGroupBaseProps {
   preview: boolean;
@@ -28,6 +28,7 @@ export default function MatchBase({ preview, matches, currents }: MatchGroupBase
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["predictions", "matches", "view", "group", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["predictions", "matches", "view", "knockout", user?.id] });
     },
   });
 
@@ -39,15 +40,18 @@ export default function MatchBase({ preview, matches, currents }: MatchGroupBase
     matchId: number,
     score_left: number,
     score_right: number,
+    tie_break: string | null,
     first_scorer: string | null,
     double: boolean,
   ) => {
+    const tieCheck = score_left === score_right ? tie_break : null;
     const newPredict: PredictMatch = {
       updated_at: new Date().toISOString(),
       user: user?.id ?? 0,
       match: matchId,
       score_left: score_left,
       score_right: score_right,
+      tie_break: tieCheck,
       first_scorer: first_scorer,
       double: double,
     };

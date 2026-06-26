@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../../../utils/supabase";
-import type { MatchInfo } from "../../../models/Infos";
+import { supabase } from "../../../../utils/supabase";
+import type { MatchInfo } from "../../../../models/Infos";
 import MatchBase from "./MatchBase";
-import { UserContext } from "../../../contexts/UserContext";
-import type { PredictMatchView } from "../../../models/Predict";
+import { UserContext } from "../../../../contexts/UserContext";
+import type { PredictMatchView } from "../../../../models/Predict";
 
 export default function MatchLatest({ preview }: { preview: boolean }) {
   const { user } = useContext(UserContext);
