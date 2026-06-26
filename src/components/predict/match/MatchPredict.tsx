@@ -31,6 +31,8 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
   const [firstScorer, setFirstScorer] = useState<string | null>(current ? current.first_scorer : null);
   const [double, setDouble] = useState(doubleCode === match.id);
 
+  const isDummy = match.team_left === "ZZ" || match.team_right === "ZZ";
+
   useEffect(() => {
     //eslint-disable-next-line react-hooks/set-state-in-effect
     setDouble(doubleCode === match.id);
@@ -38,6 +40,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
 
   const stopSave =
     isLoading ||
+    isDummy ||
     scoreLeft === null ||
     scoreRight === null ||
     firstScorer === null ||
@@ -128,7 +131,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
               direction="row"
               sx={{ alignItems: "center", justifyContent: "space-between" }}
             >
-              <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
+              <MatchPredictScore id={"left-" + match.id} isDummy={isDummy} value={scoreLeft} setValue={setScoreLeft} />
               <Typography
                 sx={{
                   fontWeight: 700,
@@ -139,7 +142,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
               >
                 -
               </Typography>
-              <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
+              <MatchPredictScore id={"right-" + match.id} isDummy={isDummy} value={scoreRight} setValue={setScoreRight} />
             </Stack>
           </>
         ) : (
@@ -151,7 +154,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             {/* Left team */}
             <MatchTeam teamCode={match.team_left} side="left" />
 
-            <MatchPredictScore id={"left-" + match.id} value={scoreLeft} setValue={setScoreLeft} />
+            <MatchPredictScore id={"left-" + match.id} isDummy={isDummy} value={scoreLeft} setValue={setScoreLeft} />
             <Typography
               sx={{
                 fontWeight: 700,
@@ -162,7 +165,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
             >
               -
             </Typography>
-            <MatchPredictScore id={"right-" + match.id} value={scoreRight} setValue={setScoreRight} />
+            <MatchPredictScore id={"right-" + match.id} isDummy={isDummy} value={scoreRight} setValue={setScoreRight} />
 
             {/* Right team */}
             <MatchTeam teamCode={match.team_right} side="right" />
@@ -182,9 +185,19 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           {/* First team to score */}
           <Box>
             <Typography variant="body2">First team to score</Typography>
-            <MatchPredictFirstButton teamCode={match.team_left} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
+            <MatchPredictFirstButton
+              isDummy={isDummy}
+              teamCode={match.team_left}
+              firstScorer={firstScorer}
+              setFirstScorer={setFirstScorer}
+            />
             <br />
-            <MatchPredictFirstButton teamCode={match.team_right} firstScorer={firstScorer} setFirstScorer={setFirstScorer} />
+            <MatchPredictFirstButton
+              isDummy={isDummy}
+              teamCode={match.team_right}
+              firstScorer={firstScorer}
+              setFirstScorer={setFirstScorer}
+            />
           </Box>
           {/* Double Points */}
 
