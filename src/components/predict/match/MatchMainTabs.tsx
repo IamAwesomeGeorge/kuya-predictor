@@ -23,7 +23,7 @@ export default function MatchMainTabs({ preview = false }: { preview?: boolean }
         <MatchLatest preview={preview} />
       </TabPanel>
       <TabPanel value={mode} index={1}>
-        <MatchKnockTabs />
+        <MatchKnockTabs preview={preview} />
       </TabPanel>
       <TabPanel value={mode} index={2}>
         <MatchGroupTabs preview={preview} />

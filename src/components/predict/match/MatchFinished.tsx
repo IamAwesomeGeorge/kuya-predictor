@@ -198,7 +198,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           </>
         )}
 
-        {isStarted && (
+        {((isStarted && !isMobile()) || isFinished) && (
           <>
             <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
             {!waitingForResult && (

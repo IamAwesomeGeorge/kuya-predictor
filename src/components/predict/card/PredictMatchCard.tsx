@@ -40,7 +40,6 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
         .select()
         .eq("user", user?.id)
         .gt("date_time", now);
-      console.log("matches", data, predictionsData);
       return data?.length === predictionsData?.length;
     },
   });

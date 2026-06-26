@@ -27,7 +27,6 @@ export default function StartKnockout({ preview = false }: { preview?: boolean }
     enabled: !!user?.id && teams.length > 0,
     queryFn: async () => {
       const { data } = await supabase.from("final_teams").select();
-      console.log("finalTeams", data);
       return data as FinalTeams[];
     },
   });

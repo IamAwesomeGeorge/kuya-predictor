@@ -1,4 +1,4 @@
-import { Box, Card, Tooltip, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import type { MatchInfo, TeamInfo } from "../../../models/Infos";
 import KnockoutButton from "./KnockoutButton";

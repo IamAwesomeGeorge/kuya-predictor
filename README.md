@@ -22,3 +22,7 @@ In additon, users can predict the standings of each group durring the group stag
 One of the aims of the app is to create competition between friends. A scores page can show all users and how well they are doing compared to each other.
 
 ![scores example](/public/examples/scores.png)
+
+todo:
+- Add a view to see other's predictions on All the Way and Knockout Stage.
+- All the Way and Knockout Stage points now show in Scores
