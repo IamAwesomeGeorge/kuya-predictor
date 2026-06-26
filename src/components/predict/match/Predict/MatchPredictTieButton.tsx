@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
-import { useTeamName } from "../../utils/TeamsUtils";
-import { Flag } from "../../flag/Flag";
+import { useTeamName } from "../../../utils/TeamsUtils";
+import { Flag } from "../../../flag/Flag";
 
 interface MatchPredictTieButtonProps {
   isDummy: boolean;

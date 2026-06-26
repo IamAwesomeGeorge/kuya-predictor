@@ -1,6 +1,6 @@
 import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
-import { TabPanel } from "../../utils/TabPanel";
+import { TabPanel } from "../../../utils/TabPanel";
 import MatchGroupTabs from "./MatchGroupTabs";
 import MatchKnockTabs from "./MatchKnockTabs";
 import MatchLatest from "./MatchLatest";

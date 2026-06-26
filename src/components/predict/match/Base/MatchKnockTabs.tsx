@@ -1,13 +1,13 @@
 import { Tab, Tabs } from "@mui/material";
 import { useContext, useState } from "react";
-import { TabPanel } from "../../utils/TabPanel";
+import { TabPanel } from "../../../utils/TabPanel";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../../../utils/supabase";
-import type { MatchInfo, Stage } from "../../../models/Infos";
+import { supabase } from "../../../../utils/supabase";
+import type { MatchInfo, Stage } from "../../../../models/Infos";
 import MatchBase from "./MatchBase";
-import { UserContext } from "../../../contexts/UserContext";
-import type { PredictMatchView } from "../../../models/Predict";
-import { isMobile } from "../../utils/MobileUtils";
+import { UserContext } from "../../../../contexts/UserContext";
+import type { PredictMatchView } from "../../../../models/Predict";
+import { isMobile } from "../../../utils/MobileUtils";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 
 export default function MatchKnockoutTabs({ preview = false }: { preview?: boolean }) {

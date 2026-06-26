@@ -1,14 +1,14 @@
 import { Grid } from "@mui/material";
 import { useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UserContext } from "../../../contexts/UserContext";
-import { supabase } from "../../../utils/supabase";
-import type { PredictMatch, PredictMatchView } from "../../../models/Predict";
-import { useTeamsReady } from "../../utils/TeamsUtils";
-import type { MatchInfo } from "../../../models/Infos";
-import MatchPredict from "./MatchPredict";
-import { hasMatchStarted } from "../../utils/TimeUtils";
-import MatchFinished from "./MatchFinished";
+import { UserContext } from "../../../../contexts/UserContext";
+import { supabase } from "../../../../utils/supabase";
+import type { PredictMatch, PredictMatchView } from "../../../../models/Predict";
+import { useTeamsReady } from "../../../utils/TeamsUtils";
+import type { MatchInfo } from "../../../../models/Infos";
+import MatchPredict from "../Predict/MatchPredict";
+import { hasMatchStarted } from "../../../utils/TimeUtils";
+import MatchFinished from "../Finished/MatchFinished";
 
 interface MatchGroupBaseProps {
   preview: boolean;

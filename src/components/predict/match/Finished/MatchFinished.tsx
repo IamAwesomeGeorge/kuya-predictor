@@ -1,16 +1,16 @@
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
-import type { PredictMatchView } from "../../../models/Predict";
-import { findTeamName, stageGroupText } from "../../utils/TeamsUtils";
-import type { MatchInfo } from "../../../models/Infos";
-import { formatMatchDateShort, hasMatchFinished, hasMatchStarted } from "../../utils/TimeUtils";
+import type { PredictMatchView } from "../../../../models/Predict";
+import { findTeamName, stageGroupText } from "../../../utils/TeamsUtils";
+import type { MatchInfo } from "../../../../models/Infos";
+import { formatMatchDateShort, hasMatchFinished, hasMatchStarted } from "../../../utils/TimeUtils";
 import { useContext } from "react";
-import MatchTeam from "../../matches/MatchTeam";
-import { isMobile } from "../../utils/MobileUtils";
-import { TeamsContext } from "../../../contexts/TeamsContext";
-import MatchPredictScoreDisplay from "./MatchPredictScoreDisplay";
+import MatchTeam from "../../../matches/MatchTeam";
+import { isMobile } from "../../../utils/MobileUtils";
+import { TeamsContext } from "../../../../contexts/TeamsContext";
+import MatchPredictScoreDisplay from "../Predict/MatchPredictScoreDisplay";
 import MatchFinishedBreakdown from "./MatchFinishedBreakdown";
 import MatchFinishedOthers from "./MatchFinishedOthers";
-import X2 from "./X2";
+import X2 from "../X2";
 
 interface MatchFinishedProps {
   match: MatchInfo;

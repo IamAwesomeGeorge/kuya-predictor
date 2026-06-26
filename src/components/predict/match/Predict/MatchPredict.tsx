@@ -1,16 +1,16 @@
 import { Box, Button, Checkbox, Divider, Grid, Stack, Tooltip, Typography } from "@mui/material";
-import type { PredictMatchView } from "../../../models/Predict";
-import { findTeamName, stageGroupText } from "../../utils/TeamsUtils";
-import type { MatchInfo } from "../../../models/Infos";
-import { formatMatchDateShort } from "../../utils/TimeUtils";
+import type { PredictMatchView } from "../../../../models/Predict";
+import { findTeamName, stageGroupText } from "../../../utils/TeamsUtils";
+import type { MatchInfo } from "../../../../models/Infos";
+import { formatMatchDateShort } from "../../../utils/TimeUtils";
 import { useContext, useEffect, useState } from "react";
 import MatchPredictScore from "./MatchPredictScore";
 import MatchPredictFirstButton from "./MatchPredictFirstButton";
-import { isMobile } from "../../utils/MobileUtils";
-import { TeamsContext } from "../../../contexts/TeamsContext";
-import MatchTeam from "../../matches/MatchTeam";
+import { isMobile } from "../../../utils/MobileUtils";
+import { TeamsContext } from "../../../../contexts/TeamsContext";
+import MatchTeam from "../../../matches/MatchTeam";
 import { keyframes } from "@mui/material/styles";
-import NotDone from "./NotDone";
+import NotDone from "../NotDone";
 import MatchPredictTieButton from "./MatchPredictTieButton";
 
 //todo: remove paulse

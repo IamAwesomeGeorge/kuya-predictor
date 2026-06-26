@@ -2,7 +2,7 @@ import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { TabPanel } from "../utils/TabPanel";
 import Doner from "./Doner";
-import MatchMainTabs from "../predict/match/MatchMainTabs";
+import MatchMainTabs from "../predict/match/Base/MatchMainTabs";
 import GroupMainTabs from "../predict/group/GroupMainTabs";
 import StartAllTheWay from "../predict/knockout/StartAllTheWay";
 import StartKnockout from "../predict/knockout/StartKnockout";
