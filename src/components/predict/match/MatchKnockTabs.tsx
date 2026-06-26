@@ -75,11 +75,23 @@ export default function MatchKnockoutTabs({ preview = false }: { preview?: boole
             value={mode}
             onChange={handleTabChange}
           >
-            <Tab label="ROUND_OF_32" sx={{ color: stageComplete["ROUND_OF_32"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="ROUND_OF_16" sx={{ color: stageComplete["ROUND_OF_16"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="QUARTERFINAL" sx={{ color: stageComplete["QUARTERFINAL"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="SEMIFINAL" sx={{ color: stageComplete["SEMIFINAL"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="FINAL" sx={{ color: stageComplete["FINAL"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab
+              label={isMobile() ? "R32" : "Round of 32"}
+              sx={{ color: stageComplete["ROUND_OF_32"] ? "#c8ffc8" : "#ffc8c8" }}
+            />
+            <Tab
+              label={isMobile() ? "R16" : "Round of 16"}
+              sx={{ color: stageComplete["ROUND_OF_16"] ? "#c8ffc8" : "#ffc8c8" }}
+            />
+            <Tab
+              label={isMobile() ? "QF" : "Quarterfinals"}
+              sx={{ color: stageComplete["QUARTERFINAL"] ? "#c8ffc8" : "#ffc8c8" }}
+            />
+            <Tab
+              label={isMobile() ? "SF" : "Semifinals"}
+              sx={{ color: stageComplete["SEMIFINAL"] ? "#c8ffc8" : "#ffc8c8" }}
+            />
+            <Tab label={isMobile() ? "F" : "Final"} sx={{ color: stageComplete["FINAL"] ? "#c8ffc8" : "#ffc8c8" }} />
           </Tabs>
 
           {Object.entries(groupsIndexMap).map(([index, stage]) => (

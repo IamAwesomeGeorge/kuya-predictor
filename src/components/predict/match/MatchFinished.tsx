@@ -1,6 +1,6 @@
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { PredictMatchView } from "../../../models/Predict";
-import { findTeamName } from "../../utils/TeamsUtils";
+import { findTeamName, stageGroupText } from "../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../models/Infos";
 import { formatMatchDateShort, hasMatchFinished, hasMatchStarted } from "../../utils/TimeUtils";
 import { useContext } from "react";
@@ -69,7 +69,7 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
           </Typography>
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            {match.stage} {match.stage_info}
+            {stageGroupText(match)}
           </Typography>
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
