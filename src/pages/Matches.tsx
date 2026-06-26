@@ -17,7 +17,6 @@ export default function Matches() {
       <PageHeader title="Matches" />
       <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
         <Tab label="Group Stage" sx={{ color: "white" }} />
-        {/* todo: Implement Knockout Stage */}
         <Tab label="Knockout Stage" sx={{ color: "white" }} />
       </Tabs>
       <TabPanel value={mode} index={0}>

@@ -6,6 +6,20 @@ import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import PredictCardButtons from "./PredictCardButtons";
+import { keyframes } from "@mui/material/styles";
+
+//todo: remove paulse
+const pulseYellow = keyframes`
+  0% {
+    background-color: #ffffff;
+  }
+  50% {
+    background-color: rgb(255, 255, 200);
+  }
+  100% {
+    background-color: #ffffff;
+  }
+`;
 
 export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
@@ -15,7 +29,6 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { data: done } = useQuery({
     queryKey: ["check", "match", user?.id],
     queryFn: async () => {
-      //todo: check if user has done all the ones so far...
       const { data } = await supabase
         .from("matches")
         .select()
@@ -33,7 +46,15 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   });
 
   return (
-    <Card sx={{ width: 250, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <Card
+      sx={{
+        width: 250,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        animation: done ? undefined : `${pulseYellow} 1.5s ease-in-out infinite`,
+      }}
+    >
       <CardContent>
         <Typography variant="h5" component="div">
           Every Match Prediction
