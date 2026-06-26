@@ -28,6 +28,7 @@ export default function MatchBase({ preview, matches, currents }: MatchGroupBase
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["predictions", "matches", "view", "group", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["predictions", "matches", "view", "knockout", user?.id] });
     },
   });
 

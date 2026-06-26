@@ -9,6 +9,24 @@ import MatchPredictFirstButton from "./MatchPredictFirstButton";
 import { isMobile } from "../../utils/MobileUtils";
 import { TeamsContext } from "../../../contexts/TeamsContext";
 import MatchTeam from "../../matches/MatchTeam";
+import { keyframes } from "@mui/material/styles";
+import NotDone from "./NotDone";
+
+//todo: remove paulse
+const pulseRed = keyframes`
+  0% {
+    background-color: #253049;
+  }
+  25% {
+    background-color: #492525;
+  }
+  75% {
+    background-color: #492525;
+  }
+  100% {
+    background-color: #253049;
+  }
+`;
 
 interface MatchPredictProps {
   match: MatchInfo;
@@ -37,6 +55,11 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
     //eslint-disable-next-line react-hooks/set-state-in-effect
     setDouble(doubleCode === match.id);
   }, [doubleCode, match.id]);
+
+  const needsToBeDone =
+    (current?.score_left === undefined || current?.score_right === undefined || current?.first_scorer === undefined) &&
+    match.team_left !== "ZZ" &&
+    match.team_right !== "ZZ";
 
   const stopSave =
     isLoading ||
@@ -79,6 +102,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           color: "white",
           borderRadius: 2,
           p: 2,
+          animation: needsToBeDone ? `${pulseRed} 1.5s ease-in-out infinite` : undefined,
         }}
       >
         {/* Info row */}
@@ -106,11 +130,14 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
         <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.1)" }} />
 
         {/* Winner row */}
-        <Stack id={`match-${match.id}-winner`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
-          <Typography sx={{ fontSize: 18 }}>
-            <strong>{findTeamName(teams, winnerText)}</strong> to win
-          </Typography>
-        </Stack>
+        <Box sx={{ position: "relative" }}>
+          {needsToBeDone && <NotDone sx={{ position: "absolute", top: -5, right: -5, zIndex: 10 }} />}
+          <Stack id={`match-${match.id}-winner`} direction="row" spacing={1} sx={{ justifyContent: "center" }}>
+            <Typography sx={{ fontSize: 18 }}>
+              <strong>{findTeamName(teams, winnerText)}</strong> to win
+            </Typography>
+          </Stack>
+        </Box>
 
         {/* Score row */}
         {isMobile() ? (
