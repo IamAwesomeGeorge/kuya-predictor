@@ -51,7 +51,7 @@ export function MatchGrid(props: MatchGridProps) {
           )}
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-            {match.stage} {match.stage_info}
+            {match.stage} {match.stage === "GROUP" && match.stage_info}
           </Typography>
 
           <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>

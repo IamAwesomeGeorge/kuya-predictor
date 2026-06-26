@@ -13,6 +13,7 @@ export function Flag({ code, tooltip, ...props }: FlagProps) {
   const customMapping: { [key: string]: string } = {
     en: "gb-eng",
     sc: "gb-sct",
+    zz: "xx",
     draw: "equal",
   };
 

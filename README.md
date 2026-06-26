@@ -22,3 +22,12 @@ In additon, users can predict the standings of each group durring the group stag
 One of the aims of the app is to create competition between friends. A scores page can show all users and how well they are doing compared to each other.
 
 ![scores example](/public/examples/scores.png)
+
+todo:
+
+- Add fake matches
+- Handle fake matches, don't let block
+- Add knockout views
+- Update num page
+- Add paulse
+- Do todos

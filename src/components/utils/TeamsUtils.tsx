@@ -18,6 +18,7 @@ export function findTeamInfo(teams: TeamInfo[], teamCode: string) {
 }
 
 export function useTeamName(teamCode: string) {
+  if (teamCode === "ZZ") return "???";
   const teamInfo = useTeamInfo(teamCode);
   return teamInfo ? teamInfo.name : teamCode;
 }
