@@ -6,7 +6,7 @@ import type { PredictKnockout } from "../../../models/Predict";
 import { supabase } from "../../../utils/supabase";
 import { UserContext } from "../../../contexts/UserContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { hasMatchFinished } from "../../utils/TimeUtils";
+import { hasMatchStarted } from "../../utils/TimeUtils";
 
 interface KnockoutMatchProps {
   id: number;
@@ -63,7 +63,7 @@ export default function KnockoutMatch({
   const label = id === 103 ? "3RD PLACE" : id === 104 ? "FINAL" : "M" + id;
 
   const matchInfo = matches.find((match) => match.id === id);
-  const isStarted = matchInfo ? hasMatchFinished(matchInfo.date_time) : false;
+  const isStarted = matchInfo ? hasMatchStarted(matchInfo.date_time) : false;
 
   const loading = isPending || !topTeam || !bottomTeam || isStarted;
 
