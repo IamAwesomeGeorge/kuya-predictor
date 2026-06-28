@@ -64,7 +64,6 @@ export default function KnockoutMatch({
 
   const matchInfo = matches.find((match) => match.id === id);
   const isStarted = matchInfo ? hasMatchStarted(matchInfo.date_time) : false;
-  console.log(matchInfo, isStarted, "matchInfo");
 
   const loading = isPending || !topTeam || !bottomTeam || isStarted;
 
