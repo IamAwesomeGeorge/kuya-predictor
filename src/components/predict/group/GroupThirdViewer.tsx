@@ -56,7 +56,7 @@ export default function GroupThirdViewer({ currentSelection }: GroupThirdViewerP
       const standings = data as GroupStageStandings[];
       // Split standings by group, then find the 3rd place team in each
       const thirdPlaces: GroupStageStandings[] = [];
-      const groups = Array.from(new Set(standings.map((s) => s.group)));
+      const groups = Array.from(new Set(standings.map((s) => s.group))).filter((g) => g !== "Z"); // dont include z group
       groups.forEach((group) => {
         const groupStandings = standings.filter((s) => s.group === group);
         thirdPlaces.push(groupStandings[2]);
