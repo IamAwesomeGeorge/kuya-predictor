@@ -59,8 +59,6 @@ export default function KnockoutMatchEdit({
 
   const loading = isPending || !topTeam || !bottomTeam;
 
-  console.log(topTeamLabel, topTeam?.name, bottomTeamLabel, bottomTeam?.name);
-
   return (
     <Card key={"M" + id + "-edit"} sx={{ position: "relative" }}>
       <Box

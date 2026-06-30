@@ -13,6 +13,7 @@ interface KnockoutButtonProps {
 }
 
 export default function KnockoutView({ team, label, predicted, winner }: KnockoutButtonProps) {
+  const waitingForResult = winner === undefined;
   const isPredicted = predicted === team?.code;
   const correct = predicted === winner;
 
@@ -20,7 +21,7 @@ export default function KnockoutView({ team, label, predicted, winner }: Knockou
     <Button
       variant={isPredicted ? "contained" : "outlined"}
       disabled={!isPredicted}
-      color={isPredicted ? (correct ? "success" : "error") : "primary"}
+      color={!waitingForResult && isPredicted ? (correct ? "success" : "error") : "primary"}
       fullWidth
       sx={{ justifyContent: "flex-start", py: 0.5, minHeight: 44, pointerEvents: "none" }}
     >
@@ -37,8 +38,7 @@ export default function KnockoutView({ team, label, predicted, winner }: Knockou
           </>
         )}
       </Stack>
-
-      {isPredicted && (winner ? correct ? <CheckCircleIcon /> : <ClearIcon /> : <RadioButtonCheckedIcon />)}
+      {isPredicted && (waitingForResult ? <RadioButtonCheckedIcon /> : correct ? <CheckCircleIcon /> : <ClearIcon />)}
     </Button>
   );
 }

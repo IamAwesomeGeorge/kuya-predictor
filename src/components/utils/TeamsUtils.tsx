@@ -70,7 +70,13 @@ export function stageGroupText(match: MatchInfo) {
 }
 
 export function findWinner(match: MatchInfo) {
-  if (match.score_left === undefined || match.score_right === undefined) return undefined;
+  if (
+    match.score_left === undefined ||
+    match.score_right === undefined ||
+    match.score_left === null ||
+    match.score_right === null
+  )
+    return undefined;
   if (match.tie_break) return match.tie_break;
   if (match.score_left > match.score_right) return match.team_left;
   if (match.score_left < match.score_right) return match.team_right;

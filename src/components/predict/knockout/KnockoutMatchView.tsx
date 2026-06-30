@@ -60,31 +60,33 @@ export default function KnockoutMatchView({
             {label}
           </Typography>
         </Box>
-        <Box
-          sx={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: waitingForResult ? "#634b2d" : "#2d3163",
-            borderRadius: "6px",
-            px: 1.75,
-            py: 0.75,
-            minWidth: 25,
-            mx: 0.25,
-          }}
-        >
-          <Typography
+        {isStarted && (
+          <Box
             sx={{
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: "0.75rem",
-              lineHeight: 1,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: waitingForResult ? "#634b2d" : "#2d3163",
+              borderRadius: "6px",
+              px: 1.75,
+              py: 0.75,
+              minWidth: 25,
+              mx: 0.25,
             }}
           >
-            {infoBox}
-          </Typography>
-          {!waitingForResult && <Flag code={winnerTeam ?? "ZZ"} tooltip style={{ lineHeight: 0.7 }} />}
-        </Box>
+            <Typography
+              sx={{
+                color: "#fff",
+                fontWeight: 700,
+                fontSize: "0.75rem",
+                lineHeight: 1,
+              }}
+            >
+              {infoBox}
+            </Typography>
+            {!waitingForResult && <Flag code={winnerTeam ?? "ZZ"} tooltip style={{ lineHeight: 0.7 }} />}
+          </Box>
+        )}
       </Box>
       <KnockoutView label={topTeamLabel} team={topTeam} predicted={predictedWinner} winner={winnerTeam} />
       <KnockoutView label={bottomTeamLabel} team={bottomTeam} predicted={predictedWinner} winner={winnerTeam} />
