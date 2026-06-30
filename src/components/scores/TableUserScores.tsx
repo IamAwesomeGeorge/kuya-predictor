@@ -4,7 +4,7 @@ import NameTag from "../account/NameTag";
 import { CountUpNumber } from "../fun/CountUpNumber";
 import { useState, useMemo } from "react";
 
-type SortKey = "position" | "name" | "matches" | "groups" | "knockoutPre" | "knockout" | "total";
+type SortKey = "position" | "name" | "matches" | "groups" | "all" | "knockout" | "total";
 
 interface UserRow extends UserScoreInfo {
   position: number;
@@ -103,9 +103,9 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
             </TableCell>
             <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
               <TableSortLabel
-                active={orderBy === "knockoutPre"}
-                direction={orderBy === "knockoutPre" ? order : "desc"}
-                onClick={() => handleSort("knockoutPre")}
+                active={orderBy === "all"}
+                direction={orderBy === "all" ? order : "desc"}
+                onClick={() => handleSort("all")}
               >
                 All The Way
               </TableSortLabel>
@@ -157,12 +157,7 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
                 <CountUpNumber id={`groups-${row.name}`} end={row.groups} delay={ani ? 0 : 0.5} duration={ani ? 0 : 2} />
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber
-                  id={`knockoutPre-${row.name}`}
-                  end={row.knockoutPre}
-                  delay={ani ? 0 : 1}
-                  duration={ani ? 0 : 2}
-                />
+                <CountUpNumber id={`all-${row.name}`} end={row.all} delay={ani ? 0 : 1} duration={ani ? 0 : 2} />
               </TableCell>
               <TableCell align="right">
                 <CountUpNumber id={`knockout-${row.name}`} end={row.knockout} delay={ani ? 0 : 1.5} duration={ani ? 0 : 2} />

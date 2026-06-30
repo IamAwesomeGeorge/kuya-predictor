@@ -35,11 +35,11 @@ export default function PredictAllTheWayCard({ navigateTo }: PredictCardProps) {
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="body2">
-              <strong>5 points</strong> for each match winner guessed correct.
+              <strong>4 points</strong> for each match winner guessed correct.
             </Typography>
             <br />
             <Typography variant="body2">
-              <em>160 points max - however requires you to already have a perfect score in group stage.</em>
+              <em>128 points max - however requires you to already have a perfect score in group stage.</em>
             </Typography>
           </AccordionDetails>
         </Accordion>

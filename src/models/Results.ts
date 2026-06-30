@@ -2,10 +2,10 @@ import type { TeamInfo } from "./Infos";
 import type { User } from "./User";
 
 export interface UserScoreInfo extends User {
-  groups: number;
-  knockoutPre: number;
-  knockout: number;
   matches: number;
+  groups: number;
+  all: number;
+  knockout: number;
   total: number;
 }
 

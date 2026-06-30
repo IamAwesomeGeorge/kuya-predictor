@@ -15,7 +15,7 @@ export default function Scores() {
       const updatedData =
         data?.map((row) => ({
           ...row,
-          total: row.groups + row.knockoutPre + row.knockout + row.matches,
+          total: row.matches + row.groups + row.all + row.knockout,
         })) ?? [];
       // Sort by total points, then by name
       updatedData.sort((a, b) => {
