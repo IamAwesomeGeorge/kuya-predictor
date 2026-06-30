@@ -68,3 +68,11 @@ export function stageGroupText(match: MatchInfo) {
     return match.stage_info;
   }
 }
+
+export function findWinner(match: MatchInfo) {
+  if (match.score_left === undefined || match.score_right === undefined) return undefined;
+  if (match.tie_break) return match.tie_break;
+  if (match.score_left > match.score_right) return match.team_left;
+  if (match.score_left < match.score_right) return match.team_right;
+  return "DRAW";
+}

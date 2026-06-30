@@ -29,3 +29,4 @@ todo:
 - Updated All the Way and Knockout Stage view to show if you have gained the points or not
 - Add a view to see other's predictions on All the Way and Knockout Stage.
 - All the Way and Knockout Stage points now show in Scores
+- Added a way to turn off flashing effects from My Account page.

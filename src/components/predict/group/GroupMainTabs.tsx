@@ -13,7 +13,6 @@ export default function GroupMainTabs({ preview = false }: { preview?: boolean }
   const [mode, setMode] = useState(0);
   const { user } = useContext(UserContext);
 
-  //todo: is pending
   const { data: predictData, isPending } = useQuery({
     queryKey: ["predict", "group", user?.id],
     queryFn: async () => {

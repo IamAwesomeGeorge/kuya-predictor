@@ -1,6 +1,6 @@
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { PredictMatchView } from "../../../../models/Predict";
-import { findTeamName, stageGroupText } from "../../../utils/TeamsUtils";
+import { findTeamName, findWinner, stageGroupText } from "../../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../../models/Infos";
 import { formatMatchDateShort, hasMatchFinished, hasMatchStarted } from "../../../utils/TimeUtils";
 import { useContext } from "react";
@@ -31,16 +31,18 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
   const guessedFirstScorer = current?.first_scorer ?? "???";
   const doubleUsed = current?.double ?? false;
 
-  const trueWinnerText =
-    match.score_left !== undefined && match.score_right !== undefined
-      ? match.score_left > match.score_right
-        ? match.team_left
-        : match.score_left < match.score_right
-          ? match.team_right
-          : match.tie_break
-            ? match.tie_break
-            : "DRAW"
-      : "???";
+  const winner = findWinner(match);
+  const trueWinnerText = winner ?? "???";
+  // const trueWinnerText =
+  //   match.score_left !== undefined && match.score_right !== undefined
+  //     ? match.score_left > match.score_right
+  //       ? match.team_left
+  //       : match.score_left < match.score_right
+  //         ? match.team_right
+  //         : match.tie_break
+  //           ? match.tie_break
+  //           : "DRAW"
+  //     : "???";
   const goalDifference =
     match.score_left !== undefined && match.score_right !== undefined ? match.score_left - match.score_right : 0;
 
