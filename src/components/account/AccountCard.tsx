@@ -20,7 +20,7 @@ export default function AccountCard(props: AccountCardProps) {
       const { data } = await supabase.from("user_scores").select().eq("id", user.id);
       // Calculate total points
       const userScore = data?.[0] as UserScoreInfo | undefined;
-      const total = userScore ? userScore.groups + userScore.knockoutPre + userScore.knockout + userScore.matches : 0;
+      const total = userScore ? userScore.matches + userScore.groups + userScore.all + userScore.knockout : 0;
       return total;
     },
   });
