@@ -1,5 +1,16 @@
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, TableSortLabel } from "@mui/material";
-import type { UserScoreInfo } from "../../models/Results";
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+  TableContainer,
+  TableSortLabel,
+  Tooltip,
+  Box,
+} from "@mui/material";
+import type { KnockoutInfo, UserScoreInfo } from "../../models/Results";
 import NameTag from "../account/NameTag";
 import { CountUpNumber } from "../fun/CountUpNumber";
 import { useState, useMemo } from "react";
@@ -60,6 +71,39 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
     setAni(true);
     setOrderBy(key);
     setOrder(key === "position" || key === "name" ? "asc" : "desc");
+  };
+
+  const knockoutTooltip = (info: KnockoutInfo) => {
+    return (
+      <table style={{ borderCollapse: "collapse" }}>
+        <tbody>
+          <tr style={{ borderBottom: "1px solid #ddd" }}>
+            <td style={{ padding: "4px 8px", fontWeight: "bold" }}>Round</td>
+            <td style={{ padding: "4px 8px", fontWeight: "bold" }}>Points</td>
+          </tr>
+          <tr style={{ borderBottom: "1px solid #ddd" }}>
+            <td style={{ padding: "4px 8px" }}>32</td>
+            <td style={{ padding: "4px 8px" }}>{info[32]}</td>
+          </tr>
+          <tr style={{ borderBottom: "1px solid #ddd" }}>
+            <td style={{ padding: "4px 8px" }}>16</td>
+            <td style={{ padding: "4px 8px" }}>{info[16]}</td>
+          </tr>
+          <tr style={{ borderBottom: "1px solid #ddd" }}>
+            <td style={{ padding: "4px 8px" }}>QF</td>
+            <td style={{ padding: "4px 8px" }}>{info.QF}</td>
+          </tr>
+          <tr style={{ borderBottom: "1px solid #ddd" }}>
+            <td style={{ padding: "4px 8px" }}>SF</td>
+            <td style={{ padding: "4px 8px" }}>{info.SF}</td>
+          </tr>
+          <tr>
+            <td style={{ padding: "4px 8px" }}>F</td>
+            <td style={{ padding: "4px 8px" }}>{info.F}</td>
+          </tr>
+        </tbody>
+      </table>
+    );
   };
 
   return (
@@ -157,10 +201,23 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
                 <CountUpNumber id={`groups-${row.name}`} end={row.groups} delay={ani ? 0 : 0.5} duration={ani ? 0 : 2} />
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`all-${row.name}`} end={row.all} delay={ani ? 0 : 1} duration={ani ? 0 : 2} />
+                <Tooltip title={knockoutTooltip(row.all_info)} placement="top">
+                  <Box>
+                    <CountUpNumber id={`all-${row.name}`} end={row.all} delay={ani ? 0 : 1} duration={ani ? 0 : 2} />
+                  </Box>
+                </Tooltip>
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`knockout-${row.name}`} end={row.knockout} delay={ani ? 0 : 1.5} duration={ani ? 0 : 2} />
+                <Tooltip title={knockoutTooltip(row.knockout_info)} placement="top">
+                  <Box>
+                    <CountUpNumber
+                      id={`knockout-${row.name}`}
+                      end={row.knockout}
+                      delay={ani ? 0 : 1.5}
+                      duration={ani ? 0 : 2}
+                    />
+                  </Box>
+                </Tooltip>
               </TableCell>
               <TableCell align="right">
                 <strong>
