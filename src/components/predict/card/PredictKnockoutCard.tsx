@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import PredictCardButtons from "./PredictCardButtons";
 import { supabase } from "../../../utils/supabase";
 import { keyframes } from "@mui/material/styles";
+import { PulseContext } from "../../../contexts/PulseContext";
 
 //todo: remove paulse
 const pulseYellow = keyframes`
@@ -23,6 +24,7 @@ const pulseYellow = keyframes`
 
 export default function PredictKnockoutCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
+  const { pulse } = useContext(PulseContext);
 
   const { data: done } = useQuery({
     queryKey: ["check", "knockout", user?.id],
@@ -39,7 +41,7 @@ export default function PredictKnockoutCard({ navigateTo }: PredictCardProps) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        animation: done ? undefined : `${pulseYellow} 1.5s ease-in-out infinite`,
+        animation: !done && pulse ? `${pulseYellow} 1.5s ease-in-out infinite` : undefined,
       }}
     >
       <CardContent>

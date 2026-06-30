@@ -12,6 +12,7 @@ import MatchTeam from "../../../matches/MatchTeam";
 import { keyframes } from "@mui/material/styles";
 import NotDone from "../NotDone";
 import MatchPredictTieButton from "./MatchPredictTieButton";
+import { PulseContext } from "../../../../contexts/PulseContext";
 
 //todo: remove paulse
 const pulseRed = keyframes`
@@ -46,6 +47,7 @@ interface MatchPredictProps {
 
 export default function MatchPredict({ match, current, handlePredictChange, isLoading, doubleCode }: MatchPredictProps) {
   const { teams } = useContext(TeamsContext);
+  const { pulse } = useContext(PulseContext);
   const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
   const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
   const [tieBreak, setTieBreak] = useState<string | null>(current ? current.tie_break : null);
@@ -111,7 +113,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           color: "white",
           borderRadius: 2,
           p: 2,
-          animation: needsToBeDone ? `${pulseRed} 1.5s ease-in-out infinite` : undefined,
+          animation: needsToBeDone && pulse ? `${pulseRed} 1.5s ease-in-out infinite` : undefined,
         }}
       >
         {/* Info row */}

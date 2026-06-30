@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import PredictCardButtons from "./PredictCardButtons";
 import { keyframes } from "@mui/material/styles";
+import { PulseContext } from "../../../contexts/PulseContext";
 
 //todo: remove paulse
 const pulseYellow = keyframes`
@@ -23,6 +24,7 @@ const pulseYellow = keyframes`
 
 export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
+  const { pulse } = useContext(PulseContext);
 
   const now = new Date().toISOString();
 
@@ -51,7 +53,7 @@ export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        animation: done ? undefined : `${pulseYellow} 1.5s ease-in-out infinite`,
+        animation: !done && pulse ? `${pulseYellow} 1.5s ease-in-out infinite` : undefined,
       }}
     >
       <CardContent>

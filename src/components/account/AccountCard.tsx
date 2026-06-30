@@ -1,10 +1,12 @@
-import { Button, Card, Typography } from "@mui/material";
+import { Button, Card, Checkbox, FormControlLabel, FormGroup, Tooltip, Typography } from "@mui/material";
 import MuiAvatar from "./Avatar";
 import type { UserLoggedIn } from "../../models/User";
 import TeamTag from "./TeamTag";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../utils/supabase";
 import type { UserScoreInfo } from "../../models/Results";
+import { PulseContext } from "../../contexts/PulseContext";
+import { useContext, useState } from "react";
 
 interface AccountCardProps {
   user: UserLoggedIn;
@@ -13,6 +15,7 @@ interface AccountCardProps {
 
 export default function AccountCard(props: AccountCardProps) {
   const { user, handleLogOut } = props;
+  const { pulse, setPulse } = useContext(PulseContext);
 
   const { data: totalPoints } = useQuery({
     queryKey: ["user", "score", user.id],
@@ -24,6 +27,12 @@ export default function AccountCard(props: AccountCardProps) {
       return total;
     },
   });
+
+  const togglePulse = (value: React.ChangeEvent<HTMLInputElement>) => {
+    const update = value.target.checked;
+    localStorage.setItem("pulse", update.toString());
+    setPulse(update);
+  };
 
   return (
     <Card key={user.id} style={{ margin: "0.5em", padding: "1em" }}>
@@ -44,9 +53,19 @@ export default function AccountCard(props: AccountCardProps) {
             </Typography>
             <Typography align="left">{user.username}</Typography>
           </div>
+          <div>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Tooltip title="Toggle background pulses when there are actions to do. Indicators will remain.">
+                    <Checkbox checked={pulse} onChange={togglePulse} />
+                  </Tooltip>
+                }
+                label="Flashing Lights"
+              />
+            </FormGroup>
+          </div>
         </div>
-
-        {/* <TeamTag team={user.team} /> */}
 
         <div>
           <Button data-testid="account-logout" onClick={handleLogOut}>
