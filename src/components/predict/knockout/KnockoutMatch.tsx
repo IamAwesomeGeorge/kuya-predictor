@@ -36,6 +36,7 @@ export default function KnockoutMatch({
   return isViewing ? (
     <KnockoutMatchView
       id={id}
+      isStarted={isStarted}
       isFinished={isFinished}
       matchInfo={matchInfo}
       topTeamLabel={topTeamLabel}

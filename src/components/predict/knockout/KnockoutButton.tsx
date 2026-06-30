@@ -1,6 +1,6 @@
 import { Stack, Typography, Button } from "@mui/material";
 import { Flag } from "../../flag/Flag";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import type { TeamInfo } from "../../../models/Infos";
 
 interface KnockoutButtonProps {
@@ -33,7 +33,7 @@ export default function KnockoutButton({ label, team, selected, setSelected, dis
           </>
         )}
       </Stack>
-      {selected && <CheckCircleIcon />}
+      {selected && <RadioButtonCheckedIcon />}
     </Button>
   );
 }
