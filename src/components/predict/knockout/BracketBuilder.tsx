@@ -1,4 +1,4 @@
-import type { TeamInfo } from "../../../models/Infos";
+import type { MatchInfo, TeamInfo } from "../../../models/Infos";
 import type { FinalTeams, KnockoutMatch, KnockoutMatchInfo } from "../../../models/Knockout";
 import type { PredictData, PredictGroup, PredictKnockout } from "../../../models/Predict";
 import { findTeamInfo } from "../../utils/TeamsUtils";
@@ -49,6 +49,17 @@ const matches: KnockoutMatch[] = [
   { id: 103, stage: "FINAL", left: "M101L", right: "M102L" },
   { id: 104, stage: "FINAL", left: "M101", right: "M102" },
 ];
+
+export function BracketStandingsBuilderStart(teams: TeamInfo[], matchesData: MatchInfo[]) {
+  const matchInfo: KnockoutMatchInfo[] = [];
+  matches.forEach((match) => {
+    const matchData = matchesData.find((m) => m.id === match.id);
+    const leftTeam = findMatchTeam(teams, matchData?.team_left);
+    const rightTeam = findMatchTeam(teams, matchData?.team_right);
+    matchInfo.push({ ...match, leftTeam, rightTeam });
+  });
+  return fix3Label(matchInfo);
+}
 
 export function BracketKnockoutBuilderStart(teams: TeamInfo[], finalTeams: FinalTeams[], current: PredictKnockout[]) {
   const matchInfo: KnockoutMatchInfo[] = [];
@@ -140,6 +151,10 @@ function findPredictedTeam(
 
 function findTeam(teams: TeamInfo[], code?: string) {
   return findTeamInfo(teams, code || "") || undefined;
+}
+
+function findMatchTeam(teams: TeamInfo[], code?: string) {
+  return code && code !== "ZZ" ? findTeamInfo(teams, code) : undefined;
 }
 
 function fix3Label(matchInfo: KnockoutMatchInfo[]) {

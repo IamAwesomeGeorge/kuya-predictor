@@ -6,7 +6,7 @@ import type { PredictKnockout } from "../../../models/Predict";
 
 interface KnockoutDuelProps {
   preview: boolean;
-  knockoutMode: "allTheWay" | "knockout";
+  knockoutMode: "allTheWay" | "knockout" | "standings";
   matches: MatchInfo[];
   topId: number;
   topTopTeamLabel: string;

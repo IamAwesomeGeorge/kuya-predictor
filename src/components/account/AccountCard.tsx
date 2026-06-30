@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../utils/supabase";
 import type { UserScoreInfo } from "../../models/Results";
 import { PulseContext } from "../../contexts/PulseContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 interface AccountCardProps {
   user: UserLoggedIn;

@@ -3,6 +3,7 @@ import PageHeader from "../components/header/PageHeader";
 import GroupStandings from "../components/standings/GroupStandings";
 import { useState } from "react";
 import { TabPanel } from "../components/utils/TabPanel";
+import KnockoutStandings from "../components/standings/KnockoutStandings";
 
 export default function Standings() {
   const [mode, setMode] = useState(1);
@@ -16,11 +17,13 @@ export default function Standings() {
       <PageHeader title="Current Standings" />
       <Tabs value={mode} onChange={handleChange} aria-label="basic tabs example">
         <Tab label="Group Stage" sx={{ color: "white" }} />
-        {/* todo: Implement Knockout Stage */}
-        <Tab label="Knockout Stage" disabled sx={{ color: "white" }} />
+        <Tab label="Knockout Stage" sx={{ color: "white" }} />
       </Tabs>
       <TabPanel value={mode} index={0}>
         <GroupStandings />
+      </TabPanel>
+      <TabPanel value={mode} index={1}>
+        <KnockoutStandings />
       </TabPanel>
     </>
   );

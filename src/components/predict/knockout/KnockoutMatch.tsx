@@ -2,13 +2,14 @@ import type { MatchInfo, TeamInfo } from "../../../models/Infos";
 import type { PredictKnockout } from "../../../models/Predict";
 import { hasMatchFinished, hasMatchStarted } from "../../utils/TimeUtils";
 import KnockoutMatchEdit from "./KnockoutMatchEdit";
+import KnockoutMatchStanding from "./KnockoutMatchStanding";
 import KnockoutMatchView from "./KnockoutMatchView";
 
 interface KnockoutMatchProps {
   id: number;
   preview: boolean;
   matches: MatchInfo[];
-  knockoutMode: "allTheWay" | "knockout";
+  knockoutMode: "allTheWay" | "knockout" | "standings";
   topTeamLabel: string;
   bottomTeamLabel: string;
   topTeam?: TeamInfo;
@@ -33,7 +34,18 @@ export default function KnockoutMatch({
 
   const isViewing = preview || isStarted;
 
-  return isViewing ? (
+  return knockoutMode === "standings" ? (
+    <KnockoutMatchStanding
+      id={id}
+      isStarted={isStarted}
+      isFinished={isFinished}
+      matchInfo={matchInfo}
+      topTeamLabel={topTeamLabel}
+      bottomTeamLabel={bottomTeamLabel}
+      topTeam={topTeam}
+      bottomTeam={bottomTeam}
+    />
+  ) : isViewing ? (
     <KnockoutMatchView
       id={id}
       isStarted={isStarted}

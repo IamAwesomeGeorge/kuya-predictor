@@ -1,27 +1,22 @@
 import { Stack, Typography, Button } from "@mui/material";
 import { Flag } from "../../flag/Flag";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ClearIcon from "@mui/icons-material/Clear";
 import type { TeamInfo } from "../../../models/Infos";
 
-interface KnockoutViewProps {
+interface KnockoutStandingProps {
   label: string;
   team?: TeamInfo;
-  predicted?: string;
   winner?: string;
 }
 
-export default function KnockoutView({ team, label, predicted, winner }: KnockoutViewProps) {
+export default function KnockoutStanding({ team, label, winner }: KnockoutStandingProps) {
   const waitingForResult = winner === undefined;
-  const isPredicted = predicted === team?.code;
-  const correct = predicted === winner;
+  const isWinner = winner ? winner === team?.code : false;
 
   return (
     <Button
-      variant={isPredicted ? "contained" : "outlined"}
-      disabled={!isPredicted}
-      color={!waitingForResult && isPredicted ? (correct ? "success" : "error") : "primary"}
+      variant={isWinner ? "contained" : "outlined"}
+      color={isWinner ? "success" : "primary"}
+      disabled={!isWinner && !waitingForResult}
       fullWidth
       sx={{ justifyContent: "flex-start", py: 0.5, minHeight: 44, pointerEvents: "none" }}
     >
@@ -38,7 +33,6 @@ export default function KnockoutView({ team, label, predicted, winner }: Knockou
           </>
         )}
       </Stack>
-      {isPredicted && (waitingForResult ? <RadioButtonCheckedIcon /> : correct ? <CheckCircleIcon /> : <ClearIcon />)}
     </Button>
   );
 }

@@ -6,7 +6,7 @@ import type { MatchInfo } from "../../../models/Infos";
 
 interface KnockoutFinalsProps {
   preview: boolean;
-  knockoutMode: "allTheWay" | "knockout";
+  knockoutMode: "allTheWay" | "knockout" | "standings";
   matches: MatchInfo[];
   knockoutMatchInfo: KnockoutMatchInfo[];
   currentPredictions?: PredictKnockout[];
