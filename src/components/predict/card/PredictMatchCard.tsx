@@ -6,21 +6,8 @@ import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import PredictCardButtons from "./PredictCardButtons";
-import { keyframes } from "@mui/material/styles";
 import { PulseContext } from "../../../contexts/PulseContext";
-
-//todo: remove paulse
-const pulseYellow = keyframes`
-  0% {
-    background-color: #ffffff;
-  }
-  50% {
-    background-color: rgb(255, 255, 200);
-  }
-  100% {
-    background-color: #ffffff;
-  }
-`;
+import { pulseYellow } from "../../utils/PulseUtils";
 
 export default function PredictMatchCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);

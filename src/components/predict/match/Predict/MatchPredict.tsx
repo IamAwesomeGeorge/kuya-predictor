@@ -9,26 +9,10 @@ import MatchPredictFirstButton from "./MatchPredictFirstButton";
 import { isMobile } from "../../../utils/MobileUtils";
 import { TeamsContext } from "../../../../contexts/TeamsContext";
 import MatchTeam from "../../../matches/MatchTeam";
-import { keyframes } from "@mui/material/styles";
 import NotDone from "../NotDone";
 import MatchPredictTieButton from "./MatchPredictTieButton";
 import { PulseContext } from "../../../../contexts/PulseContext";
-
-//todo: remove paulse
-const pulseRed = keyframes`
-  0% {
-    background-color: #253049;
-  }
-  25% {
-    background-color: #492525;
-  }
-  75% {
-    background-color: #492525;
-  }
-  100% {
-    background-color: #253049;
-  }
-`;
+import { pulseRed } from "../../../utils/PulseUtils";
 
 interface MatchPredictProps {
   match: MatchInfo;
