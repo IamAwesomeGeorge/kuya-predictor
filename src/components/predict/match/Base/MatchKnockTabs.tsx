@@ -9,6 +9,7 @@ import { UserContext } from "../../../../contexts/UserContext";
 import type { PredictMatchView } from "../../../../models/Predict";
 import { isMobile } from "../../../utils/MobileUtils";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+import { getCorrectBG } from "../../../utils/ColourUtils";
 
 export default function MatchKnockoutTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);
@@ -79,31 +80,31 @@ export default function MatchKnockoutTabs({ preview = false }: { preview?: boole
               label={isMobile() ? "R32" : "Round of 32"}
               icon={stageComplete["ROUND_OF_32"] ? undefined : <PriorityHighIcon fontSize="small" />}
               iconPosition="end"
-              sx={{ color: stageComplete["ROUND_OF_32"] ? "#c8ffc8" : "#ffc8c8" }}
+              sx={{ color: getCorrectBG(stageComplete["ROUND_OF_32"]) }}
             />
             <Tab
               label={isMobile() ? "R16" : "Round of 16"}
               icon={stageComplete["ROUND_OF_16"] ? undefined : <PriorityHighIcon fontSize="small" />}
               iconPosition="end"
-              sx={{ color: stageComplete["ROUND_OF_16"] ? "#c8ffc8" : "#ffc8c8" }}
+              sx={{ color: getCorrectBG(stageComplete["ROUND_OF_16"]) }}
             />
             <Tab
               label={isMobile() ? "QF" : "Quarterfinals"}
               icon={stageComplete["QUARTERFINAL"] ? undefined : <PriorityHighIcon fontSize="small" />}
               iconPosition="end"
-              sx={{ color: stageComplete["QUARTERFINAL"] ? "#c8ffc8" : "#ffc8c8" }}
+              sx={{ color: getCorrectBG(stageComplete["QUARTERFINAL"]) }}
             />
             <Tab
               label={isMobile() ? "SF" : "Semifinals"}
               icon={stageComplete["SEMIFINAL"] ? undefined : <PriorityHighIcon fontSize="small" />}
               iconPosition="end"
-              sx={{ color: stageComplete["SEMIFINAL"] ? "#c8ffc8" : "#ffc8c8" }}
+              sx={{ color: getCorrectBG(stageComplete["SEMIFINAL"]) }}
             />
             <Tab
               label={isMobile() ? "F" : "Final"}
               icon={stageComplete["FINAL"] ? undefined : <PriorityHighIcon fontSize="small" />}
               iconPosition="end"
-              sx={{ color: stageComplete["FINAL"] ? "#c8ffc8" : "#ffc8c8" }}
+              sx={{ color: getCorrectBG(stageComplete["FINAL"]) }}
             />
           </Tabs>
 

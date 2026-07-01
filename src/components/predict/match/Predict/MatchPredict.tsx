@@ -12,7 +12,7 @@ import MatchTeam from "../../../matches/MatchTeam";
 import NotDone from "../NotDone";
 import MatchPredictTieButton from "./MatchPredictTieButton";
 import { PulseContext } from "../../../../contexts/PulseContext";
-import { pulseRed } from "../../../utils/PulseUtils";
+import { pulseRed } from "../../../utils/ColourUtils";
 
 interface MatchPredictProps {
   match: MatchInfo;

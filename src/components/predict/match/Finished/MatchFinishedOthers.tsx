@@ -26,6 +26,7 @@ import NameTag from "../../../account/NameTag";
 import { isMobile } from "../../../utils/MobileUtils";
 import X2 from "../X2";
 import { isTopPoints } from "../../../utils/TeamsUtils";
+import { getCorrectBGExt } from "../../../utils/ColourUtils";
 
 interface MatchFinishedOthersProps {
   noResults: boolean;
@@ -109,7 +110,7 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
                                 px: 0.5,
                                 py: 0.5,
                                 borderRadius: "6px",
-                                backgroundColor: noResults ? "#c8c8ff" : p.winner === winner ? "#c8ffc8" : "#ffc8c8",
+                                backgroundColor: getCorrectBGExt(noResults, p.winner === winner),
                               }}
                             >
                               <Flag code={p.winner ?? "??"} tooltip />
@@ -123,11 +124,10 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
                                 px: 0.5,
                                 py: 0.5,
                                 borderRadius: "6px",
-                                backgroundColor: noResults
-                                  ? "#c8c8ff"
-                                  : p.score_left === match.score_left && p.score_right === match.score_right
-                                    ? "#c8ffc8"
-                                    : "#ffc8c8",
+                                backgroundColor: getCorrectBGExt(
+                                  noResults,
+                                  p.score_left === match.score_left && p.score_right === match.score_right,
+                                ),
                               }}
                             >
                               {p.score_left}-{p.score_right}
@@ -141,7 +141,7 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
                                 px: 0.5,
                                 py: 0.5,
                                 borderRadius: "6px",
-                                backgroundColor: noResults ? "#c8c8ff" : p.gd === gd ? "#c8ffc8" : "#ffc8c8",
+                                backgroundColor: getCorrectBGExt(noResults, p.gd === gd),
                               }}
                             >
                               {p.gd}
@@ -155,11 +155,7 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
                                 px: 0.5,
                                 py: 0.5,
                                 borderRadius: "6px",
-                                backgroundColor: noResults
-                                  ? "#c8c8ff"
-                                  : p.first_scorer === match.first_scorer
-                                    ? "#c8ffc8"
-                                    : "#ffc8c8",
+                                backgroundColor: getCorrectBGExt(noResults, p.first_scorer === match.first_scorer),
                               }}
                             >
                               <Flag code={p.first_scorer ?? "??"} tooltip />

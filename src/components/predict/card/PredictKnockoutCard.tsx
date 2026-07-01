@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import PredictCardButtons from "./PredictCardButtons";
 import { supabase } from "../../../utils/supabase";
 import { PulseContext } from "../../../contexts/PulseContext";
-import { pulseYellow } from "../../utils/PulseUtils";
+import { pulseYellow } from "../../utils/ColourUtils";
 
 export default function PredictKnockoutCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);

@@ -40,11 +40,11 @@ export default function KnockoutTabs({ preview, knockoutMode, matches, bracket, 
   return (
     <>
       <Tabs variant="scrollable" scrollButtons="auto" value={mode} onChange={handleTabChange}>
-        <Tab label={isMobile() ? "R32" : "Round of 32"} sx={{ color: isGroupComplete[32] ? "#c8ffc8" : "#ffc8c8" }} />
-        <Tab label={isMobile() ? "R16" : "Round of 16"} sx={{ color: isGroupComplete[16] ? "#c8ffc8" : "#ffc8c8" }} />
-        <Tab label={isMobile() ? "QF" : "Quarterfinals"} sx={{ color: isGroupComplete[8] ? "#c8ffc8" : "#ffc8c8" }} />
-        <Tab label={isMobile() ? "SF" : "Semifinals"} sx={{ color: isGroupComplete[4] ? "#c8ffc8" : "#ffc8c8" }} />
-        <Tab label={isMobile() ? "F" : "Final"} sx={{ color: isGroupComplete[2] ? "#c8ffc8" : "#ffc8c8" }} />
+        <Tab label={isMobile() ? "R32" : "Round of 32"} sx={{ color: getCorrectBG(isGroupComplete[32]) }} />
+        <Tab label={isMobile() ? "R16" : "Round of 16"} sx={{ color: getCorrectBG(isGroupComplete[16]) }} />
+        <Tab label={isMobile() ? "QF" : "Quarterfinals"} sx={{ color: getCorrectBG(isGroupComplete[8]) }} />
+        <Tab label={isMobile() ? "SF" : "Semifinals"} sx={{ color: getCorrectBG(isGroupComplete[4]) }} />
+        <Tab label={isMobile() ? "F" : "Final"} sx={{ color: getCorrectBG(isGroupComplete[2]) }} />
       </Tabs>
 
       <TabPanel value={mode} index={0}>

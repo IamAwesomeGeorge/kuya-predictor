@@ -93,7 +93,6 @@ export default function GroupRankingOthers({ group, groupStandings }: GroupRanki
                             px: 0.5,
                             py: 0.5,
                             borderRadius: "6px",
-                            // backgroundColor: noResults ? "#c8c8ff" : p.pos_1 === winner ? "#c8ffc8" : "#ffc8c8",
                           }}
                         >
                           <Flag code={standing.code} tooltip />
@@ -133,7 +132,7 @@ export default function GroupRankingOthers({ group, groupStandings }: GroupRanki
                                 px: 0.5,
                                 py: 0.5,
                                 borderRadius: "6px",
-                                backgroundColor: pos == groupStandings[index].code ? "#c8ffc8" : "#ffc8c8",
+                                backgroundColor: getCorrectBG(pos == groupStandings[index].code),
                               }}
                             >
                               <Flag code={pos} tooltip />
