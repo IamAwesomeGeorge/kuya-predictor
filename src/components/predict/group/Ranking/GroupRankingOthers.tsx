@@ -25,6 +25,7 @@ import NameTag from "../../../account/NameTag";
 import { isMobile } from "../../../utils/MobileUtils";
 import type { GroupStageStandings } from "../../../../models/Results";
 import { numberIconMap } from "../Helpers";
+import { getCorrectBG } from "../../../utils/ColourUtils";
 
 interface GroupRankingOthersProps {
   group: string;

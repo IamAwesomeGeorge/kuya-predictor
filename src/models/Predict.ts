@@ -51,6 +51,8 @@ export interface PredictKnockout extends PredictBase {
   winner: string;
 }
 
+export interface PredictKnockoutView extends PredictKnockout, UserView {}
+
 interface UserView {
   name: string;
   pfp_url?: string;

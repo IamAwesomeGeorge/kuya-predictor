@@ -3,12 +3,14 @@ import type { MatchInfo, TeamInfo } from "../../../../models/Infos";
 import { findWinner } from "../../../utils/TeamsUtils";
 import KnockoutView from "./KnockoutView";
 import { Flag } from "../../../flag/Flag";
+import KnockoutMatchOthers from "./KnockoutMatchOthers";
 
 interface KnockoutMatchViewProps {
   id: number;
   isStarted: boolean;
   isFinished: boolean;
   matchInfo: MatchInfo | undefined;
+  knockoutMode: "allTheWay" | "knockout";
   topTeamLabel: string;
   bottomTeamLabel: string;
   topTeam?: TeamInfo;
@@ -21,6 +23,7 @@ export default function KnockoutMatchView({
   isStarted,
   isFinished,
   matchInfo,
+  knockoutMode,
   topTeamLabel,
   bottomTeamLabel,
   topTeam,
@@ -90,6 +93,7 @@ export default function KnockoutMatchView({
       </Box>
       <KnockoutView label={topTeamLabel} team={topTeam} predicted={predictedWinner} winner={winnerTeam} />
       <KnockoutView label={bottomTeamLabel} team={bottomTeam} predicted={predictedWinner} winner={winnerTeam} />
+      <KnockoutMatchOthers match={id} winner={winnerTeam ?? "??"} knockoutMode={knockoutMode} />
     </Card>
   );
 }

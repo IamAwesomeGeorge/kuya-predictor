@@ -7,6 +7,7 @@ import type { MatchInfo, Stage } from "../../../../models/Infos";
 import KnockoutFinals from "./KnockoutFinals";
 import { isMobile } from "../../../utils/MobileUtils";
 import type { KnockoutMatchInfo } from "../../../../models/Knockout";
+import { getCorrectBG } from "../../../utils/ColourUtils";
 
 interface KnockoutTabsProps {
   preview: boolean;

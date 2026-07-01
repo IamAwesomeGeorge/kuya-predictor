@@ -51,6 +51,7 @@ export default function KnockoutMatch({
       isStarted={isStarted}
       isFinished={isFinished}
       matchInfo={matchInfo}
+      knockoutMode={knockoutMode}
       topTeamLabel={topTeamLabel}
       bottomTeamLabel={bottomTeamLabel}
       topTeam={topTeam}
