@@ -41,11 +41,11 @@ export default function StartKnockout({ preview = false }: { preview?: boolean }
 
   const bracket = BracketKnockoutBuilderStart(teams, finalTeams || [], predictKnockoutData || []);
 
-  return predictKnockoutData ? (
+  return predictKnockoutData && matchesData ? (
     <KnockoutTabs
       preview={preview}
       knockoutMode="knockout"
-      matches={matchesData || []}
+      matches={matchesData}
       bracket={bracket}
       predictions={predictKnockoutData}
     />

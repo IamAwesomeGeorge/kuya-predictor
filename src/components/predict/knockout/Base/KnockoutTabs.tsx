@@ -8,6 +8,7 @@ import KnockoutFinals from "./KnockoutFinals";
 import { isMobile } from "../../../utils/MobileUtils";
 import type { KnockoutMatchInfo } from "../../../../models/Knockout";
 import { getCorrectBG } from "../../../utils/ColourUtils";
+import { findStage } from "../../../utils/TeamsUtils";
 
 interface KnockoutTabsProps {
   preview: boolean;
@@ -18,7 +19,7 @@ interface KnockoutTabsProps {
 }
 
 export default function KnockoutTabs({ preview, knockoutMode, matches, bracket, predictions }: KnockoutTabsProps) {
-  const [mode, setMode] = useState(0);
+  const [mode, setMode] = useState(findStage(matches));
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setMode(newValue);

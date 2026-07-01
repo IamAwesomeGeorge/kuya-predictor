@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { TeamsContext } from "../../contexts/TeamsContext";
-import type { MatchInfo, TeamInfo } from "../../models/Infos";
+import type { MatchInfo, Stage, TeamInfo } from "../../models/Infos";
 import type { GroupStageStandings } from "../../models/Results";
 
 export function useTeamsReady() {
@@ -81,4 +81,18 @@ export function findWinner(match: MatchInfo) {
   if (match.score_left > match.score_right) return match.team_left;
   if (match.score_left < match.score_right) return match.team_right;
   return "DRAW";
+}
+
+export function findStage(matches: MatchInfo[]) {
+  const groupsIndexMap: { [key: number]: Stage } = {
+    0: "ROUND_OF_32",
+    1: "ROUND_OF_16",
+    2: "QUARTERFINAL",
+    3: "SEMIFINAL",
+    4: "FINAL",
+  };
+
+  const stage = matches?.find((m) => new Date(m.date_time) > new Date())?.stage ?? "FINAL";
+  const stageIndex = Object.values(groupsIndexMap).findIndex((s) => s === stage);
+  return stageIndex;
 }

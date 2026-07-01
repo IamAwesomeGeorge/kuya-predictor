@@ -4,6 +4,7 @@ import { TabPanel } from "../../../utils/TabPanel";
 import MatchGroupTabs from "./MatchGroupTabs";
 import MatchKnockTabs from "./MatchKnockTabs";
 import MatchLatest from "./MatchLatest";
+import { supabase } from "../../../../utils/supabase";
 
 export default function MatchMainTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(1);

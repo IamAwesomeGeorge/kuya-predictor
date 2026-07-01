@@ -53,11 +53,11 @@ export default function StartAllTheWay({ preview = false }: { preview?: boolean 
 
   const bracket = BracketATWBuilderStart(teams, predictData || [], predictKnockoutStartData || [], predictThirdData);
 
-  return predictKnockoutStartData ? (
+  return predictKnockoutStartData && matchesData ? (
     <KnockoutTabs
       preview={preview}
       knockoutMode="allTheWay"
-      matches={matchesData || []}
+      matches={matchesData}
       bracket={bracket}
       predictions={predictKnockoutStartData}
     />

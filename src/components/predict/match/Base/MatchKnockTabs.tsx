@@ -10,6 +10,7 @@ import type { PredictMatchView } from "../../../../models/Predict";
 import { isMobile } from "../../../utils/MobileUtils";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { getCorrectBG } from "../../../utils/ColourUtils";
+import { findStage } from "../../../utils/TeamsUtils";
 
 export default function MatchKnockoutTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);
@@ -18,7 +19,15 @@ export default function MatchKnockoutTabs({ preview = false }: { preview?: boole
   const { data } = useQuery({
     queryKey: ["matches", "knockout"],
     queryFn: async () => {
-      const { data } = await supabase.from("matches").select().neq("stage", "GROUP").order("date_time", { ascending: true });
+      const { data } = (await supabase
+        .from("matches")
+        .select()
+        .neq("stage", "GROUP")
+        .order("date_time", { ascending: true })) as { data: MatchInfo[] };
+
+      // Change tab to next match
+      setMode(findStage(data));
+
       return data as MatchInfo[];
     },
   });
