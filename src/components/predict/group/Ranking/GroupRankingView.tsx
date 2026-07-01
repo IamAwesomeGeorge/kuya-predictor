@@ -11,11 +11,11 @@ import {
   Typography,
   TableSortLabel,
 } from "@mui/material";
-import { Flag } from "../../flag/Flag";
-import type { PredictGroupPre } from "../../../models/Predict";
-import { useTeamsFromGroup } from "../../utils/TeamsUtils";
-import type { GroupStageStandings } from "../../../models/Results";
-import { EMPTY_SELECTION, numberIconMap } from "./Helpers";
+import { Flag } from "../../../flag/Flag";
+import type { PredictGroupPre } from "../../../../models/Predict";
+import { useTeamsFromGroup } from "../../../utils/TeamsUtils";
+import type { GroupStageStandings } from "../../../../models/Results";
+import { EMPTY_SELECTION, numberIconMap } from "../Helpers";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useCallback, useMemo, useState } from "react";

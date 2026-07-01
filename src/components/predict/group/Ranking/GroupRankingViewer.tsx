@@ -1,9 +1,9 @@
 import { Grid } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../../../utils/supabase";
-import type { PredictGroup } from "../../../models/Predict";
-import { useTeamsReady } from "../../utils/TeamsUtils";
-import type { GroupStageStandings } from "../../../models/Results";
+import { supabase } from "../../../../utils/supabase";
+import type { PredictGroup } from "../../../../models/Predict";
+import { useTeamsReady } from "../../../utils/TeamsUtils";
+import type { GroupStageStandings } from "../../../../models/Results";
 import GroupRankingView from "./GroupRankingView";
 
 interface GroupRankingViewerProps {

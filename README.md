@@ -30,5 +30,5 @@ todo:
 - Add a view to see other users' predictions for group stage, all the way and knockout stage.
   - Added preview mode to All the Way and Knockout Stage on predict page.
   - All the Way and Knockout Stage points now show in Scores
-- Hovering over each section points on Scores page will show a breakdown.
+  - Hovering over each section points on Scores page will show a breakdown.
   - Added a way to turn off flashing effects from My Account page.

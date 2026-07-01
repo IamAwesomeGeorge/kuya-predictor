@@ -1,13 +1,13 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel } from "../../utils/TabPanel";
 import { useContext, useState } from "react";
-import GroupRankingBase from "./GroupRankingBase";
+import GroupRankingBase from "./Ranking/GroupRankingBase";
 import { useQuery } from "@tanstack/react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import type { PredictData, PredictGroup } from "../../../models/Predict";
-import GroupThirdChooser from "./GroupThirdChooser";
+import GroupThirdChooser from "./Third/GroupThirdChooser";
 import { supabase } from "../../../utils/supabase";
-import GroupThirdViewer from "./GroupThirdViewer";
+import GroupThirdViewer from "./Third/GroupThirdViewer";
 
 export default function GroupMainTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);

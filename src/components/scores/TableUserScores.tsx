@@ -14,7 +14,7 @@ import type { UserScoreInfo } from "../../models/Results";
 import NameTag from "../account/NameTag";
 import { CountUpNumber } from "../fun/CountUpNumber";
 import { useState, useMemo } from "react";
-import KnockoutTooltip from "./KnockoutToolTip";
+import KnockoutTooltip from "./KnockoutTooltip";
 import MatchTooltip from "./MatchTooltip";
 import GroupTooltip from "./GroupTooltip";
 
