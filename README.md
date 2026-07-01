@@ -25,9 +25,9 @@ One of the aims of the app is to create competition between friends. A scores pa
 
 todo:
 
-- Added Knockout tab to standings.
+  - Added Knockout tab to standings.
   - Updated All the Way and Knockout Stage view to show if you have gained the points or not
-- Add a view to see other's predictions on All the Way and Knockout Stage.
+- Add a view to see other users' predictions for group stage, all the way and knockout stage.
   - Added preview mode to All the Way and Knockout Stage on predict page.
   - All the Way and Knockout Stage points now show in Scores
 - Hovering over each section points on Scores page will show a breakdown.

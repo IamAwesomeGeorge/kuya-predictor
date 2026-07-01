@@ -10,10 +10,13 @@ import {
   Tooltip,
   Box,
 } from "@mui/material";
-import type { KnockoutInfo, UserScoreInfo } from "../../models/Results";
+import type { UserScoreInfo } from "../../models/Results";
 import NameTag from "../account/NameTag";
 import { CountUpNumber } from "../fun/CountUpNumber";
 import { useState, useMemo } from "react";
+import KnockoutTooltip from "./KnockoutToolTip";
+import MatchTooltip from "./MatchTooltip";
+import GroupTooltip from "./GroupTooltip";
 
 type SortKey = "position" | "name" | "matches" | "groups" | "all" | "knockout" | "total";
 
@@ -71,39 +74,6 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
     setAni(true);
     setOrderBy(key);
     setOrder(key === "position" || key === "name" ? "asc" : "desc");
-  };
-
-  const knockoutTooltip = (info: KnockoutInfo) => {
-    return (
-      <table style={{ borderCollapse: "collapse" }}>
-        <tbody>
-          <tr style={{ borderBottom: "1px solid #ddd" }}>
-            <td style={{ padding: "4px 8px", fontWeight: "bold" }}>Round</td>
-            <td style={{ padding: "4px 8px", fontWeight: "bold" }}>Points</td>
-          </tr>
-          <tr style={{ borderBottom: "1px solid #ddd" }}>
-            <td style={{ padding: "4px 8px" }}>32</td>
-            <td style={{ padding: "4px 8px" }}>{info[32]}</td>
-          </tr>
-          <tr style={{ borderBottom: "1px solid #ddd" }}>
-            <td style={{ padding: "4px 8px" }}>16</td>
-            <td style={{ padding: "4px 8px" }}>{info[16]}</td>
-          </tr>
-          <tr style={{ borderBottom: "1px solid #ddd" }}>
-            <td style={{ padding: "4px 8px" }}>QF</td>
-            <td style={{ padding: "4px 8px" }}>{info.QF}</td>
-          </tr>
-          <tr style={{ borderBottom: "1px solid #ddd" }}>
-            <td style={{ padding: "4px 8px" }}>SF</td>
-            <td style={{ padding: "4px 8px" }}>{info.SF}</td>
-          </tr>
-          <tr>
-            <td style={{ padding: "4px 8px" }}>F</td>
-            <td style={{ padding: "4px 8px" }}>{info.F}</td>
-          </tr>
-        </tbody>
-      </table>
-    );
   };
 
   return (
@@ -195,20 +165,28 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
                 <NameTag name={row.name} pfp_url={row.pfp_url} team={row.team} />
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`matches-${row.name}`} end={row.matches} duration={ani ? 0 : 2} />
+                <Tooltip title={<MatchTooltip info={row.matches_info} />} placement="top">
+                  <Box>
+                    <CountUpNumber id={`matches-${row.name}`} end={row.matches} duration={ani ? 0 : 2} />
+                  </Box>
+                </Tooltip>
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`groups-${row.name}`} end={row.groups} delay={ani ? 0 : 0.5} duration={ani ? 0 : 2} />
+                <Tooltip title={<GroupTooltip info={row.groups_info} />} placement="top">
+                  <Box>
+                    <CountUpNumber id={`groups-${row.name}`} end={row.groups} delay={ani ? 0 : 0.5} duration={ani ? 0 : 2} />
+                  </Box>
+                </Tooltip>
               </TableCell>
               <TableCell align="right">
-                <Tooltip title={knockoutTooltip(row.all_info)} placement="top">
+                <Tooltip title={<KnockoutTooltip info={row.all_info} n={4} />} placement="top">
                   <Box>
                     <CountUpNumber id={`all-${row.name}`} end={row.all} delay={ani ? 0 : 1} duration={ani ? 0 : 2} />
                   </Box>
                 </Tooltip>
               </TableCell>
               <TableCell align="right">
-                <Tooltip title={knockoutTooltip(row.knockout_info)} placement="top">
+                <Tooltip title={<KnockoutTooltip info={row.knockout_info} n={2} />} placement="top">
                   <Box>
                     <CountUpNumber
                       id={`knockout-${row.name}`}
