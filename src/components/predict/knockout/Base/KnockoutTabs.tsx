@@ -1,12 +1,12 @@
 import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
-import { TabPanel } from "../../utils/TabPanel";
-import type { PredictKnockout } from "../../../models/Predict";
-import KnockoutBase from "../../predict/knockout/KnockoutBase";
-import type { MatchInfo, Stage } from "../../../models/Infos";
-import KnockoutFinals from "../../predict/knockout/KnockoutFinals";
-import { isMobile } from "../../utils/MobileUtils";
-import type { KnockoutMatchInfo } from "../../../models/Knockout";
+import { TabPanel } from "../../../utils/TabPanel";
+import type { PredictKnockout } from "../../../../models/Predict";
+import KnockoutBase from "./KnockoutBase";
+import type { MatchInfo, Stage } from "../../../../models/Infos";
+import KnockoutFinals from "./KnockoutFinals";
+import { isMobile } from "../../../utils/MobileUtils";
+import type { KnockoutMatchInfo } from "../../../../models/Knockout";
 
 interface KnockoutTabsProps {
   preview: boolean;

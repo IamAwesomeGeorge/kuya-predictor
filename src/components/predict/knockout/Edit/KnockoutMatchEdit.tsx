@@ -1,10 +1,10 @@
 import { Box, Card, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import type { TeamInfo } from "../../../models/Infos";
+import type { TeamInfo } from "../../../../models/Infos";
 import KnockoutButton from "./KnockoutButton";
-import type { PredictKnockout } from "../../../models/Predict";
-import { supabase } from "../../../utils/supabase";
-import { UserContext } from "../../../contexts/UserContext";
+import type { PredictKnockout } from "../../../../models/Predict";
+import { supabase } from "../../../../utils/supabase";
+import { UserContext } from "../../../../contexts/UserContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface KnockoutMatchEditProps {

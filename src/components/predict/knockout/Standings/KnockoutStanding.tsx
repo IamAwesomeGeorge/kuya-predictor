@@ -1,6 +1,6 @@
 import { Stack, Typography, Button } from "@mui/material";
-import { Flag } from "../../flag/Flag";
-import type { TeamInfo } from "../../../models/Infos";
+import { Flag } from "../../../flag/Flag";
+import type { TeamInfo } from "../../../../models/Infos";
 
 interface KnockoutStandingProps {
   label: string;

@@ -1,9 +1,9 @@
 import { Stack, Typography, Button } from "@mui/material";
-import { Flag } from "../../flag/Flag";
+import { Flag } from "../../../flag/Flag";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ClearIcon from "@mui/icons-material/Clear";
-import type { TeamInfo } from "../../../models/Infos";
+import type { TeamInfo } from "../../../../models/Infos";
 
 interface KnockoutViewProps {
   label: string;

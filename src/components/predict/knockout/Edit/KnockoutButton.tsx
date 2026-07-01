@@ -1,7 +1,7 @@
 import { Stack, Typography, Button } from "@mui/material";
-import { Flag } from "../../flag/Flag";
+import { Flag } from "../../../flag/Flag";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import type { TeamInfo } from "../../../models/Infos";
+import type { TeamInfo } from "../../../../models/Infos";
 
 interface KnockoutButtonProps {
   label: string;

@@ -5,7 +5,7 @@ import { supabase } from "../../utils/supabase";
 import { TeamsContext } from "../../contexts/TeamsContext";
 import type { MatchInfo } from "../../models/Infos";
 import { BracketStandingsBuilderStart } from "../predict/knockout/BracketBuilder";
-import KnockoutTabsStanding from "../predict/knockout/KnockoutTabsStanding";
+import KnockoutTabsStanding from "../predict/knockout/Standings/KnockoutTabsStanding";
 
 export default function KnockoutStandings() {
   const { teams } = useContext(TeamsContext);

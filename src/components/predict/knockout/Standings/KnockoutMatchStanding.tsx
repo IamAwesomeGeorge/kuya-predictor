@@ -1,10 +1,10 @@
 import { Box, Card, Typography } from "@mui/material";
-import type { MatchInfo, TeamInfo } from "../../../models/Infos";
-import { findWinner } from "../../utils/TeamsUtils";
-import KnockoutView from "./KnockoutView";
-import { Flag } from "../../flag/Flag";
+import type { MatchInfo, TeamInfo } from "../../../../models/Infos";
+import { findWinner } from "../../../utils/TeamsUtils";
+import { Flag } from "../../../flag/Flag";
+import KnockoutStanding from "./KnockoutStanding";
 
-interface KnockoutMatchViewProps {
+interface KnockoutMatchStandingProps {
   id: number;
   isStarted: boolean;
   isFinished: boolean;
@@ -13,10 +13,9 @@ interface KnockoutMatchViewProps {
   bottomTeamLabel: string;
   topTeam?: TeamInfo;
   bottomTeam?: TeamInfo;
-  predictedWinner?: string;
 }
 
-export default function KnockoutMatchView({
+export default function KnockoutMatchStanding({
   id,
   isStarted,
   isFinished,
@@ -25,8 +24,7 @@ export default function KnockoutMatchView({
   bottomTeamLabel,
   topTeam,
   bottomTeam,
-  predictedWinner,
-}: KnockoutMatchViewProps) {
+}: KnockoutMatchStandingProps) {
   // If id is 103, set label to "3RD PLACE", if id is 104, set label to "FINAL", else set label to "M" + id
   const label = id === 103 ? "3RD PLACE" : id === 104 ? "FINAL" : "M" + id;
   const waitingForResult = matchInfo?.score_left === null || matchInfo?.score_right === null;
@@ -88,8 +86,8 @@ export default function KnockoutMatchView({
           </Box>
         )}
       </Box>
-      <KnockoutView label={topTeamLabel} team={topTeam} predicted={predictedWinner} winner={winnerTeam} />
-      <KnockoutView label={bottomTeamLabel} team={bottomTeam} predicted={predictedWinner} winner={winnerTeam} />
+      <KnockoutStanding label={topTeamLabel} team={topTeam} winner={winnerTeam} />
+      <KnockoutStanding label={bottomTeamLabel} team={bottomTeam} winner={winnerTeam} />
     </Card>
   );
 }

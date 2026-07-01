@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import { TeamsContext } from "../../../contexts/TeamsContext";
 import { UserContext } from "../../../contexts/UserContext";
-import KnockoutTabs from "./KnockoutTabs";
+import KnockoutTabs from "./Base/KnockoutTabs";
 import type { MatchInfo } from "../../../models/Infos";
 
 export default function StartAllTheWay({ preview = false }: { preview?: boolean }) {

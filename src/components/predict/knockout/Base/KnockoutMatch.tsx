@@ -1,9 +1,9 @@
-import type { MatchInfo, TeamInfo } from "../../../models/Infos";
-import type { PredictKnockout } from "../../../models/Predict";
-import { hasMatchFinished, hasMatchStarted } from "../../utils/TimeUtils";
-import KnockoutMatchEdit from "./KnockoutMatchEdit";
-import KnockoutMatchStanding from "./KnockoutMatchStanding";
-import KnockoutMatchView from "./KnockoutMatchView";
+import type { MatchInfo, TeamInfo } from "../../../../models/Infos";
+import type { PredictKnockout } from "../../../../models/Predict";
+import { hasMatchFinished, hasMatchStarted } from "../../../utils/TimeUtils";
+import KnockoutMatchEdit from "../Edit/KnockoutMatchEdit";
+import KnockoutMatchStanding from "../Standings/KnockoutMatchStanding";
+import KnockoutMatchView from "../View/KnockoutMatchView";
 
 interface KnockoutMatchProps {
   id: number;
