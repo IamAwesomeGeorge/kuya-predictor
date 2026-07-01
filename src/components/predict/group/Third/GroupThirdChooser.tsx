@@ -1,13 +1,13 @@
 import { Stack, Typography, Grid, Card, Button, IconButton } from "@mui/material";
-import { Flag } from "../../flag/Flag";
+import { Flag } from "../../../flag/Flag";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useContext, useState } from "react";
-import { supabase } from "../../../utils/supabase";
-import { UserContext } from "../../../contexts/UserContext";
-import { TeamsContext } from "../../../contexts/TeamsContext";
+import { supabase } from "../../../../utils/supabase";
+import { UserContext } from "../../../../contexts/UserContext";
+import { TeamsContext } from "../../../../contexts/TeamsContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { PredictData } from "../../../models/Predict";
+import type { PredictData } from "../../../../models/Predict";
 
 interface GroupThirdChooserProps {
   currentSelection?: PredictData | null;

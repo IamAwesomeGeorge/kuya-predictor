@@ -1,11 +1,11 @@
 import { Alert, Box, Grid } from "@mui/material";
 import { useContext, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UserContext } from "../../../contexts/UserContext";
-import { supabase } from "../../../utils/supabase";
-import type { PredictGroup } from "../../../models/Predict";
+import { UserContext } from "../../../../contexts/UserContext";
+import { supabase } from "../../../../utils/supabase";
+import type { PredictGroup } from "../../../../models/Predict";
 import GroupRankingChooser from "./GroupRankingChooser";
-import { useTeamsReady } from "../../utils/TeamsUtils";
+import { useTeamsReady } from "../../../utils/TeamsUtils";
 
 interface GroupRankingEditerProps {
   teamCodes: string[];

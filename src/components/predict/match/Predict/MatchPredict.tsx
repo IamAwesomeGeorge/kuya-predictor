@@ -9,25 +9,10 @@ import MatchPredictFirstButton from "./MatchPredictFirstButton";
 import { isMobile } from "../../../utils/MobileUtils";
 import { TeamsContext } from "../../../../contexts/TeamsContext";
 import MatchTeam from "../../../matches/MatchTeam";
-import { keyframes } from "@mui/material/styles";
 import NotDone from "../NotDone";
 import MatchPredictTieButton from "./MatchPredictTieButton";
-
-//todo: remove paulse
-const pulseRed = keyframes`
-  0% {
-    background-color: #253049;
-  }
-  25% {
-    background-color: #492525;
-  }
-  75% {
-    background-color: #492525;
-  }
-  100% {
-    background-color: #253049;
-  }
-`;
+import { PulseContext } from "../../../../contexts/PulseContext";
+import { pulseRed } from "../../../utils/ColourUtils";
 
 interface MatchPredictProps {
   match: MatchInfo;
@@ -46,6 +31,7 @@ interface MatchPredictProps {
 
 export default function MatchPredict({ match, current, handlePredictChange, isLoading, doubleCode }: MatchPredictProps) {
   const { teams } = useContext(TeamsContext);
+  const { pulse } = useContext(PulseContext);
   const [scoreLeft, setScoreLeft] = useState(current ? current.score_left : null);
   const [scoreRight, setScoreRight] = useState(current ? current.score_right : null);
   const [tieBreak, setTieBreak] = useState<string | null>(current ? current.tie_break : null);
@@ -111,7 +97,7 @@ export default function MatchPredict({ match, current, handlePredictChange, isLo
           color: "white",
           borderRadius: 2,
           p: 2,
-          animation: needsToBeDone ? `${pulseRed} 1.5s ease-in-out infinite` : undefined,
+          animation: needsToBeDone && pulse ? `${pulseRed} 1.5s ease-in-out infinite` : undefined,
         }}
       >
         {/* Info row */}

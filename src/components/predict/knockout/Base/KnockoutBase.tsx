@@ -1,13 +1,13 @@
 import { Grid } from "@mui/material";
 import KnockoutDuel from "./KnockoutDuel";
-import type { KnockoutMatchInfo } from "../../../models/Knockout";
+import type { KnockoutMatchInfo } from "../../../../models/Knockout";
 import type { JSX } from "react/jsx-runtime";
-import type { PredictKnockout } from "../../../models/Predict";
-import type { MatchInfo } from "../../../models/Infos";
+import type { PredictKnockout } from "../../../../models/Predict";
+import type { MatchInfo } from "../../../../models/Infos";
 
 interface KnockoutBaseProps {
   preview: boolean;
-  knockoutMode: "allTheWay" | "knockout";
+  knockoutMode: "allTheWay" | "knockout" | "standings";
   matches: MatchInfo[];
   knockoutMatchInfo: KnockoutMatchInfo[];
   currentPredictions?: PredictKnockout[];

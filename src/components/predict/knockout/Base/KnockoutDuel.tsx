@@ -1,12 +1,12 @@
 import { Grid, Stack } from "@mui/material";
-import type { MatchInfo, TeamInfo } from "../../../models/Infos";
+import type { MatchInfo, TeamInfo } from "../../../../models/Infos";
 import KnockoutMatch from "./KnockoutMatch";
 import KnockoutLine from "./KnockoutLine";
-import type { PredictKnockout } from "../../../models/Predict";
+import type { PredictKnockout } from "../../../../models/Predict";
 
 interface KnockoutDuelProps {
   preview: boolean;
-  knockoutMode: "allTheWay" | "knockout";
+  knockoutMode: "allTheWay" | "knockout" | "standings";
   matches: MatchInfo[];
   topId: number;
   topTopTeamLabel: string;

@@ -6,11 +6,20 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import { TeamsContext } from "../../../contexts/TeamsContext";
 import { UserContext } from "../../../contexts/UserContext";
-import KnockoutTabs from "./KnockoutTabs";
+import KnockoutTabs from "./Base/KnockoutTabs";
+import type { MatchInfo } from "../../../models/Infos";
 
 export default function StartAllTheWay({ preview = false }: { preview?: boolean }) {
   const { user } = useContext(UserContext);
   const { teams } = useContext(TeamsContext);
+
+  const { data: matchesData } = useQuery({
+    queryKey: ["matches", "knockout"],
+    queryFn: async () => {
+      const { data } = await supabase.from("matches").select().neq("stage", "GROUP").order("date_time", { ascending: true });
+      return data as MatchInfo[];
+    },
+  });
 
   const { data: predictData } = useQuery({
     queryKey: ["predict", "group", user?.id],
@@ -44,11 +53,11 @@ export default function StartAllTheWay({ preview = false }: { preview?: boolean 
 
   const bracket = BracketATWBuilderStart(teams, predictData || [], predictKnockoutStartData || [], predictThirdData);
 
-  return predictKnockoutStartData ? (
+  return predictKnockoutStartData && matchesData ? (
     <KnockoutTabs
       preview={preview}
       knockoutMode="allTheWay"
-      matches={[]}
+      matches={matchesData}
       bracket={bracket}
       predictions={predictKnockoutStartData}
     />

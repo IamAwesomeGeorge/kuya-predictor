@@ -1,23 +1,14 @@
 import { Tooltip, Typography } from "@mui/material";
 import type { MatchInfo } from "../../models/Infos";
+import { findWinner } from "../utils/TeamsUtils";
 
 export function MatchScore({ match }: { match: MatchInfo }) {
   const left = match.score_left ?? null;
   const right = match.score_right ?? null;
   const isScoreAvailable = left != null && right != null;
-  const winner = isScoreAvailable
-    ? match.tie_break
-      ? match.tie_break === match.team_left
-        ? "left"
-        : "right"
-      : left > right
-        ? "left"
-        : left < right
-          ? "right"
-          : "draw"
-    : null;
-  const leftColor = winner === "left" ? "#34d399" : winner === "right" ? "#f87171" : "#fbbf24";
-  const rightColor = winner === "right" ? "#34d399" : winner === "left" ? "#f87171" : "#fbbf24";
+  const winner = findWinner(match);
+  const leftColor = winner === match.team_left ? "#34d399" : winner === match.team_right ? "#f87171" : "#fbbf24";
+  const rightColor = winner === match.team_right ? "#34d399" : winner === match.team_left ? "#f87171" : "#fbbf24";
 
   if (!isScoreAvailable) {
     return (

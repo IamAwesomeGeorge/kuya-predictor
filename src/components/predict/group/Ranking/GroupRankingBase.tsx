@@ -1,4 +1,4 @@
-import type { PredictGroup } from "../../../models/Predict";
+import type { PredictGroup } from "../../../../models/Predict";
 import GroupRankingViewer from "./GroupRankingViewer";
 import GroupRankingEditer from "./GroupRankingEditer";
 

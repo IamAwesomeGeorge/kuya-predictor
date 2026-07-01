@@ -1,42 +1,37 @@
 import { Box, Card, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import type { MatchInfo, TeamInfo } from "../../../models/Infos";
+import type { TeamInfo } from "../../../../models/Infos";
 import KnockoutButton from "./KnockoutButton";
-import type { PredictKnockout } from "../../../models/Predict";
-import { supabase } from "../../../utils/supabase";
-import { UserContext } from "../../../contexts/UserContext";
+import type { PredictKnockout } from "../../../../models/Predict";
+import { supabase } from "../../../../utils/supabase";
+import { UserContext } from "../../../../contexts/UserContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { hasMatchStarted } from "../../utils/TimeUtils";
 
-interface KnockoutMatchProps {
+interface KnockoutMatchEditProps {
   id: number;
-  preview: boolean;
-  matches: MatchInfo[];
   knockoutMode: "allTheWay" | "knockout";
   topTeamLabel: string;
   bottomTeamLabel: string;
   topTeam?: TeamInfo;
   bottomTeam?: TeamInfo;
-  currentPrediction?: PredictKnockout;
+  predictedWinner?: string;
 }
 
-export default function KnockoutMatch({
+export default function KnockoutMatchEdit({
   id,
-  preview,
-  matches,
   knockoutMode,
   topTeamLabel,
   bottomTeamLabel,
   topTeam,
   bottomTeam,
-  currentPrediction,
-}: KnockoutMatchProps) {
-  const [selection, setSelection] = useState<string>(currentPrediction?.winner || "");
+  predictedWinner,
+}: KnockoutMatchEditProps) {
+  const [selection, setSelection] = useState<string>(predictedWinner || "");
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
 
   const handleSelectionChange = (code: string) => {
-    if (selection !== code && !preview) {
+    if (selection !== code) {
       setSelection(code);
       sendKnockoutStart(code);
     }
@@ -62,13 +57,10 @@ export default function KnockoutMatch({
   // If id is 103, set label to "3RD PLACE", if id is 104, set label to "FINAL", else set label to "M" + id
   const label = id === 103 ? "3RD PLACE" : id === 104 ? "FINAL" : "M" + id;
 
-  const matchInfo = matches.find((match) => match.id === id);
-  const isStarted = matchInfo ? hasMatchStarted(matchInfo.date_time) : false;
-
-  const loading = isPending || !topTeam || !bottomTeam || isStarted;
+  const loading = isPending || !topTeam || !bottomTeam;
 
   return (
-    <Card key={"M" + id} sx={{ position: "relative" }}>
+    <Card key={"M" + id + "-edit"} sx={{ position: "relative" }}>
       <Box
         sx={{
           display: "inline-flex",
@@ -90,19 +82,19 @@ export default function KnockoutMatch({
             lineHeight: 1,
           }}
         >
-          {label} {isStarted && "(Started)"}
+          {label}
         </Typography>
       </Box>
       <KnockoutButton
-        team={topTeam}
         label={topTeamLabel}
+        team={topTeam}
         selected={selection === topTeam?.code}
         setSelected={(code) => handleSelectionChange(code)}
         disabled={loading}
       />
       <KnockoutButton
-        team={bottomTeam}
         label={bottomTeamLabel}
+        team={bottomTeam}
         selected={selection === bottomTeam?.code}
         setSelected={(code) => handleSelectionChange(code)}
         disabled={loading}

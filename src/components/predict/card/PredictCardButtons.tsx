@@ -11,8 +11,8 @@ export default function PredictCardButtons({ navigateTo, closed, done }: Predict
   return (
     <CardActions sx={{ display: "flex", justifyContent: "space-between", mt: "auto" }}>
       {closed ? (
-        <Button size="small" onClick={navigateTo} disabled>
-          Closed
+        <Button size="small" onClick={navigateTo} color="secondary">
+          View
         </Button>
       ) : (
         <Button size="small" onClick={navigateTo}>

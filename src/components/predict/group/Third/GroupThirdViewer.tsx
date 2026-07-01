@@ -11,17 +11,17 @@ import {
   Card,
   Tooltip,
 } from "@mui/material";
-import { Flag } from "../../flag/Flag";
+import { Flag } from "../../../flag/Flag";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useContext } from "react";
-import { supabase } from "../../../utils/supabase";
-import { TeamsContext } from "../../../contexts/TeamsContext";
+import { supabase } from "../../../../utils/supabase";
+import { TeamsContext } from "../../../../contexts/TeamsContext";
 import { useQuery } from "@tanstack/react-query";
-import type { PredictData } from "../../../models/Predict";
+import type { PredictData } from "../../../../models/Predict";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
-import type { GroupStageStandings } from "../../../models/Results";
-import { sortStandings } from "../../utils/TeamsUtils";
+import type { GroupStageStandings } from "../../../../models/Results";
+import { sortStandings } from "../../../utils/TeamsUtils";
 
 interface ThirdRow {
   code: string;

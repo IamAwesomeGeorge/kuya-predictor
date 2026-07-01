@@ -6,23 +6,12 @@ import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import PredictCardButtons from "./PredictCardButtons";
 import { supabase } from "../../../utils/supabase";
-import { keyframes } from "@mui/material/styles";
-
-//todo: remove paulse
-const pulseYellow = keyframes`
-  0% {
-    background-color: #ffffff;
-  }
-  50% {
-    background-color: rgb(255, 255, 200);
-  }
-  100% {
-    background-color: #ffffff;
-  }
-`;
+import { PulseContext } from "../../../contexts/PulseContext";
+import { pulseYellow } from "../../utils/ColourUtils";
 
 export default function PredictKnockoutCard({ navigateTo }: PredictCardProps) {
   const { user } = useContext(UserContext);
+  const { pulse } = useContext(PulseContext);
 
   const { data: done } = useQuery({
     queryKey: ["check", "knockout", user?.id],
@@ -39,7 +28,7 @@ export default function PredictKnockoutCard({ navigateTo }: PredictCardProps) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        animation: done ? undefined : `${pulseYellow} 1.5s ease-in-out infinite`,
+        animation: !done && pulse ? `${pulseYellow} 1.5s ease-in-out infinite` : undefined,
       }}
     >
       <CardContent>

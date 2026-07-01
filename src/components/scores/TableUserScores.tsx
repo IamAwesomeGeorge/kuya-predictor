@@ -1,8 +1,22 @@
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, TableSortLabel } from "@mui/material";
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+  TableContainer,
+  TableSortLabel,
+  Tooltip,
+  Box,
+} from "@mui/material";
 import type { UserScoreInfo } from "../../models/Results";
 import NameTag from "../account/NameTag";
 import { CountUpNumber } from "../fun/CountUpNumber";
 import { useState, useMemo } from "react";
+import KnockoutTooltip from "./KnockoutTooltip";
+import MatchTooltip from "./MatchTooltip";
+import GroupTooltip from "./GroupTooltip";
 
 type SortKey = "position" | "name" | "matches" | "groups" | "all" | "knockout" | "total";
 
@@ -151,16 +165,37 @@ export default function TableUserScores({ data }: { data: UserScoreInfo[] }) {
                 <NameTag name={row.name} pfp_url={row.pfp_url} team={row.team} />
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`matches-${row.name}`} end={row.matches} duration={ani ? 0 : 2} />
+                <Tooltip title={<MatchTooltip info={row.matches_info} />} placement="top">
+                  <Box>
+                    <CountUpNumber id={`matches-${row.name}`} end={row.matches} duration={ani ? 0 : 2} />
+                  </Box>
+                </Tooltip>
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`groups-${row.name}`} end={row.groups} delay={ani ? 0 : 0.5} duration={ani ? 0 : 2} />
+                <Tooltip title={<GroupTooltip info={row.groups_info} />} placement="top">
+                  <Box>
+                    <CountUpNumber id={`groups-${row.name}`} end={row.groups} delay={ani ? 0 : 0.5} duration={ani ? 0 : 2} />
+                  </Box>
+                </Tooltip>
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`all-${row.name}`} end={row.all} delay={ani ? 0 : 1} duration={ani ? 0 : 2} />
+                <Tooltip title={<KnockoutTooltip info={row.all_info} n={4} />} placement="top">
+                  <Box>
+                    <CountUpNumber id={`all-${row.name}`} end={row.all} delay={ani ? 0 : 1} duration={ani ? 0 : 2} />
+                  </Box>
+                </Tooltip>
               </TableCell>
               <TableCell align="right">
-                <CountUpNumber id={`knockout-${row.name}`} end={row.knockout} delay={ani ? 0 : 1.5} duration={ani ? 0 : 2} />
+                <Tooltip title={<KnockoutTooltip info={row.knockout_info} n={2} />} placement="top">
+                  <Box>
+                    <CountUpNumber
+                      id={`knockout-${row.name}`}
+                      end={row.knockout}
+                      delay={ani ? 0 : 1.5}
+                      duration={ani ? 0 : 2}
+                    />
+                  </Box>
+                </Tooltip>
               </TableCell>
               <TableCell align="right">
                 <strong>

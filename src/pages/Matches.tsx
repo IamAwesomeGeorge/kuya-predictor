@@ -6,7 +6,7 @@ import GroupMatches from "../components/matches/GroupMatches";
 import KnockoutMatches from "../components/matches/KnockoutMatches";
 
 export default function Matches() {
-  const [mode, setMode] = useState(0);
+  const [mode, setMode] = useState(1);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setMode(newValue);

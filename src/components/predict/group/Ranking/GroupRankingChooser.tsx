@@ -1,10 +1,10 @@
 import { Stack, Typography, Grid, Card, Button, IconButton } from "@mui/material";
-import { Flag } from "../../flag/Flag";
+import { Flag } from "../../../flag/Flag";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import type { PredictGroupPre } from "../../../models/Predict";
+import type { PredictGroupPre } from "../../../../models/Predict";
 import { useState } from "react";
-import { useTeamsFromGroup } from "../../utils/TeamsUtils";
-import { EMPTY_SELECTION, numberIconMap } from "./Helpers";
+import { useTeamsFromGroup } from "../../../utils/TeamsUtils";
+import { EMPTY_SELECTION, numberIconMap } from "../Helpers";
 
 interface GroupRankingChooserProps {
   group: string;

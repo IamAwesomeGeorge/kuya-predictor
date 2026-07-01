@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../utils/supabase";
 import { TeamsContext } from "../../../contexts/TeamsContext";
 import { UserContext } from "../../../contexts/UserContext";
-import KnockoutTabs from "./KnockoutTabs";
+import KnockoutTabs from "./Base/KnockoutTabs";
 import type { FinalTeams } from "../../../models/Knockout";
 import type { MatchInfo } from "../../../models/Infos";
 
@@ -41,11 +41,11 @@ export default function StartKnockout({ preview = false }: { preview?: boolean }
 
   const bracket = BracketKnockoutBuilderStart(teams, finalTeams || [], predictKnockoutData || []);
 
-  return predictKnockoutData ? (
+  return predictKnockoutData && matchesData ? (
     <KnockoutTabs
       preview={preview}
       knockoutMode="knockout"
-      matches={matchesData || []}
+      matches={matchesData}
       bracket={bracket}
       predictions={predictKnockoutData}
     />

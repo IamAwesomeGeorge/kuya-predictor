@@ -1,6 +1,6 @@
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { PredictMatchView } from "../../../../models/Predict";
-import { findTeamName, stageGroupText } from "../../../utils/TeamsUtils";
+import { findTeamName, findWinner, stageGroupText } from "../../../utils/TeamsUtils";
 import type { MatchInfo } from "../../../../models/Infos";
 import { formatMatchDateShort, hasMatchFinished, hasMatchStarted } from "../../../utils/TimeUtils";
 import { useContext } from "react";
@@ -11,6 +11,7 @@ import MatchPredictScoreDisplay from "../Predict/MatchPredictScoreDisplay";
 import MatchFinishedBreakdown from "./MatchFinishedBreakdown";
 import MatchFinishedOthers from "./MatchFinishedOthers";
 import X2 from "../X2";
+import { getCorrectBG } from "../../../utils/ColourUtils";
 
 interface MatchFinishedProps {
   match: MatchInfo;
@@ -31,16 +32,18 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
   const guessedFirstScorer = current?.first_scorer ?? "???";
   const doubleUsed = current?.double ?? false;
 
-  const trueWinnerText =
-    match.score_left !== undefined && match.score_right !== undefined
-      ? match.score_left > match.score_right
-        ? match.team_left
-        : match.score_left < match.score_right
-          ? match.team_right
-          : match.tie_break
-            ? match.tie_break
-            : "DRAW"
-      : "???";
+  const winner = findWinner(match);
+  const trueWinnerText = winner ?? "???";
+  // const trueWinnerText =
+  //   match.score_left !== undefined && match.score_right !== undefined
+  //     ? match.score_left > match.score_right
+  //       ? match.team_left
+  //       : match.score_left < match.score_right
+  //         ? match.team_right
+  //         : match.tie_break
+  //           ? match.tie_break
+  //           : "DRAW"
+  //     : "???";
   const goalDifference =
     match.score_left !== undefined && match.score_right !== undefined ? match.score_left - match.score_right : 0;
 
@@ -176,19 +179,19 @@ export default function MatchFinished({ match, current }: MatchFinishedProps) {
                   </Stack>
                 ) : (
                   <Stack id={`match-${match.id}-details`} direction="row" spacing={6} sx={{ justifyContent: "center" }}>
-                    <Typography sx={{ fontSize: 14, color: winnerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                    <Typography sx={{ fontSize: 14, color: getCorrectBG(winnerCorrect) }}>
                       <strong>{findTeamName(teams, trueWinnerText)}</strong> won
                     </Typography>
-                    <Typography sx={{ fontSize: 14, color: scoreCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                    <Typography sx={{ fontSize: 14, color: getCorrectBG(scoreCorrect) }}>
                       FT:{" "}
                       <strong>
                         {match.score_left ?? "??"}-{match.score_right ?? "??"}
                       </strong>
                     </Typography>
-                    <Typography sx={{ fontSize: 14, color: gdCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                    <Typography sx={{ fontSize: 14, color: getCorrectBG(gdCorrect) }}>
                       GD: <strong>{goalDifference}</strong>
                     </Typography>
-                    <Typography sx={{ fontSize: 14, color: firstScorerCorrect ? "#c8ffc8" : "#ffc8c8" }}>
+                    <Typography sx={{ fontSize: 14, color: getCorrectBG(firstScorerCorrect) }}>
                       <strong>{findTeamName(teams, match.first_scorer ?? "?")}</strong> scored first
                     </Typography>
                   </Stack>

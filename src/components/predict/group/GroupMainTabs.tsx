@@ -1,19 +1,19 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel } from "../../utils/TabPanel";
 import { useContext, useState } from "react";
-import GroupRankingBase from "./GroupRankingBase";
+import GroupRankingBase from "./Ranking/GroupRankingBase";
 import { useQuery } from "@tanstack/react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import type { PredictData, PredictGroup } from "../../../models/Predict";
-import GroupThirdChooser from "./GroupThirdChooser";
+import GroupThirdChooser from "./Third/GroupThirdChooser";
 import { supabase } from "../../../utils/supabase";
-import GroupThirdViewer from "./GroupThirdViewer";
+import GroupThirdViewer from "./Third/GroupThirdViewer";
+import { getCorrectBG } from "../../utils/ColourUtils";
 
 export default function GroupMainTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);
   const { user } = useContext(UserContext);
 
-  //todo: is pending
   const { data: predictData, isPending } = useQuery({
     queryKey: ["predict", "group", user?.id],
     queryFn: async () => {
@@ -50,10 +50,10 @@ export default function GroupMainTabs({ preview = false }: { preview?: boolean }
   return (
     <>
       <Tabs value={mode} onChange={handleTabChange}>
-        <Tab label="Groups A-D" sx={{ color: group1Complete ? "#c8ffc8" : "#ffc8c8" }} />
-        <Tab label="Groups E-H" sx={{ color: group2Complete ? "#c8ffc8" : "#ffc8c8" }} />
-        <Tab label="Groups I-L" sx={{ color: group3Complete ? "#c8ffc8" : "#ffc8c8" }} />
-        <Tab label="3rd Place" sx={{ color: thirdPlaceComplete ? "#c8ffc8" : "#ffc8c8" }} />
+        <Tab label="Groups A-D" sx={{ color: getCorrectBG(group1Complete) }} />
+        <Tab label="Groups E-H" sx={{ color: getCorrectBG(group2Complete) }} />
+        <Tab label="Groups I-L" sx={{ color: getCorrectBG(group3Complete) }} />
+        <Tab label="3rd Place" sx={{ color: getCorrectBG(thirdPlaceComplete) }} />
       </Tabs>
       <TabPanel value={mode} index={0}>
         <GroupRankingBase teamCodes={["A", "B", "C", "D"]} data={predictData} isPending={isPending} preview={preview} />

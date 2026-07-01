@@ -1,12 +1,12 @@
 import { Grid } from "@mui/material";
-import type { KnockoutMatchInfo } from "../../../models/Knockout";
-import type { PredictKnockout } from "../../../models/Predict";
+import type { KnockoutMatchInfo } from "../../../../models/Knockout";
+import type { PredictKnockout } from "../../../../models/Predict";
 import KnockoutMatch from "./KnockoutMatch";
-import type { MatchInfo } from "../../../models/Infos";
+import type { MatchInfo } from "../../../../models/Infos";
 
 interface KnockoutFinalsProps {
   preview: boolean;
-  knockoutMode: "allTheWay" | "knockout";
+  knockoutMode: "allTheWay" | "knockout" | "standings";
   matches: MatchInfo[];
   knockoutMatchInfo: KnockoutMatchInfo[];
   currentPredictions?: PredictKnockout[];

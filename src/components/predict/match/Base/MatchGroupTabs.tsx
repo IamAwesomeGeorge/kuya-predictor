@@ -8,6 +8,7 @@ import MatchBase from "./MatchBase";
 import { UserContext } from "../../../../contexts/UserContext";
 import type { PredictMatchView } from "../../../../models/Predict";
 import { isMobile } from "../../../utils/MobileUtils";
+import { getCorrectBG } from "../../../utils/ColourUtils";
 
 export default function MatchGroupTabs({ preview = false }: { preview?: boolean }) {
   const [mode, setMode] = useState(0);
@@ -81,18 +82,18 @@ export default function MatchGroupTabs({ preview = false }: { preview?: boolean 
             value={mode}
             onChange={handleTabChange}
           >
-            <Tab label="A" sx={{ color: groupsComplete["A"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="B" sx={{ color: groupsComplete["B"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="C" sx={{ color: groupsComplete["C"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="D" sx={{ color: groupsComplete["D"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="E" sx={{ color: groupsComplete["E"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="F" sx={{ color: groupsComplete["F"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="G" sx={{ color: groupsComplete["G"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="H" sx={{ color: groupsComplete["H"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="I" sx={{ color: groupsComplete["I"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="J" sx={{ color: groupsComplete["J"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="K" sx={{ color: groupsComplete["K"] ? "#c8ffc8" : "#ffc8c8" }} />
-            <Tab label="L" sx={{ color: groupsComplete["L"] ? "#c8ffc8" : "#ffc8c8" }} />
+            <Tab label="A" sx={{ color: getCorrectBG(groupsComplete["A"]) }} />
+            <Tab label="B" sx={{ color: getCorrectBG(groupsComplete["B"]) }} />
+            <Tab label="C" sx={{ color: getCorrectBG(groupsComplete["C"]) }} />
+            <Tab label="D" sx={{ color: getCorrectBG(groupsComplete["D"]) }} />
+            <Tab label="E" sx={{ color: getCorrectBG(groupsComplete["E"]) }} />
+            <Tab label="F" sx={{ color: getCorrectBG(groupsComplete["F"]) }} />
+            <Tab label="G" sx={{ color: getCorrectBG(groupsComplete["G"]) }} />
+            <Tab label="H" sx={{ color: getCorrectBG(groupsComplete["H"]) }} />
+            <Tab label="I" sx={{ color: getCorrectBG(groupsComplete["I"]) }} />
+            <Tab label="J" sx={{ color: getCorrectBG(groupsComplete["J"]) }} />
+            <Tab label="K" sx={{ color: getCorrectBG(groupsComplete["K"]) }} />
+            <Tab label="L" sx={{ color: getCorrectBG(groupsComplete["L"]) }} />
           </Tabs>
 
           {Object.entries(groupsIndexMap).map(([index, group]) => (
