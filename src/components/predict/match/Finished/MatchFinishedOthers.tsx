@@ -169,7 +169,6 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
                       )}
                       <TableCell align="right">
                         {p.double && !isMobile() && (
-                          // todo: fix this bug
                           <X2 sx={{ float: "left", display: "inline-flex", alignItems: "center" }} />
                         )}
                         {!noResults && (
@@ -188,6 +187,7 @@ export default function MatchFinishedOthers({ noResults, match, winner, gd }: Ma
                   ))}
               </TableBody>
             ) : (
+              // Skeletons.
               <TableBody>
                 {[...Array(10)].map((_, i) => (
                   <TableRow key={i}>

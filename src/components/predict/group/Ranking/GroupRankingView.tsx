@@ -19,6 +19,7 @@ import { EMPTY_SELECTION, numberIconMap } from "../Helpers";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useCallback, useMemo, useState } from "react";
+import GroupRankingOthers from "./GroupRankingOthers";
 
 type SortKey = "guessPos" | "realPos" | "correct";
 
@@ -177,6 +178,7 @@ export default function GroupRankingView({ group, currentPredictRanking, groupSt
           </TableBody>
         </Table>
       </TableContainer>
+      {groupStandings && <GroupRankingOthers group={group} groupStandings={groupStandings} />}
     </Grid>
   );
 }
